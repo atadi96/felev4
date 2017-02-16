@@ -19,7 +19,7 @@ ELTE IK B szakirány - 4. félév - beadandók, ZH-k, egyéb határidők
 |12:00|ADATB1|ea||DT 0-821|[Hajas](http://medusa.inf.elte.hu/)|
 |**Szerda**
 |8:30|LOGIKA|gy|2|DT 1-817|[Tichlerk](http://cs.elte.hu/~tichlerk)|
-|11:05|EVA-01|ea||DT 0-821|Gregorics|
+|11:05|[EVA-01](http://kissanime.ru/Anime/Neon-Genesis-Evangelion/Episode-001?id=5235)|ea||DT 0-821|[Gregorics](http://people.inf.elte.hu/groberto/elte_eva1/)|
 |12:15|[FORD](fordprog)|gy|1|DT 00-113|[Leskó](http://ldani.web.elte.hu/)|
 |14:30|[HASKELL](haskell)|ea||DT 2-124|[Páli](http://people.inf.elte.hu/pgj/halado-haskell/)|
 |16:00|[FORD](fordprog)|ea||DT 0-822|[Dévai](http://deva.web.elte.hu/fordprog.hu.html)|
@@ -31,4 +31,4 @@ ELTE IK B szakirány - 4. félév - beadandók, ZH-k, egyéb határidők
 |14:15|[WEB2](web2)|gy|8|DT 00-410|[Visnovitz](http://webprogramozas.inf.elte.hu/webfejl2.php)|
 |**Péntek**
 |10:15|ALGO2|gy|9|DT 0-826|Szabó|
-|14:00|EVA-01|gy|3|DT 00-803|Milacski|
+|14:00|[EVA-01](http://kissanime.ru/Anime/Neon-Genesis-Evangelion/Episode-001?id=5235)|gy|3|DT 00-803|Milacski|
