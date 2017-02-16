@@ -3,7 +3,7 @@
 ELTE IK B szakirány - 4. félév - beadandók, ZH-k, egyéb határidők
 
 ## Órarend
-![4. félév órarend](orarend.png)
+![4. félév órarend](http://atadi96.webuda.com/felev4.png)
 
 ## Kurzusok
 
