@@ -2,18 +2,19 @@
 
 [Tantárgy honlapja](http://people.inf.elte.hu/pgj/halado-haskell/)
 
+[BE-AD rendszer](https://bead.inf.elte.hu/)
+
 ## Határidők
 
 * Heti beadandók
-* PHP beadandó: ???
-* ÉvfolyamZH: 2017. május 22. hétfő, 10:00-13:00 (Lovarda, Nyelvi és Adatbázis labor)
+* Nagybeadandó: ???
 
 ## Gyakorlat
 
-* **Időpont:** Csütörtök, 14:15-15:45
-* **Helyszín:** 00.410
-* **Oktató:** Visnovitz Márton (vimtaai kukac inf elte hu)
+* **Időpont:** Szerda, 14:30-16:00
+* **Helyszín:** DT 2.124
+* **Oktató:** Páli Gábor János
 
 ## Linkek
 
-* [Javascript dokumentáció](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+* [https://hackage.haskell.org/](https://hackage.haskell.org/)
