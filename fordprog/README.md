@@ -22,3 +22,7 @@
 * **Időpont:** Szerda, 12:15-13:45
 * **Helyszín:** DT 00-113
 * **Oktató:** Leskó Dániel (ldani kukac elte hu)
+
+## Linkek
+
+[Dévai tanár úr wiki-je](https://deva.web.elte.hu/pubwiki/doku.php?id=fordprog)
