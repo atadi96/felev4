@@ -1,6 +1,6 @@
 # Eseményvezérelt alkalmazások fejlesztése 1.
 
-[Tantárgy honlapja](http://people.inf.elte.hu/groberto/eva1)  
+[Tantárgy honlapja](http://people.inf.elte.hu/groberto/elte_eva1/index.html)  
 [Moodle](http://moodle.elte.hu)
 
 ## Követelmények
