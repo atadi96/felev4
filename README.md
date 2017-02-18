@@ -10,7 +10,7 @@ ELTE IK B szakirány - 4. félév - beadandók, ZH-k, egyéb határidők
 | Kezdés | Név | Típus | ID | Terem | Oktató |
 |--------|-----|-------|----|-------|--------|
 |**Hétfő**
-|8:15|ANAL3|gy|2|DT 00-718|[Csörgő](http://numanal.inf.elte.hu/~csorgo/ev16172/analizis3/)|
+|8:15|ANAL3|gy|2|DT 00-718|[Csörgő István](http://numanal.inf.elte.hu/~csorgo/ev16172/analizis3/)|
 |12:15|ADATB1|gy|5|DT 00-807|[Brányi](http://people.inf.elte.hu/branyi/)|
 |14:15|LOGIKA|ea||DT 0-821|[Tejfel](http://people.inf.elte.hu/matej)|
 |16:05|MULTIP.|ea||DT 0-805|[Porkoláb](http://gsd.web.elte.hu/multi/)|
