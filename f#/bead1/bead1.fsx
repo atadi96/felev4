@@ -21,8 +21,8 @@ type 学生(subjects: seq<Subject>)  =
     member private this.genericOsszeg(sulyozas) = (Seq.fold (fun (左, num) 右 -> (左 + 右, num + 1)) (0,0) (Seq.map sulyozas this.Subjects))
 
 let student = 学生([ Subject("Fordprog", 2, "Dévai", 5)
-                  ; Subject("F#", 2, "Joci", 5)
-                  ; Subject("Analítis 3", 2, "Szili", 2)]
+                  ; Subject("F#", 2, "Uri", 5)
+                  ; Subject("Analízis 3", 2, "Szili", 2)]
 )
 
 let atlag = student.atlag()
