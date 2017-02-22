@@ -6,8 +6,8 @@ procedure Pi is
 begin
    Get(Steps);
    for I in 1..Steps loop
-      E := E *
-      K := K + 2.0;
+      E := E + T;
+	  T := T / I
    end loop;
    Pi := Pi * 2.0;
    Ada.Float_Text_IO.Put(Pi);
