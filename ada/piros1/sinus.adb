@@ -10,7 +10,7 @@ begin
    Ada.Float_Text_IO.Get(X);
    Sinus := 0.0;
    T := X;
-   for J in Integer range 1..500 loop
+   for J in Integer range 1..2000000 loop
       Sinus := Sinus + T;
       T := (T * (-1.0)) / (I + 2.0) / (I + 1.0) * X * X;
       I := I + 2.0;
