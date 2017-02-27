@@ -22,3 +22,7 @@ Bejelentkezés neptunkóddal
 ### 2. gyakorlat
 
 [Óra diák és feladatok](http://people.inf.elte.hu/nikovits/AB1/)
+
+### 3. gyakorlat
+
+[Órai feladatok](http://people.inf.elte.hu/vopraai/adatb17/feladat2.txt)
