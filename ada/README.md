@@ -1,6 +1,7 @@
 ﻿# Programozási nyelvek II. - Ada
 
 [Tantárgy honlapja](http://kto.web.elte.hu/hu/oktatas/ada/)  
+[Gyak példák](http://kto.web.elte.hu/hu/oktatas/ada/gyakorlat/)  
 [Gyak feladatok honlapja](http://zsv.web.elte.hu/ada_files/exercises.txt)
 
 ## Határidők
