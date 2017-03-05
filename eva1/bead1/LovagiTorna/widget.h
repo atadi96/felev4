@@ -2,6 +2,8 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QGridLayout>
+#include <QPushButton>
 
 namespace Ui {
 class Widget;
@@ -17,6 +19,8 @@ public:
 
 private:
     Ui::Widget *ui;
+    QGridLayout *gl;
+    QVector<QPushButton*> btnVector;
 };
 
 #endif // WIDGET_H
