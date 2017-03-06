@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QGridLayout>
-#include <QPushButton>
+#include "qboardbutton.h"
 
 namespace Ui {
 class Widget;
@@ -20,7 +20,7 @@ public:
 private:
     Ui::Widget *ui;
     QGridLayout *gl;
-    QVector<QPushButton*> btnVector;
+    QVector<QBoardButton*> btnVector;
 };
 
 #endif // WIDGET_H

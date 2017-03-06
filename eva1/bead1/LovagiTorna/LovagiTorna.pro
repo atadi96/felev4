@@ -13,8 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        widget.cpp
+        widget.cpp \
+    qboardbutton.cpp
 
-HEADERS  += widget.h
+HEADERS  += widget.h \
+    qboardbutton.h
 
 FORMS    += widget.ui
+
+RESOURCES += \
+    resources.qrc
