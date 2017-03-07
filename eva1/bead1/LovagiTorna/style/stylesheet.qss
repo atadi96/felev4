@@ -26,15 +26,15 @@ QBoardButton[color="1"] {
 QBoardButton[color="2"] {
    background-color: black;
 }
+QBoardButton[piece="1"] {
+    image: url(:/graphics/white_knight_left.png);
+}
+QBoardButton[piece="2"] {
+    image: url(:/graphics/white_knight_right.png);
+}
 QBoardButton[piece="3"] {
     image: url(:/graphics/black_knight_left.png);
 }
-QBoardButton[piece="2"] {
+QBoardButton[piece="4"] {
     image: url(:/graphics/black_knight_right.png);
-}
-QBoardButton[piece="1"] {
-    image: url(:/graphics/white_knight_right.png);
-}
-QBoardButton[piece="0"] {
-    image: url(:/graphics/white_knight_left.png);
 }

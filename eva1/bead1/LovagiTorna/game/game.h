@@ -5,9 +5,27 @@
 #include <vector>
 #include <QVector>
 
+namespace Game
+{
+
+enum class BoardColor
+{
+    Grey = 0,
+    White = 1,
+    Black = 2
+};
+enum class PieceType
+{
+    None = 0,
+    WhiteLeft = 1,
+    WhiteRight = 2,
+    BlackLeft = 3,
+    BlackRight = 4
+};
+
 class Game
 {
-public:
+public:/*
     struct BoardColor
     {
         static const int Grey;
@@ -21,17 +39,17 @@ public:
         static const int WhiteRight;
         static const int BlackLeft;
         static const int BlackRight;
-    };
+    };*/
     struct Field
     {
         Field() = default;
-        Field(int color, int piece) noexcept : color(color), piece(piece) { }
-        int color = BoardColor::Grey;
-        int piece = PieceType::None;
+        Field(BoardColor color, PieceType piece) noexcept : color(color), piece(piece) { }
+        BoardColor color = BoardColor::Grey;
+        PieceType piece = PieceType::None;
     };
     struct Piece
     {
-        int type;
+        PieceType type;
         Point coord;
         bool isWhite() const;
         bool isBlack() const;
@@ -52,4 +70,5 @@ public:
     const QVector<Point> getHighlightedFields() const;
 };
 
+}
 #endif // GAME_H
