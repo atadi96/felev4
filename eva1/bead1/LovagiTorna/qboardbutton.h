@@ -4,20 +4,8 @@
 #include <QPushButton>
 #include <QString>
 #include <string>
+#include "game/game.h"
 
-struct BoardColor
-{
-    static const int Grey;
-    static const int White;
-    static const int Black;
-};
-struct PieceType
-{
-    static const int WhiteLeft;
-    static const int WhiteRight;
-    static const int BlackLeft;
-    static const int BlackRight;
-};
 
 typedef std::string string;
 

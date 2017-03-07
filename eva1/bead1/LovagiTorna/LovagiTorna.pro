@@ -14,10 +14,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         widget.cpp \
-    qboardbutton.cpp
+    qboardbutton.cpp \
+    game/game.cpp \
+    game/point.cpp
 
 HEADERS  += widget.h \
-    qboardbutton.h
+    qboardbutton.h \
+    game/game.h \
+    game/point.h
 
 FORMS    += widget.ui
 
