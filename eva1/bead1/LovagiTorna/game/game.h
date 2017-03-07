@@ -38,18 +38,20 @@ public:
     const Field& getField(const Point& point) const;
     const Field& getField(int x, int y) const;
     const QVector<Point> highlightedFields() const;
+    int size() const;
 
 private:
     void movePiece(Piece& piece, const Point& toCoord);
-    void setHighlightedFields(const Point& center);
+    void setHighlightedFields();
     void checkWin(const Point& center);
+    void switchPlayer();
     bool collidesWithPiece(const Point& point) const;
     Field& field(const Point& point);
     Field& field(int x, int y);
 
 signals:
     void redraw(Game& data);
-    void gameEnd(Game& data, Player winner);
+    void gameFinished(Game& data, Player winner);
 
 };
 

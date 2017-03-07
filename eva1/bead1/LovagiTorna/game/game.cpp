@@ -1,4 +1,5 @@
 #include "game.h"
+#include <algorithm>
 
 namespace Game {
 
@@ -18,6 +19,7 @@ Game::Game(int size)
     for(auto it = pieces.begin(); it != pieces.end(); ++it) {
         movePiece(*it, it->coord());
     }
+    setHighlightedFields();
 }
 
 const Field& Game::getField(const Point& point) const {
@@ -25,6 +27,10 @@ const Field& Game::getField(const Point& point) const {
 }
 const Field& Game::getField(int x, int y) const {
     return map.at(x).at(y);
+}
+
+int Game::size() const {
+    return m_size;
 }
 
 Field& Game::field(const Point& point){
@@ -35,12 +41,24 @@ Field& Game::field(int x, int y) {
 }
 
 const QVector<Point> Game::highlightedFields() const {
-
+    return m_highlighted_fields;
 }
 void Game::act(int x, int y) {
-
+    Point p(x,y);
+    if(m_highlighted_fields.end() != std::find(m_highlighted_fields.begin(), m_highlighted_fields.end(), p) ) {
+        if(m_selectedPiece == nullptr) {
+            m_selectedPiece = std::find_if(pieces.begin(), pieces.end(), [&p](const Piece& piece) {return piece.coord() == p;});
+        } else {
+            movePiece(*m_selectedPiece, p);
+            checkWin(p);
+            switchPlayer();
+        }
+    } else {
+        m_selectedPiece = nullptr;
+    }
+    setHighlightedFields();
+    emit redraw(*this);
 }
-
 /*private*/
 
 void Game::movePiece(Piece& piece, const Point& toCoord) {
@@ -50,20 +68,30 @@ void Game::movePiece(Piece& piece, const Point& toCoord) {
     field(toCoord).color = piece.color();
 }
 
-void Game::setHighlightedFields(const Point& center) { //WIP
+void Game::setHighlightedFields() {
     m_highlighted_fields.clear();
-    for(int sx = -1; sx == -1 || sx == 1; sx += 2) {
-        for(int sy = -1; sy == -1 || sy == 1; sy += 2) {
-            for(int x = 2; x <= 3; ++x) {
-                for(int y = 2; y <= 3; ++y) {
-                    Point p(sx * x, sy * y);
-                    p += center;
-                    if(p.inRectangle(Point::zero, highBound) && !collidesWithPiece(p)) {
-                        m_highlighted_fields.push_back(p);
+    if(m_selectedPiece == nullptr) {
+        for(auto it = pieces.begin(); it != pieces.end(); ++it) {
+            if(it->isPlayer(this->onTurn)) {
+                m_highlighted_fields.push_back(it->coord());
+            }
+        }
+    } else {
+        Point center = m_selectedPiece->coord();
+        for(int sx = -1; sx == -1 || sx == 1; sx += 2) {
+            for(int sy = -1; sy == -1 || sy == 1; sy += 2) {
+                for(int x = 1; x <= 2; ++x) {
+                    for(int y = 1; y <= 2; ++y) {
+                        Point p(sx * x, sy * y);
+                        p += center;
+                        if(p.inRectangle(Point::zero, highBound) && !collidesWithPiece(p)) {
+                            m_highlighted_fields.push_back(p);
+                        }
                     }
                 }
             }
         }
+        m_highlighted_fields.push_back(center);
     }
 }
 
@@ -72,7 +100,16 @@ void Game::checkWin(const Point& center){
 }
 
 bool Game::collidesWithPiece(const Point& point) const {
-    //auto it =
+    auto it = std::find_if(pieces.begin(), pieces.end(), [&point](Piece p) {return p.coord() == point;});
+    return (it == pieces.end());
+}
+
+void Game::switchPlayer() {
+    if(onTurn == Player::Black) {
+        onTurn = Player::White;
+    } else if(onTurn == Player::White){
+        onTurn = Player::Black;
+    }
 }
 
 }

@@ -13,6 +13,7 @@ public:
     Point operator+(const Point& rhs) const;
     Point& operator-=(const Point& rhs);
     Point operator-(const Point& rhs) const;
+    bool operator==(const Point& rhs) const;
     int x() const;
     int y() const;
     Point& setX(int x);

@@ -23,6 +23,10 @@ Point Point::operator-(const Point& rhs) const {
     tmp -= rhs;
     return tmp;
 }
+
+bool Point::operator==(const Point& rhs) const {
+    return (m_x == rhs.m_x) && (m_y == rhs.m_y);
+}
 int Point::x() const {
     return m_x;
 }
