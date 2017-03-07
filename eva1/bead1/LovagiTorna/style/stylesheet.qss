@@ -6,7 +6,6 @@ QBoardButton {
    width:            75px;
    height:           75px;
    outline:          none;
-   image: url(:/graphics/black_knight_right.png);
 }
 QBoardButton:hover {
    border: 3px solid #00A000;
@@ -18,23 +17,24 @@ QBoardButton:focus {
 QBoardButton:focus:hover {
    border: 3px dotted red;
 }
+QBoardButton[color="0"] {
+   background-color: grey;
+}
 QBoardButton[color="1"] {
-   background-color: #FFFFFF;
-   color: #000000;
+   background-color: white;
 }
 QBoardButton[color="2"] {
-   background-color: #000000;
-   color: #FFFFFF;
+   background-color: black;
 }
-QBoardButton[piece="Piece::BlackLeft"] {
+QBoardButton[piece="3"] {
     image: url(:/graphics/black_knight_left.png);
 }
-QBoardButton[piece="black-knight-right"] {
+QBoardButton[piece="2"] {
     image: url(:/graphics/black_knight_right.png);
 }
-QBoardButton[piece="white-knight-right"] {
+QBoardButton[piece="1"] {
     image: url(:/graphics/white_knight_right.png);
 }
-QBoardButton[piece="white-knight-left"] {
+QBoardButton[piece="0"] {
     image: url(:/graphics/white_knight_left.png);
 }
