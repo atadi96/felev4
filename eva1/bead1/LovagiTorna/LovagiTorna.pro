@@ -16,12 +16,15 @@ SOURCES += main.cpp\
         widget.cpp \
     qboardbutton.cpp \
     game/game.cpp \
-    game/point.cpp
+    game/point.cpp \
+    game/piece.cpp
 
 HEADERS  += widget.h \
     qboardbutton.h \
     game/game.h \
-    game/point.h
+    game/point.h \
+    game/piece.h \
+    game/enums.h
 
 FORMS    += widget.ui
 
