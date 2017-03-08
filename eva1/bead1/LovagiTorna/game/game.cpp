@@ -10,6 +10,7 @@ Game::Game(int size)
     , highBound(size - 1, size - 1)
     , map(size, {QVector<Field>(size, Field()) })
     , onTurn(Player::White)
+    , winner(Player::None)
     , m_selectedPiece(nullptr)
 {
     pieces.push_back(Piece(PieceType::WhiteRight, Point(0,0)));
@@ -40,10 +41,15 @@ Field& Game::field(int x, int y) {
     return map[x][y];
 }
 
+bool Game::finished() const {
+    return onTurn == Player::None;
+}
+
 const QVector<Point> Game::highlightedFields() const {
     return m_highlighted_fields;
 }
 void Game::act(int x, int y) {
+    if(winner != Player::None) return;
     Point p(x,y);
     if(m_highlighted_fields.end() != std::find(m_highlighted_fields.begin(), m_highlighted_fields.end(), p) ) {
         if(m_selectedPiece == nullptr) {
@@ -63,6 +69,9 @@ void Game::act(int x, int y) {
     }
     setHighlightedFields();
     emit redraw();
+    if(winner != Player::None) {
+        emit gameFinished(winner);
+    }
 }
 /*private*/
 
@@ -115,9 +124,8 @@ void Game::checkWin(const Point& center){
     int secondary_num = lineLength(center, Point(-1, 1));
 
     if(horizontal_num >= 4 || vertical_num >= 4 || main_num >= 4 || secondary_num >= 4) {
-        Player winner = onTurn;
+        winner = onTurn;
         onTurn = Player::None;
-        emit gameFinished(winner);
     }
 }
 

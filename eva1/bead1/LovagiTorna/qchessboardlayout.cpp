@@ -5,6 +5,7 @@ QChessBoardLayout::QChessBoardLayout(int gameSize, QWidget* parent = 0) : QGridL
     this->setSpacing(0);
     int fieldNum = gameSize * gameSize;
     connect(&game, SIGNAL(redraw()), this, SLOT(redraw()));
+    connect(&game, SIGNAL(gameFinished(Player)), this, SIGNAL(gameFinished(Player)));
     for(int i = 0; i < fieldNum; ++i) {
         QBoardButton* btn = new QBoardButton();
         btn->setHighlighted(false);
@@ -17,9 +18,15 @@ QChessBoardLayout::QChessBoardLayout(int gameSize, QWidget* parent = 0) : QGridL
 }
 
 QChessBoardLayout::~QChessBoardLayout() {
-    /*for(auto it = btnVector.begin(); it != btnVector.end(); ++it) {
-        delete *it;
-    }*/
+    int fieldNum = game.size() * game.size();
+    for(int i = 0; i < fieldNum; ++i) {
+        QBoardButton* btn = btnVector[i];
+        delete btn;
+    }
+}
+
+bool QChessBoardLayout::gameFinished() const {
+    return game.finished();
 }
 
 void QChessBoardLayout::redraw() {

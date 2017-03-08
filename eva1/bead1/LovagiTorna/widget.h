@@ -2,9 +2,15 @@
 #define WIDGET_H
 
 #include <QWidget>
-#include <QGridLayout>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QComboBox>
+#include <QMessageBox>
 #include "qboardbutton.h"
 #include "qchessboardlayout.h"
+
+typedef Game::Player Player;
 
 namespace Ui {
 class Widget;
@@ -20,9 +26,17 @@ public:
 
 private:
     Ui::Widget *ui;
-    QGridLayout *gl;
+    QComboBox *game_size_dropdown;
+    QVBoxLayout *v_layout;
+    QHBoxLayout *h_layout;
+    QPushButton *restart_button;
+
     QChessBoardLayout* cbl;
     QVector<QBoardButton*> btnVector;
+
+private slots:
+    void restartGame();
+    void finishedGame(Player winner);
 };
 
 #endif // WIDGET_H

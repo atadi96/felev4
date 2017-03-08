@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
     a.setStyleSheet(styleSheet);
 
     Widget w;
+    w.setWindowTitle("Lovagi Torna");
     w.show();
 
     return a.exec();

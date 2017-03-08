@@ -31,6 +31,7 @@ private:
     Map map;
     QVector<Point> m_highlighted_fields;
     Player onTurn;
+    Player winner;
     Piece* m_selectedPiece;
     QVector<Piece> pieces;
 public:
@@ -39,6 +40,7 @@ public:
     const Field& getField(const Point& point) const;
     const Field& getField(int x, int y) const;
     const QVector<Point> highlightedFields() const;
+    bool finished() const;
     int size() const;
 
 private:

@@ -7,6 +7,8 @@
 #include "game/game.h"
 #include "game/enums.h"
 
+typedef Game::Player Player;
+
 class QChessBoardLayout : public QGridLayout
 {
     Q_OBJECT
@@ -16,9 +18,10 @@ private:
     QVector<QBoardButton*> btnVector;
 public:
     QChessBoardLayout(int game_size, QWidget* parent);
+    bool gameFinished() const;
     ~QChessBoardLayout();
 signals:
-    void gameFinished(Game::Player winner);
+    void gameFinished(Player winner);
 private slots:
     void fieldClick();
     void redraw();
