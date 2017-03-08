@@ -6,7 +6,7 @@ QBoardButton {
    width:            75px;
    height:           75px;
    outline:          none;
-}
+}/*
 QBoardButton:hover {
    border: 3px solid #00A000;
    background-color: white;
@@ -16,7 +16,7 @@ QBoardButton:focus {
 }
 QBoardButton:focus:hover {
    border: 3px dotted red;
-}
+}*/
 QBoardButton[color="0"] {
    background-color: grey;
 }
@@ -27,7 +27,7 @@ QBoardButton[color="2"] {
    background-color: black;
 }
 QBoardButton[highlighted="true"] {
-    border: 5px solid #00FF00;
+    border: 3px solid #0F0;
 }
 QBoardButton[piece="1"] {
     image: url(:/graphics/white_knight_left.png);

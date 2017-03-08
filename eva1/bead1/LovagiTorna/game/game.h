@@ -49,6 +49,7 @@ private:
     bool collidesWithPiece(const Point& point) const;
     Field& field(const Point& point);
     Field& field(int x, int y);
+    int lineLength(const Point& center, const Point& direction) const;
 
 signals:
     void redraw();

@@ -109,7 +109,41 @@ void Game::setHighlightedFields() {
 }
 
 void Game::checkWin(const Point& center){
+    int horizontal_num = lineLength(center, Point(0, 1));
+    int vertical_num = lineLength(center, Point(1, 0));
+    int main_num = lineLength(center, Point(1, 1));
+    int secondary_num = lineLength(center, Point(-1, 1));
 
+    if(horizontal_num >= 4 || vertical_num >= 4 || main_num >= 4 || secondary_num >= 4) {
+        Player winner = onTurn;
+        onTurn = Player::None;
+        emit gameFinished(winner);
+    }
+}
+
+int Game::lineLength(const Point& center, const Point& direction) const {
+    const BoardColor& color = getField(center).color;
+    int length = 1;
+    bool left_connected = true;
+    bool right_connected = true;
+    Point left(center);
+    Point right(center);
+    while(left_connected || right_connected)
+    {
+        left -= direction;
+        right += direction;
+        left_connected =
+                left_connected &&
+                left.inRectangle(Point::zero, this->highBound) &&
+                getField(left).color == color;
+        right_connected =
+                right_connected &&
+                right.inRectangle(Point::zero, this->highBound) &&
+                getField(right).color == color;
+        length += left_connected ? 1 : 0;
+        length += right_connected ? 1 : 0;
+    }
+    return length;
 }
 
 bool Game::collidesWithPiece(const Point& point) const {
