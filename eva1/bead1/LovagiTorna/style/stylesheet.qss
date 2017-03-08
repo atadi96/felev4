@@ -26,6 +26,9 @@ QBoardButton[color="1"] {
 QBoardButton[color="2"] {
    background-color: black;
 }
+QBoardButton[highlighted="true"] {
+    border: 5px solid #00FF00;
+}
 QBoardButton[piece="1"] {
     image: url(:/graphics/white_knight_left.png);
 }

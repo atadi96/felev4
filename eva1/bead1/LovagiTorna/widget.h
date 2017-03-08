@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QGridLayout>
 #include "qboardbutton.h"
+#include "qchessboardlayout.h"
 
 namespace Ui {
 class Widget;
@@ -20,6 +21,7 @@ public:
 private:
     Ui::Widget *ui;
     QGridLayout *gl;
+    QChessBoardLayout* cbl;
     QVector<QBoardButton*> btnVector;
 };
 

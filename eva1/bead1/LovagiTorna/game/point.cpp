@@ -46,8 +46,8 @@ Point& Point::setY(int y) {
 //see: http://stackoverflow.com/questions/17095324/fastest-way-to-determine-if-an-integer-is-between-two-integers-inclusive-with
 bool Point::inRectangle(const Point& top_left, const Point& bottom_right) {
     return
-            ((unsigned)(m_x - top_left.x()) <= (bottom_right.x() - top_left.x())) &&
-            ((unsigned)(m_y - top_left.y()) <= (bottom_right.y() - top_left.y()));
+            (top_left.x() <= m_x && m_x <= bottom_right.x()) &&
+            (top_left.y() <= m_y && m_y <= bottom_right.y());
 }
 
 const Point Point::zero(0,0);

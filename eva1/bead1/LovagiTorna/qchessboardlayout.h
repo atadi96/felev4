@@ -17,10 +17,11 @@ private:
 public:
     QChessBoardLayout(int game_size, QWidget* parent);
     ~QChessBoardLayout();
-private:
-    void redraw();
 signals:
     void gameFinished(Game::Player winner);
+private slots:
+    void fieldClick();
+    void redraw();
 };
 
 #endif // QCHESSBOARDLAYOUT_H

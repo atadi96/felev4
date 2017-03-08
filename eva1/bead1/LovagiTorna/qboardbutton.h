@@ -14,6 +14,7 @@ class QBoardButton : public QPushButton
     Q_OBJECT
     Q_PROPERTY(int color READ color WRITE setColor)
     Q_PROPERTY(int piece READ piece WRITE setPiece)
+    Q_PROPERTY(bool highlighted READ highlighted WRITE setHighlighted)
 
 public:
     QBoardButton(QWidget * parent = 0) : QPushButton(parent), m_color(1) {  }
@@ -23,10 +24,13 @@ public:
     int color() const;
     void setPiece(int piece);
     int piece() const;
+    void setHighlighted(bool hl);
+    bool highlighted() const;
 
 private:
     int m_color;
     int m_piece;
+    bool m_highlighted;
 };
 
 #endif // QBOARDBUTTON_H

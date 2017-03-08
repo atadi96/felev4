@@ -49,15 +49,20 @@ void Game::act(int x, int y) {
         if(m_selectedPiece == nullptr) {
             m_selectedPiece = std::find_if(pieces.begin(), pieces.end(), [&p](const Piece& piece) {return piece.coord() == p;});
         } else {
-            movePiece(*m_selectedPiece, p);
-            checkWin(p);
-            switchPlayer();
+            if(m_selectedPiece->coord() == p) {
+                m_selectedPiece = nullptr;
+            } else {
+                movePiece(*m_selectedPiece, p);
+                m_selectedPiece = nullptr;
+                checkWin(p);
+                switchPlayer();
+            }
         }
     } else {
         m_selectedPiece = nullptr;
     }
     setHighlightedFields();
-    emit redraw(*this);
+    emit redraw();
 }
 /*private*/
 
@@ -84,7 +89,7 @@ void Game::setHighlightedFields() {
                     for(int y = 1; y <= 2; ++y) {
                         Point p(sx * x, sy * y);
                         p += center;
-                        if(p.inRectangle(Point::zero, highBound) && !collidesWithPiece(p)) {
+                        if(x != y && p.inRectangle(Point::zero, highBound) && !collidesWithPiece(p)) {
                             m_highlighted_fields.push_back(p);
                         }
                     }
@@ -92,6 +97,14 @@ void Game::setHighlightedFields() {
             }
         }
         m_highlighted_fields.push_back(center);
+    }
+    for(int x = 0; x < m_size; ++x) {
+        for(int y = 0; y < m_size; ++y) {
+            field(x, y).highlighted = false;
+        }
+    }
+    for(auto it = m_highlighted_fields.begin(); it != m_highlighted_fields.end(); ++it) {
+        field(*it).highlighted = true;
     }
 }
 
@@ -101,7 +114,7 @@ void Game::checkWin(const Point& center){
 
 bool Game::collidesWithPiece(const Point& point) const {
     auto it = std::find_if(pieces.begin(), pieces.end(), [&point](Piece p) {return p.coord() == point;});
-    return (it == pieces.end());
+    return (it != pieces.end());
 }
 
 void Game::switchPlayer() {

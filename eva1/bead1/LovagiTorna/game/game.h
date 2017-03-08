@@ -14,9 +14,10 @@ namespace Game
 struct Field
 {
     Field() = default;
-    Field(BoardColor color, PieceType piece) noexcept : color(color), piece(piece) { }
+    Field(BoardColor color, PieceType piece, bool highlighted) noexcept : color(color), piece(piece), highlighted(highlighted) { }
     BoardColor color = BoardColor::Grey;
     PieceType piece = PieceType::None;
+    bool highlighted = false;
 };
 
 class Game : public QObject
@@ -50,8 +51,8 @@ private:
     Field& field(int x, int y);
 
 signals:
-    void redraw(Game& data);
-    void gameFinished(Game& data, Player winner);
+    void redraw();
+    void gameFinished(Player winner);
 
 };
 

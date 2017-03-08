@@ -17,3 +17,11 @@ int QBoardButton::piece() const {
     return this->m_piece;
 }
 
+void QBoardButton::setHighlighted(bool hl) {
+    m_highlighted = hl;
+}
+
+bool QBoardButton::highlighted() const {
+    return m_highlighted;
+}
+

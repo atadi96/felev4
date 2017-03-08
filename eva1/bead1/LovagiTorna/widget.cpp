@@ -5,7 +5,7 @@ Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
 {
-    gl = new QGridLayout(this);
+    /*gl = new QGridLayout(this);
     gl->setSpacing(0);
     this->setLayout(gl);
     Game::Game game(8);
@@ -19,12 +19,16 @@ Widget::Widget(QWidget *parent) :
         btn->setPiece(static_cast<int>(f.piece));
         gl->addWidget(btn, i/8, i%8);
         btnVector.push_back(btn);
-    }
+    }*/
+    cbl = new QChessBoardLayout(8, this);
+    this->setLayout(cbl);
+    //cbl->redraw();
     ui->setupUi(this);
 }
 
 Widget::~Widget()
 {
+    delete cbl;
     for(QVector<QBoardButton*>::iterator it = btnVector.begin(); it != btnVector.end(); ++it) {
         delete *it;
     }
