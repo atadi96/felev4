@@ -17,7 +17,7 @@ private:
     Game::Game game;
     QVector<QBoardButton*> btnVector;
 public:
-    QChessBoardLayout(int game_size, QWidget* parent);
+    QChessBoardLayout(int game_size, QWidget* parent = 0);
     bool gameFinished() const;
     ~QChessBoardLayout();
 signals:

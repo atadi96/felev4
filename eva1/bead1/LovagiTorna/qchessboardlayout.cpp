@@ -1,7 +1,7 @@
 #include "qchessboardlayout.h"
 #include <QStyle>
 
-QChessBoardLayout::QChessBoardLayout(int gameSize, QWidget* parent = 0) : QGridLayout(parent), game(gameSize) {
+QChessBoardLayout::QChessBoardLayout(int gameSize, QWidget* parent) : QGridLayout(parent), game(gameSize) {
     this->setSpacing(0);
     int fieldNum = gameSize * gameSize;
     connect(&game, SIGNAL(redraw()), this, SLOT(redraw()));
@@ -21,6 +21,7 @@ QChessBoardLayout::~QChessBoardLayout() {
     int fieldNum = game.size() * game.size();
     for(int i = 0; i < fieldNum; ++i) {
         QBoardButton* btn = btnVector[i];
+        removeWidget(btn);
         delete btn;
     }
 }
