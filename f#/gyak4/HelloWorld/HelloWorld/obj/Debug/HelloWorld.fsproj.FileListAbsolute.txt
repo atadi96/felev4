@@ -1,0 +1,12 @@
+C:\Users\abonyitothadam\Documents\felev4\f#\gyak4\HelloWorld\HelloWorld\bin\Debug\HelloWorld.exe.config
+C:\Users\abonyitothadam\Documents\felev4\f#\gyak4\HelloWorld\HelloWorld\bin\Debug\HelloWorld.XML
+C:\Users\abonyitothadam\Documents\felev4\f#\gyak4\HelloWorld\HelloWorld\bin\Debug\HelloWorld.exe
+C:\Users\abonyitothadam\Documents\felev4\f#\gyak4\HelloWorld\HelloWorld\bin\Debug\HelloWorld.pdb
+C:\Users\abonyitothadam\Documents\felev4\f#\gyak4\HelloWorld\HelloWorld\bin\Debug\FSharp.Core.dll
+C:\Users\abonyitothadam\Documents\felev4\f#\gyak4\HelloWorld\HelloWorld\bin\Debug\FSharp.Data.dll
+C:\Users\abonyitothadam\Documents\felev4\f#\gyak4\HelloWorld\HelloWorld\bin\Debug\FSharp.Data.pdb
+C:\Users\abonyitothadam\Documents\felev4\f#\gyak4\HelloWorld\HelloWorld\bin\Debug\FSharp.Data.xml
+C:\Users\abonyitothadam\Documents\felev4\f#\gyak4\HelloWorld\HelloWorld\bin\Debug\FSharp.Core.xml
+C:\Users\abonyitothadam\Documents\felev4\f#\gyak4\HelloWorld\HelloWorld\obj\Debug\HelloWorld.fsproj.HelloWorld.exe.config
+C:\Users\abonyitothadam\Documents\felev4\f#\gyak4\HelloWorld\HelloWorld\obj\Debug\HelloWorld.exe
+C:\Users\abonyitothadam\Documents\felev4\f#\gyak4\HelloWorld\HelloWorld\obj\Debug\HelloWorld.pdb
