@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>graphics/black_knight_left.png</file>
+        <file>graphics/black_knight_right.png</file>
+        <file>graphics/white_knight_left.png</file>
+        <file>graphics/white_knight_right.png</file>
+        <file>style/stylesheet.qss</file>
+    </qresource>
+</RCC>
