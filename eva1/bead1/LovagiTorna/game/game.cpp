@@ -49,7 +49,7 @@ const QVector<Point> Game::highlightedFields() const {
     return m_highlighted_fields;
 }
 void Game::act(int x, int y) {
-    if(winner != Player::None) return;
+    if(onTurn == Player::None) return;
     Point p(x,y);
     if(m_highlighted_fields.end() != std::find(m_highlighted_fields.begin(), m_highlighted_fields.end(), p) ) {
         if(m_selectedPiece == nullptr) {
@@ -65,7 +65,16 @@ void Game::act(int x, int y) {
             }
         }
     } else {
-        m_selectedPiece = nullptr;
+        auto clicked_piece = std::find_if(
+                    pieces.begin(),
+                    pieces.end(),
+                    [&p, this](const Piece& piece){ return piece.isPlayer(onTurn) && piece.coord() == p;}
+        );
+        if(pieces.end() != clicked_piece) {
+            m_selectedPiece = clicked_piece;
+        } else {
+            m_selectedPiece = nullptr;
+        }
     }
     setHighlightedFields();
     emit redraw();
