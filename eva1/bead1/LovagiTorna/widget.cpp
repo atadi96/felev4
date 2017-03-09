@@ -8,7 +8,7 @@ Widget::Widget(QWidget *parent) :
     v_layout = new QVBoxLayout(this);
     h_layout = new QHBoxLayout();
     //setup restart button
-    restart_button = new QPushButton(QString::fromAscii("Restart"), this);
+    restart_button = new QPushButton(QString::fromUtf8("Restart"), this);
     connect(restart_button, SIGNAL(clicked(bool)), this, SLOT(restartGame()));
     //initialize dropdown list of game sizes
     game_size_dropdown = new QComboBox(this);
@@ -43,8 +43,8 @@ void Widget::restartGame() {
     if(!cbl->gameFinished()) {
         QMessageBox mb(
             QMessageBox::Question,
-            QString::fromAscii("Restart game?"),
-            QString::fromAscii("Your game is in progress! Are you sure you want to restart with the selected board size?"),
+            QString::fromUtf8("Restart game?"),
+            QString::fromUtf8("Your game is in progress! Are you sure you want to restart with the selected board size?"),
             QMessageBox::Yes | QMessageBox::No
         );
         int result = mb.exec();
@@ -75,7 +75,7 @@ void Widget::finishedGame(Player winner) {
     }
     QMessageBox mb(
         QMessageBox::NoIcon,
-        QString::fromAscii("Congratulations!"),
+        QString::fromUtf8("Congratulations!"),
         text,
         QMessageBox::Ok
     );
