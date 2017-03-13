@@ -30,3 +30,7 @@ Bejelentkezés neptunkóddal
 ### 4. gyakorlat
 
 [Órai feladatok](http://people.inf.elte.hu/vopraai/adatb17/3.ora/feladat.txt)
+
+### 5. gyakorlat
+
+[Órai feladatok](http://people.inf.elte.hu/vopraai/adatb17/5.ora/feladat.txt)
