@@ -13,8 +13,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwidget.cpp
+        mainwidget.cpp \
+    gamecalc.cpp \
+    game_calc/entity.cpp
 
-HEADERS  += mainwidget.h
+HEADERS  += mainwidget.h \
+    gamecalc.h \
+    game_calc/entity.h
 
 FORMS    += mainwidget.ui
