@@ -14,11 +14,18 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwidget.cpp \
-    gamecalc.cpp \
-    game_calc/entity.cpp
+    game_calc/gamecalc.cpp \
+    game_calc/map.cpp \
+    game_view/gamewidget.cpp \
+    game_calc/entities/entity.cpp \
+    game_calc/entities/fieldentity.cpp
 
 HEADERS  += mainwidget.h \
-    gamecalc.h \
-    game_calc/entity.h
+    game_calc/gamecalc.h \
+    game_calc/map.h \
+    game_view/gamewidget.h \
+    game_calc/entities/entity.h \
+    game_calc/entities/entityhandler.h \
+    game_calc/entities/fieldentity.h
 
 FORMS    += mainwidget.ui
