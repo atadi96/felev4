@@ -1,12 +1,14 @@
 #include "map.h"
 
-Map::Map(int height, int width) : m_size(width, height), m_bounds(QPoint(0, 0), m_size) {
-    for(int x = 0; x < height; ++x) {
-        for(int y = 0; y < width; ++y) {
+Map::Map(int width, int height) : m_size(width, height), m_bounds(QPoint(0, 0), m_size) {
+    for(int x = 0; x < width; ++x) {
+        MapRow row;
+        for(int y = 0; y < height; ++y) {
             FieldEntity* field = new FieldEntity(FieldType::Ground);
             field->setPos(QPoint(x, y));
-            m_fields[x].push_back(field);
+            row.push_back(field);
         }
+        m_fields.push_back(row);
     }
 }
 
@@ -24,13 +26,13 @@ QRect Map::bounds() const {
 QSize Map::size() const {
     return m_size;
 }
-const MapRow& Map::operator[](int index) const {
-    return m_fields[index];
+QVector<MapRow>& Map::fields() {
+    return m_fields;
 }
 
 Map::~Map() {
-    for(int x = 0; x < m_size.height(); ++x) {
-        for(int y = 0; y < m_size.width(); ++y) {
+    for(int x = 0; x < m_size.width(); ++x) {
+        for(int y = 0; y < m_size.height(); ++y) {
             delete m_fields[x][y];
         }
     }

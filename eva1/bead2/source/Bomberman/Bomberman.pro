@@ -18,7 +18,9 @@ SOURCES += main.cpp\
     game_calc/map.cpp \
     game_view/gamewidget.cpp \
     game_calc/entities/entity.cpp \
-    game_calc/entities/fieldentity.cpp
+    game_calc/entities/fieldentity.cpp \
+    game_calc/entities/movingentity.cpp \
+    game_calc/entities/direction.cpp
 
 HEADERS  += mainwidget.h \
     game_calc/gamecalc.h \
@@ -26,6 +28,13 @@ HEADERS  += mainwidget.h \
     game_view/gamewidget.h \
     game_calc/entities/entity.h \
     game_calc/entities/entityhandler.h \
-    game_calc/entities/fieldentity.h
+    game_calc/entities/fieldentity.h \
+    game_calc/entities/movingentity.h \
+    game_calc/entities/direction.h
 
 FORMS    += mainwidget.ui
+
+RESOURCES += \
+    resources.qrc
+
+DISTFILES +=

@@ -18,13 +18,13 @@ private:
     QRect m_bounds;
     QVector<MapRow> m_fields;
 public:
-    Map(int height, int width);
+    Map(int width, int height);
     Map(QString filename);
     bool contains(const QPoint& point) const;
     bool contains(int x, int y) const;
     QRect bounds() const;
     QSize size() const;
-    const MapRow& operator[](int index) const;
+    QVector<MapRow>& fields();
     ~Map();
 
 };

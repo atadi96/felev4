@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/graphics/map/ground.png</file>
+        <file>resources/graphics/map/wall.png</file>
+    </qresource>
+</RCC>

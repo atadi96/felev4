@@ -2,6 +2,7 @@
 #define MAINWIDGET_H
 
 #include <QWidget>
+#include "game_view/gamewidget.h"
 
 namespace Ui {
 class MainWidget;
@@ -17,6 +18,7 @@ public:
 
 private:
     Ui::MainWidget *ui;
+    GameWidget *gw;
 };
 
 #endif // MAINWIDGET_H

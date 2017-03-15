@@ -6,6 +6,7 @@
 #include <QTime>
 #include "entities/entity.h"
 #include "entities/entityhandler.h"
+#include "entities/movingentity.h"
 #include "map.h"
 
 class GameCalc : public EntityHandler
@@ -22,6 +23,7 @@ public:
     void update(const QTime& time);
     virtual void accept(FieldEntity& entity, const QTime& current_time) override;
     virtual void accept(Entity& entity, const QTime& current_time) override;
+    virtual void accept(MovingEntity& entity, const QTime& current_time) override;
     ~GameCalc();
 
 private:
