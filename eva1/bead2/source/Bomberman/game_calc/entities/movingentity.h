@@ -9,18 +9,18 @@
 class MovingEntity : public Entity
 {
 protected:
-    QPoint m_pos;
+    //QPoint m_pos;
 private:
     float m_speed; // tiles/second
     bool m_moving;
     float m_interpolation;
-    QTime m_start_time;
+    qint64 m_start_time;
     QPoint m_direction;
 public:
     MovingEntity(QPoint pos, float speed);
     float speed() const;
-    virtual void visit(EntityHandler& handler, const QTime& current_time) override;
-    void move(const QPoint& direction, const QTime& current_time);
+    virtual void visit(EntityHandler& handler, const qint64 current_time) override;
+    void move(const QPoint& direction, const qint64 current_time);
     void face(const QPoint& direction);
     bool is_moving() const;
     QRectF hitbox() const;

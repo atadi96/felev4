@@ -3,7 +3,6 @@
 
 #include <QString>
 #include <QVector>
-#include <QTime>
 #include "entities/entity.h"
 #include "entities/entityhandler.h"
 #include "entities/movingentity.h"
@@ -20,10 +19,10 @@ public:
     GameCalc();
     Map* map () const;
     QVector<Entity*> entities() const;
-    void update(const QTime& time);
-    virtual void accept(FieldEntity& entity, const QTime& current_time) override;
-    virtual void accept(Entity& entity, const QTime& current_time) override;
-    virtual void accept(MovingEntity& entity, const QTime& current_time) override;
+    void update(const qint64 time);
+    virtual void accept(FieldEntity& entity, const qint64 current_time) override;
+    virtual void accept(Entity& entity, const qint64 current_time) override;
+    virtual void accept(MovingEntity& entity, const qint64 current_time) override;
     ~GameCalc();
 
 private:

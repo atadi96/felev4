@@ -2,5 +2,8 @@
     <qresource prefix="/">
         <file>resources/graphics/map/ground.png</file>
         <file>resources/graphics/map/wall.png</file>
+        <file>resources/graphics/characters/player/player.png</file>
+        <file>resources/graphics/characters/ghost/ghost0.png</file>
+        <file>resources/graphics/map/ground2.png</file>
     </qresource>
 </RCC>

@@ -4,7 +4,7 @@ Map::Map(int width, int height) : m_size(width, height), m_bounds(QPoint(0, 0), 
     for(int x = 0; x < width; ++x) {
         MapRow row;
         for(int y = 0; y < height; ++y) {
-            FieldEntity* field = new FieldEntity(FieldType::Ground);
+            FieldEntity* field = new FieldEntity(FieldType::Ground/*y%2==0 ? FieldType::Ground : FieldType::Wall*/);
             field->setPos(QPoint(x, y));
             row.push_back(field);
         }

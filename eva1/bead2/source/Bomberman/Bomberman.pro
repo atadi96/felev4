@@ -20,7 +20,9 @@ SOURCES += main.cpp\
     game_calc/entities/entity.cpp \
     game_calc/entities/fieldentity.cpp \
     game_calc/entities/movingentity.cpp \
-    game_calc/entities/direction.cpp
+    game_calc/entities/direction.cpp \
+    game_calc/keyboard/keyboardstate.cpp \
+    game_calc/keyboard/keyboard.cpp
 
 HEADERS  += mainwidget.h \
     game_calc/gamecalc.h \
@@ -30,7 +32,9 @@ HEADERS  += mainwidget.h \
     game_calc/entities/entityhandler.h \
     game_calc/entities/fieldentity.h \
     game_calc/entities/movingentity.h \
-    game_calc/entities/direction.h
+    game_calc/entities/direction.h \
+    game_calc/keyboard/keyboardstate.h \
+    game_calc/keyboard/keyboard.h
 
 FORMS    += mainwidget.ui
 

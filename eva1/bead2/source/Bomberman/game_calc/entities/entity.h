@@ -2,7 +2,6 @@
 #define ENTITY_H
 
 #include <QPoint>
-#include <QTime>
 #include <QString>
 #include "entityhandler.h"
 
@@ -12,10 +11,11 @@ protected:
     QPoint m_pos;
 public:
     Entity();
+    Entity(QPoint pos);
     QPoint pos() const;
     void setPos(const QPoint& pos);
     QPoint& rpos();
-    virtual void visit(EntityHandler& handler, const QTime& current_time);
+    virtual void visit(EntityHandler& handler, const qint64 current_time);
     virtual ~Entity();
 };
 

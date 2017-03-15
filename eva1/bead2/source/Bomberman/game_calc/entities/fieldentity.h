@@ -15,7 +15,7 @@ public:
     FieldType type = FieldType::Ground;
     FieldEntity();
     FieldEntity(FieldType type);
-    virtual void visit(EntityHandler& handler, const QTime& current_time);
+    virtual void visit(EntityHandler& handler, const qint64 current_time);
     ~FieldEntity() = default;
 };
 
