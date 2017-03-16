@@ -1,6 +1,7 @@
 #ifndef FIELDENTITY_H
 #define FIELDENTITY_H
 
+#include <QObject>
 #include "entity.h"
 
 enum class FieldType
@@ -11,6 +12,7 @@ enum class FieldType
 
 class FieldEntity : public Entity
 {
+    Q_OBJECT
 public:
     FieldType type = FieldType::Ground;
     FieldEntity();

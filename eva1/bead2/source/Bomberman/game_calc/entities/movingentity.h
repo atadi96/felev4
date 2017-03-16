@@ -1,6 +1,7 @@
 #ifndef MOVINGENTITY_H
 #define MOVINGENTITY_H
 
+#include <QObject>
 #include <QPointF>
 #include <QRectF>
 #include "entity.h"
@@ -8,6 +9,7 @@
 
 class MovingEntity : public Entity
 {
+    Q_OBJECT
 private:
     float m_speed; // tiles/second
     bool m_moving;
@@ -23,6 +25,9 @@ public:
     bool is_moving() const;
     QRectF hitbox() const;
     const QPoint& direction() const;
+signals:
+    void move(const MovingEntity& sender) const;
+    void face(const MovingEntity& sender) const;
 };
 
 #endif // MOVINGENTITY_H
