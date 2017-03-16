@@ -3,6 +3,7 @@
 [Tantárgy honlapja](http://kto.web.elte.hu/hu/oktatas/ada/)  
 [Gyak példák](http://kto.web.elte.hu/hu/oktatas/ada/gyakorlat/)  
 [Gyak feladatok honlapja](http://zsv.web.elte.hu/ada_files/exercises.txt)
+[Régi ZH feladatsorok](http://zsv.web.elte.hu/ada_regizhk/)
 
 ## Határidők
 
