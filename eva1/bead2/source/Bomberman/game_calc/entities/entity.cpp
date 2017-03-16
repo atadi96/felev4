@@ -3,6 +3,14 @@
 Entity::Entity(){
 }
 
+const QString& Entity::name() const {
+    return m_name;
+}
+
+void Entity::setName(const QString& name) {
+    m_name = name;
+}
+
 Entity::Entity(QPoint pos){
     m_pos = pos;
 }

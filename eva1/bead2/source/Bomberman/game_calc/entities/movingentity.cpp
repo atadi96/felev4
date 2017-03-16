@@ -3,6 +3,7 @@
 #include <QDebug>
 
 MovingEntity::MovingEntity(QPoint pos, float speed) : Entity(pos), m_speed(speed), m_moving(false), m_direction(Direction::None) {
+    m_name = "MovingEntity";
 }
 
 float MovingEntity::speed() const {

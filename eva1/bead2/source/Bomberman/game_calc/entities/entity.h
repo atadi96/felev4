@@ -9,9 +9,12 @@ class Entity
 {
 protected:
     QPoint m_pos;
+    QString m_name = "Entity";
 public:
     Entity();
     Entity(QPoint pos);
+    const QString& name() const;
+    void setName(const QString& name);
     QPoint pos() const;
     void setPos(const QPoint& pos);
     QPoint& rpos();

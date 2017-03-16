@@ -8,8 +8,6 @@
 
 class MovingEntity : public Entity
 {
-protected:
-    //QPoint m_pos;
 private:
     float m_speed; // tiles/second
     bool m_moving;
