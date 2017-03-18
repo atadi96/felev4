@@ -24,7 +24,9 @@ SOURCES += main.cpp\
     game_calc/keyboard/keyboardstate.cpp \
     game_calc/keyboard/keyboard.cpp \
     game_view/sprites/spritesystem.cpp \
-    game_view/sprites/spritesequence.cpp
+    game_view/sprites/spritesequence.cpp \
+    game_calc/entities/enemyentity.cpp \
+    game_calc/entities/playerentity.cpp
 
 HEADERS  += mainwidget.h \
     game_calc/gamecalc.h \
@@ -39,7 +41,9 @@ HEADERS  += mainwidget.h \
     game_calc/keyboard/keyboard.h \
     game_view/sprites/spritesystem.h \
     game_view/sprites/drawable.h \
-    game_view/sprites/spritesequence.h
+    game_view/sprites/spritesequence.h \
+    game_calc/entities/enemyentity.h \
+    game_calc/entities/playerentity.h
 
 FORMS    += mainwidget.ui
 

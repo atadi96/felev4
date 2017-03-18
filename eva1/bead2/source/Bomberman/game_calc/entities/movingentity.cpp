@@ -9,7 +9,8 @@ MovingEntity::MovingEntity(QPoint pos, float speed) : Entity(pos), m_speed(speed
 float MovingEntity::speed() const {
     return m_speed;
 }
-void MovingEntity::visit(EntityHandler& handler, const qint64 current_time) {
+
+void MovingEntity::update(qint64 current_time) {
     if(m_moving) {
         qint64 end_time = m_start_time + (qint64)(1000 / m_speed);
         if(end_time - current_time <= 0) {
@@ -21,7 +22,9 @@ void MovingEntity::visit(EntityHandler& handler, const qint64 current_time) {
             m_interpolation = 1 - (m_speed * (end_time - current_time)) / 1000.0;
         }
     }
+}
 
+void MovingEntity::visit(EntityHandler& handler, const qint64 current_time) {
     handler.accept(*this, current_time);
 }
 

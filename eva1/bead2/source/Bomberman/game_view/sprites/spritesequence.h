@@ -21,7 +21,6 @@ protected:
 public:
     SpriteSequence(QPixmap& pixmap, QSize frame_size, int fps, int start_frame = 0, int frame_count = 0);
     void start(qint64 time);
-    void stop();
     qint64 remaining() const;
     virtual void update(qint64 time) override;
     virtual void draw(QPainter& painter, qint64 time) override;

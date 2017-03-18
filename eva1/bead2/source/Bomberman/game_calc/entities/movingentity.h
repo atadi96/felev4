@@ -20,6 +20,7 @@ public:
     MovingEntity(QPoint pos, float speed);
     float speed() const;
     virtual void visit(EntityHandler& handler, const qint64 current_time) override;
+    virtual void update(qint64 current_time) override;
     void move(const QPoint& direction, const qint64 current_time);
     void face(const QPoint& direction);
     bool is_moving() const;

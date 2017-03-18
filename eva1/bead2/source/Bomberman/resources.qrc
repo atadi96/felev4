@@ -4,7 +4,8 @@
         <file>resources/graphics/map/wall.png</file>
         <file>resources/graphics/characters/player/player.png</file>
         <file>resources/graphics/characters/ghost/ghost0.png</file>
-        <file>resources/graphics/map/ground2.png</file>
-        <file>resources/graphics/map/ground3.png</file>
+        <file>resources/maps/01.map</file>
+        <file>resources/maps/02.map</file>
+        <file>resources/maps/03.map</file>
     </qresource>
 </RCC>

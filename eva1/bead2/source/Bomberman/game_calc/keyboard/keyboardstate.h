@@ -17,7 +17,7 @@ class KeyboardState
 {
 private:
     GameKey m_last_pressed = GameKey::Pause;
-    std::bitset<6> m_pressed_keys;
+    std::bitset<7> m_pressed_keys;
 public:
     KeyboardState();
     bool isKeyDown(GameKey key) const;

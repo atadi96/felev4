@@ -20,6 +20,7 @@ public:
     QPoint pos() const;
     void setPos(const QPoint& pos);
     QPoint& rpos();
+    virtual void update(qint64) {}
     virtual void visit(EntityHandler& handler, const qint64 current_time);
     virtual ~Entity();
 

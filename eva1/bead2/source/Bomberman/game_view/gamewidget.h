@@ -22,13 +22,14 @@ private:
     QPixmap m_player_pixmap;
     QPixmap m_ghost_pixmap;
     float m_scale;
-    Map* m_map;
+    bool m_setup;
     GameCalc* m_game;
 public:
     explicit GameWidget(QWidget *parent = 0);
     virtual void accept(FieldEntity& entity, const qint64 current_time) override;
     virtual void accept(Entity& entity, const qint64 current_time) override;
     virtual void accept(MovingEntity& entity, const qint64 current_time) override;
+    virtual void accept(EnemyEntity& entity, const qint64 current_time) override;
     ~GameWidget();
 
 private:
