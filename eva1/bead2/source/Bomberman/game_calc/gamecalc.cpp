@@ -74,6 +74,14 @@ void GameCalc::update(const qint64 current_time) {
             entity->update(current_time);
             entity->visit(*this, current_time);
         }
+        for(auto entity = m_entities.begin(); entity != m_entities.end(); /* !!! */) {
+            if((*entity)->dead()) {
+                delete (*entity);
+                entity = m_entities.erase(entity);
+            } else {
+                ++entity;
+            }
+        }
         m_play_time = m_play_time.addMSecs(current_time - m_last_update_time);
         m_last_update_time = current_time;
     }
@@ -99,7 +107,9 @@ void GameCalc::accept(MovingEntity& entity, const qint64 current_time) {
         tryMove(entity, Direction::Right, current_time);
     }
     if(state.isKeyDown(GameKey::Fire) && !m_prev_state.isKeyDown(GameKey::Fire)) {
-        m_entities.push_back(new BombEntity(entity.pos(), 5));
+        BombEntity* bomb = new BombEntity(entity.pos(), 5);
+        bomb->activate(current_time);
+        m_entities.push_back(bomb);
     }
 }
 
@@ -132,21 +142,21 @@ void GameCalc::accept(BombEntity& entity, const qint64 current_time) {
             QPointF(entity.pos()) - QPointF(bombrange,bombrange),
             QSizeF(2 * bombrange + 1, 2 * bombrange + 1)
         );
-        for(auto entity = m_entities.begin(); entity != m_entities.end(); /*!!!*/) {
+        for(auto entity = m_entities.begin(); entity != m_entities.end(); ++entity) {
             if(EnemyEntity* enemy = dynamic_cast<EnemyEntity*>(*entity)) {
-                ++this->m_defeated_num;
-                enemy->kill();
-                entity = m_entities.erase(entity);
-            } else if(*entity == m_player) {
+                if(enemy->hitbox().intersects(hitbox)) {
+                    ++this->m_defeated_num;
+                    enemy->kill();
+                }
+            } else if(*entity == m_player && m_player->hitbox().intersects(hitbox)) {
                 m_player_alive = false;
                 qDebug("The player has been bombed!");
                 (*entity)->kill();
-                ++entity;
-            } else {
-                (*entity)->kill();
-                entity = m_entities.erase(entity);
+            } else if(BombEntity* bombEntity = dynamic_cast<BombEntity*>(*entity)) {
+                if(hitbox.intersects(QRectF(bombEntity->pos(), QSizeF(1,1)))) {
+                    (*entity)->kill();
+                }
             }
-
         }
     }
 }
@@ -157,7 +167,6 @@ void GameCalc::accept(Entity&, const qint64) {
 }
 
 void GameCalc::die(Entity &entity) {
-    entity.deleteLater();
 }
 
 GameCalc::~GameCalc() {

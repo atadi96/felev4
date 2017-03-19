@@ -33,7 +33,8 @@ void GameWidget::paintEvent(QPaintEvent *event) {
             (*entity)->visit(*this, current_time);
         }
     }
-    for(auto entity = m_game->entities().begin(); entity != m_game->entities().end(); ++entity) {
+    std::list<Entity*> entites(m_game->entities());
+    for(auto entity = entites.begin(); entity != entites.end(); ++entity) {
         (*entity)->visit(*this, current_time);
     }
 

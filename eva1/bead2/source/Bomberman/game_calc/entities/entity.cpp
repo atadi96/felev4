@@ -27,7 +27,12 @@ void Entity::setPos(const QPoint& pos) {
     m_pos = pos;
 }
 
+bool Entity::dead() const {
+    return m_dead;
+}
+
 void Entity::kill() {
+    m_dead = true;
     emit die(*this);
 }
 

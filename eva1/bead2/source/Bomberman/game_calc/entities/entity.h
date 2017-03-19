@@ -12,6 +12,7 @@ class Entity : public QObject
 protected:
     QPoint m_pos;
     QString m_name = "Entity";
+    bool m_dead = false;
 public:
     Entity();
     Entity(QPoint pos);
@@ -19,6 +20,7 @@ public:
     void setName(const QString& name);
     QPoint pos() const;
     void setPos(const QPoint& pos);
+    bool dead() const;
     QPoint& rpos();
     void kill();
     virtual void update(qint64) {}
