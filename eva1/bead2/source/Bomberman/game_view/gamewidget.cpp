@@ -10,6 +10,7 @@ GameWidget::GameWidget(QWidget *parent) : QWidget(parent), m_setup(false)
     if(!m_wall_pixmap.load(":/resources/graphics/map/wall.png")) throw 42;
     if(!m_player_pixmap.load(":/resources/graphics/characters/player/player.png")) throw 42;
     if(!m_ghost_pixmap.load(":/resources/graphics/characters/ghost/ghost0.png")) throw 42;
+    if(!m_bomb_pixmap.load(":/resources/graphics/seal.png")) throw 42;
     m_scale = m_ground_pixmap.size().width();
     m_game = new GameCalc(":/resources/maps/01.map");
     setFixedSize(
@@ -19,6 +20,7 @@ GameWidget::GameWidget(QWidget *parent) : QWidget(parent), m_setup(false)
     m_timer.setInterval(20);
     m_setup = true;
     m_timer.start();
+    qDebug("GameWidget contructor done");
 }
 
 void GameWidget::paintEvent(QPaintEvent *event) {
@@ -89,6 +91,16 @@ void GameWidget::accept(MovingEntity& entity, const qint64) {
     m_painter.drawPixmap(
         scale(entity.hitbox(), m_scale),
         m_player_pixmap
+    );
+}
+
+void GameWidget::accept(BombEntity& entity, const qint64 current_time) {
+    m_painter.drawPixmap(
+        scale(
+            QRectF(entity.pos(), QSizeF(1, 1) ),
+            m_scale
+        ),
+        m_bomb_pixmap
     );
 }
 

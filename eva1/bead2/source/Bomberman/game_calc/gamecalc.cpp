@@ -3,10 +3,14 @@
 GameCalc::GameCalc(const QString& map) {
     m_map = new Map(map);
     m_player = new MovingEntity(m_map->player_pos(), 1.5);
+    //m_entities.reserve(m_map->enemy_pos().size() + 1 + m_map->size().width() * m_map->size().height());
+    m_player->setName("Player");
     m_entities.push_back(m_player);
+    connect(m_player, SIGNAL(die(Entity&)), this, SLOT(die(Entity&)));
     emit spawn(*m_player);
     for(auto it = m_map->enemy_pos().begin(); it != m_map->enemy_pos().end(); ++it) {
         EnemyEntity* entity = new EnemyEntity(*it);
+        entity->setName("Ghost");
         entity->setDesiredDirection(Direction::getRandom());
         m_entities.push_back(entity);
         emit spawn(*entity);
@@ -16,13 +20,14 @@ GameCalc::GameCalc(const QString& map) {
     m_defeated_num = 0;
     m_player_alive = true;
     m_last_update_time = 0;
+    qDebug("GameCalc constructor done");
 }
 
 Map* GameCalc::map () const {
     return m_map;
 }
 
-QVector<Entity*> GameCalc::entities() const {
+std::list<Entity*> GameCalc::entities() const {
     return m_entities;
 }
 
@@ -93,6 +98,9 @@ void GameCalc::accept(MovingEntity& entity, const qint64 current_time) {
     if(state.isKeyDown(GameKey::Right)) {
         tryMove(entity, Direction::Right, current_time);
     }
+    if(state.isKeyDown(GameKey::Fire) && !m_prev_state.isKeyDown(GameKey::Fire)) {
+        m_entities.push_back(new BombEntity(entity.pos(), 5));
+    }
 }
 
 void GameCalc::accept(EnemyEntity& entity, const qint64 current_time) {
@@ -117,9 +125,39 @@ bool GameCalc::canMove(MovingEntity& entity, const QPoint& direction) {
             m_map->field(entity.pos() + direction)->type == FieldType::Ground);
 }
 
+void GameCalc::accept(BombEntity& entity, const qint64 current_time) {
+    if(entity.detonated()) {
+        int bombrange = 3;
+        QRectF hitbox(
+            QPointF(entity.pos()) - QPointF(bombrange,bombrange),
+            QSizeF(2 * bombrange + 1, 2 * bombrange + 1)
+        );
+        for(auto entity = m_entities.begin(); entity != m_entities.end(); /*!!!*/) {
+            if(EnemyEntity* enemy = dynamic_cast<EnemyEntity*>(*entity)) {
+                ++this->m_defeated_num;
+                enemy->kill();
+                entity = m_entities.erase(entity);
+            } else if(*entity == m_player) {
+                m_player_alive = false;
+                qDebug("The player has been bombed!");
+                (*entity)->kill();
+                ++entity;
+            } else {
+                (*entity)->kill();
+                entity = m_entities.erase(entity);
+            }
+
+        }
+    }
+}
+
 
 void GameCalc::accept(Entity&, const qint64) {
     qDebug("GameCalc visited by an Entity");
+}
+
+void GameCalc::die(Entity &entity) {
+    entity.deleteLater();
 }
 
 GameCalc::~GameCalc() {

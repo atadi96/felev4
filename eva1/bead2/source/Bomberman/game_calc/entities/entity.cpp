@@ -27,6 +27,10 @@ void Entity::setPos(const QPoint& pos) {
     m_pos = pos;
 }
 
+void Entity::kill() {
+    emit die(*this);
+}
+
 void Entity::visit(EntityHandler& handler, const qint64 current_time) {
     handler.accept(*this, current_time);
 }

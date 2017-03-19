@@ -21,6 +21,7 @@ private:
     QPixmap m_wall_pixmap;
     QPixmap m_player_pixmap;
     QPixmap m_ghost_pixmap;
+    QPixmap m_bomb_pixmap;
     float m_scale;
     bool m_setup;
     GameCalc* m_game;
@@ -30,6 +31,7 @@ public:
     virtual void accept(Entity& entity, const qint64 current_time) override;
     virtual void accept(MovingEntity& entity, const qint64 current_time) override;
     virtual void accept(EnemyEntity& entity, const qint64 current_time) override;
+    virtual void accept(BombEntity& entity, const qint64 current_time) override;
     ~GameWidget();
 
 private:

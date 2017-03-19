@@ -1,6 +1,6 @@
 #include "enemyentity.h"
 
-EnemyEntity::EnemyEntity(const QPoint& pos) : MovingEntity(pos, 1.5) {
+EnemyEntity::EnemyEntity(const QPoint& pos) : MovingEntity(pos, 1.5), m_desired_direction(0,0) {
 }
 
 void EnemyEntity::visit(EntityHandler& handler, const qint64 current_time) {

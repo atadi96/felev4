@@ -33,17 +33,20 @@ Map::Map(const QString& filename) {
                 case '#': {
                     FieldEntity* entity = new FieldEntity(FieldType::Wall);
                     entity->setPos(QPoint(col, row));
+                    setEntityName(entity, col, row);
                     map_row.push_back(entity);
                     break; }
                 case 'p': {
                     FieldEntity* entity = new FieldEntity(FieldType::Ground);
                     entity->setPos(QPoint(col, row));
+                    setEntityName(entity, col, row);
                     map_row.push_back(entity);
                     m_player_pos = QPoint(col, row);
                     break; }
                 case 'e': {
                     FieldEntity* entity = new FieldEntity(FieldType::Ground);
                     entity->setPos(QPoint(col, row));
+                    setEntityName(entity, col, row);
                     map_row.push_back(entity);
                     m_enemy_poss.push_back(QPoint(col, row));
                     break; }
@@ -51,6 +54,7 @@ Map::Map(const QString& filename) {
                 default: {
                     FieldEntity* entity = new FieldEntity(FieldType::Ground);
                     entity->setPos(QPoint(col, row));
+                    setEntityName(entity, col, row);
                     map_row.push_back(entity);
                     break; }
                 }
@@ -63,6 +67,11 @@ Map::Map(const QString& filename) {
         qDebug(mapFile.errorString().toStdString().c_str());
         throw 42;
     }
+    qDebug("Map constructor done");
+}
+
+void Map::setEntityName(FieldEntity *entity, int col, int row) {
+    entity->setName(QString("Map field ") + QString::number(col) + QString(",") + QString::number(row));
 }
 
 bool Map::contains(const QPoint& point) const {

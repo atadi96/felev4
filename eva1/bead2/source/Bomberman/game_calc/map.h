@@ -31,6 +31,8 @@ public:
     QVector<MapRow>& fields();
     FieldEntity* field(const QPoint& pos) const;
     ~Map();
+private:
+    void setEntityName(FieldEntity* entity, int col, int row);
 
 };
 

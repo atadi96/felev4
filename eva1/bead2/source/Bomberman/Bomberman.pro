@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     game_view/sprites/spritesystem.cpp \
     game_view/sprites/spritesequence.cpp \
     game_calc/entities/enemyentity.cpp \
-    game_calc/entities/playerentity.cpp
+    game_calc/entities/playerentity.cpp \
+    game_calc/entities/bombentity.cpp
 
 HEADERS  += mainwidget.h \
     game_calc/gamecalc.h \
@@ -43,7 +44,8 @@ HEADERS  += mainwidget.h \
     game_view/sprites/drawable.h \
     game_view/sprites/spritesequence.h \
     game_calc/entities/enemyentity.h \
-    game_calc/entities/playerentity.h
+    game_calc/entities/playerentity.h \
+    game_calc/entities/bombentity.h
 
 FORMS    += mainwidget.ui
 

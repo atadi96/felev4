@@ -3,6 +3,8 @@
 #include <QDebug>
 
 MovingEntity::MovingEntity(QPoint pos, float speed) : Entity(pos), m_speed(speed), m_moving(false), m_direction(Direction::None) {
+    m_interpolation = 0;
+    m_start_time = 0;
     m_name = "MovingEntity";
 }
 
@@ -29,10 +31,11 @@ void MovingEntity::visit(EntityHandler& handler, const qint64 current_time) {
 }
 
 QRectF MovingEntity::hitbox() const {
-    return QRectF(
-        QPointF(m_pos) + m_interpolation * QPointF(m_direction),
-        QSizeF(1, 1)
-    );
+    QRectF box(
+       QPointF(m_pos) + m_interpolation * QPointF(m_direction),
+       QSizeF(1, 1)
+   );
+   return box;
 }
 const QPoint& MovingEntity::direction() const {
     return m_direction;

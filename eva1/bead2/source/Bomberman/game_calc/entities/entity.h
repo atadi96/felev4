@@ -20,12 +20,13 @@ public:
     QPoint pos() const;
     void setPos(const QPoint& pos);
     QPoint& rpos();
+    void kill();
     virtual void update(qint64) {}
     virtual void visit(EntityHandler& handler, const qint64 current_time);
     virtual ~Entity();
 
 signals:
-    void die(const Entity&) const;
+    virtual void die(const Entity&) const;
 };
 
 #endif // ENTITY_H

@@ -7,5 +7,6 @@
         <file>resources/maps/01.map</file>
         <file>resources/maps/02.map</file>
         <file>resources/maps/03.map</file>
+        <file>resources/graphics/seal.png</file>
     </qresource>
 </RCC>
