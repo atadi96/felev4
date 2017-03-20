@@ -34,3 +34,8 @@ Bejelentkezés neptunkóddal
 ### 5. gyakorlat
 
 [Órai feladatok](http://people.inf.elte.hu/vopraai/adatb17/5.ora/feladat.txt)
+
+### 6. gyakorlat
+
+[Jó algebra jegyzet (elvileg?)](https://immanuel60.hu/adatbazisok-jegyzet-elte/)  
+
