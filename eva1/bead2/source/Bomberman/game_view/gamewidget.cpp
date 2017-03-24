@@ -47,13 +47,13 @@ void GameWidget::paintEvent(QPaintEvent *event) {
     m_painter.drawText(textRect, Qt::AlignLeft, QString::fromUtf8("Time: ") + m_game->playTime().toString("mm:ss"));
     m_painter.drawText(textRect, Qt::AlignRight, "Enemies: " + QString::number(m_game->enemyNum() - m_game->defeatedNum()));
     if(m_game->paused()) {
-        m_painter.drawText(rect(), Qt::AlignCenter, "-- PAUSED --");
+        m_painter.drawText(rect(), Qt::AlignCenter, "-- PAUSED --\nClose the window to\nreturn to the menu");
     }
     if(m_game->isOver()) {
         if(m_game->won()) {
-            m_painter.drawText(rect(), Qt::AlignCenter, "-- YOU WIN! --");
+            m_painter.drawText(rect(), Qt::AlignCenter, "-- YOU WIN! --\nPress ESC to\nreturn to the menu");
         } else {
-            m_painter.drawText(rect(), Qt::AlignCenter, "-- YOU LOST! --");
+            m_painter.drawText(rect(), Qt::AlignCenter, QString::fromUtf8("-- YOU LOST! --\nPress ESC to\nreturn to the menu"));
         }
     }
     m_painter.end();
