@@ -10,10 +10,7 @@ begin
     for I in reverse Index'Succ(A'First) .. A'Last loop
         for J in A'First .. Index'Pred(I) loop
             if A(Index'Succ(J)) < A(J) then
-                --Swap(A(J), A(Index'Succ(J)));
-                Temp := A(J);
-                A(J) := A(Index'Succ(J));
-                A(Index'Succ(J)) := Temp;
+                Swap(A(J), A(Index'Succ(J)));
             end if;
         end loop;
     end loop;

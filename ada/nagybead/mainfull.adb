@@ -29,9 +29,11 @@ procedure mainFull is
             SortT(Input);
             for I in Input'Range loop
                 if Input(I) /= Output(I) then
+                    Put("Sort Fail"); New_Line(1);
                     return false;
                 end if;
             end loop;
+            Put("Sort Pass"); New_Line(1);
             return true;
         exception
             when others => return false;
@@ -87,34 +89,42 @@ procedure mainFull is
             People_Temp_2 : People_Array(1..3);
             People_Temp_3 : People_Array(1..2);
         begin
+            Put("All Sorts Passed"); New_Line(1);
             if not People_Tables_Test then
                 return False;
             end if;
+            Put("People_Tables_Test Passed"); New_Line(1);
             if People_Tables.Size(People_5) /= 5 then
                 return false;
             end if;
+            Put("People_Tables.Size Passed"); New_Line(1);
             Where1(People_5, People_Temp_1,Temp);
             if Temp /= 4 then
                 return false;
             end if;
+            Put("Where1 length Passed"); New_Line(1);
             for I in Positive range 1..4 loop
                 if People_Temp_1(I).Kor /= (I+1)*3+5 or People_Temp_1(I).Money /= (I+1)*200+10000 then
                     return false;
                 end if;
             end loop;
+            Put("Where1 Passed"); New_Line(1);
             Where2(People_5, People_Temp_2,Temp);
             if Temp /= 3 then
                 return false;
             end if;
+            Put("Where2 Length Passed"); New_Line(1);
             for I in Positive range 1..3 loop
                 if People_Temp_2(I).Kor /= I*3+5 or People_Temp_2(I).Money /= I*200+10000 then
                     return false;
                 end if;
             end loop;
+            Put("Where2 People_Temp_2 Passed"); New_Line(1);
             Where2(People_5, People_Temp_3,Temp);
             if Temp /= 3 then
                 return false;
             end if;
+            Put("Where2 Temp_3 Length Passed"); New_Line(1);
             Sort1(People_5);
             People_Temp := People_Tables.Get_Table(People_5);
             for I in Positive range 1..5 loop
@@ -125,6 +135,7 @@ procedure mainFull is
             return true;
         end People_Where_Test;
     begin
+        Put("Starting tests"); New_Line(1);
         return
             Correct(Sort_Asc'Access, Int_Array_First,Int_Array_First_Asc) and then
             Correct(Sort_Desc'Access, Int_Array_First,Int_Array_First_Desc) and then

@@ -11,4 +11,4 @@ table: tables.ads tables.adb maintable.adb
 	gnatmake maintable && ./maintable
 
 clean:
-	gnatclean
+	gnatclean -c ./*
