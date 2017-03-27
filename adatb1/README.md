@@ -19,6 +19,19 @@
 
 Bejelentkezés neptunkóddal
 
+## Fontos függvények
+
+```
+FLOOR
+CEIL
+ROUND
+UPPER
+LOWER
+NVL(JUTALÉK, 0) + FIZ
+LIKE '_%'
+TO_DATE('2016.01.01', 'YYYY.MM.DD') - TO_DATE('2017-03-27', 'YYYY-MM-DD') + 1
+```
+
 ### 2. gyakorlat
 
 [Óra diák és feladatok](http://people.inf.elte.hu/nikovits/AB1/)
@@ -38,4 +51,8 @@ Bejelentkezés neptunkóddal
 ### 6. gyakorlat
 
 [Jó algebra jegyzet (elvileg?)](https://immanuel60.hu/adatbazisok-jegyzet-elte/)  
+
+### 7. gyakorlat
+
+[Órai feladatok](http://people.inf.elte.hu/vopraai/adatb17/7.ora/feladat.pdf)
 
