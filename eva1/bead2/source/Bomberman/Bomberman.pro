@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     game_view/sprites/spritesequence.cpp \
     game_calc/entities/enemyentity.cpp \
     game_calc/entities/playerentity.cpp \
-    game_calc/entities/bombentity.cpp
+    game_calc/entities/bombentity.cpp \
+    game_view/sprites/pixmapentitysprite.cpp
 
 HEADERS  += mainwidget.h \
     game_calc/gamecalc.h \
@@ -45,7 +46,8 @@ HEADERS  += mainwidget.h \
     game_view/sprites/spritesequence.h \
     game_calc/entities/enemyentity.h \
     game_calc/entities/playerentity.h \
-    game_calc/entities/bombentity.h
+    game_calc/entities/bombentity.h \
+    game_view/sprites/pixmapentitysprite.h
 
 FORMS    += mainwidget.ui
 
