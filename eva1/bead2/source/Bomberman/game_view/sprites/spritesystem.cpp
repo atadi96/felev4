@@ -15,3 +15,4 @@ void SpriteSystem::accept(MovingEntity& entity, const qint64 current_time) {}
 void SpriteSystem::accept(EnemyEntity& entity, const qint64 current_time) {}
 void SpriteSystem::accept(BombEntity& entity, const qint64 current_time) {}
 void SpriteSystem::accept(Entity& entity, const qint64 current_time) {}
+

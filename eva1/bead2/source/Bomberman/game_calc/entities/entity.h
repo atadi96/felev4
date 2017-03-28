@@ -28,7 +28,7 @@ public:
     virtual ~Entity();
 
 signals:
-    virtual void die(const Entity&) const;
+    void die(const Entity&) const;
 };
 
 #endif // ENTITY_H

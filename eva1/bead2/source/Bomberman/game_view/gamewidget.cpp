@@ -2,14 +2,14 @@
 #include "game_calc/keyboard/keyboard.h"
 #include <QDateTime>
 
-GameWidget::GameWidget(QWidget *parent) : QWidget(parent), m_setup(false)
+GameWidget::GameWidget(QWidget *parent) : QWidget(parent), m_ghost_sprite_sheet(&m_ghost_pixmap), m_player_sprite_sheet(&m_player_pixmap), m_setup(false)
 {
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(updateGame()));
     setFocusPolicy(Qt::StrongFocus);
     if(!m_ground_pixmap.load(":/resources/graphics/map/ground.png")) throw 42;
     if(!m_wall_pixmap.load(":/resources/graphics/map/wall.png")) throw 42;
-    if(!m_player_pixmap.load(":/resources/graphics/characters/player/player.png")) throw 42;
-    if(!m_ghost_pixmap.load(":/resources/graphics/characters/ghost/ghost0.png")) throw 42;
+    if(!m_player_pixmap.load(":/resources/graphics/characters/player/player_sheet.png")) throw 42;
+    if(!m_ghost_pixmap.load(":/resources/graphics/characters/ghost/ghost_sheet.png")) throw 42;
     if(!m_bomb_pixmap.load(":/resources/graphics/seal.png")) throw 42;
     m_scale = m_ground_pixmap.size().width();
     m_game = new GameCalc(":/resources/maps/01.map");
@@ -51,9 +51,9 @@ void GameWidget::paintEvent(QPaintEvent *event) {
     }
     if(m_game->isOver()) {
         if(m_game->won()) {
-            m_painter.drawText(rect(), Qt::AlignCenter, "-- YOU WIN! --\nPress ESC to\nreturn to the menu");
+            m_painter.drawText(rect(), Qt::AlignCenter, "-- YOU WIN! --\nPress ESC to\nClose the window to\nreturn to the menu");
         } else {
-            m_painter.drawText(rect(), Qt::AlignCenter, QString::fromUtf8("-- YOU LOST! --\nPress ESC to\nreturn to the menu"));
+            m_painter.drawText(rect(), Qt::AlignCenter, QString::fromUtf8("-- YOU LOST! --\nClose the window to\nreturn to the menu"));
         }
     }
     m_painter.end();
@@ -83,7 +83,8 @@ void GameWidget::accept(FieldEntity& entity, const qint64) {
 void GameWidget::accept(EnemyEntity& entity, const qint64) {
     m_painter.drawPixmap(
         scale(entity.hitbox(), m_scale),
-        m_ghost_pixmap
+        m_ghost_pixmap,
+        m_ghost_sprite_sheet.sourceRectForDirection(entity.direction())
     );
 }
 
@@ -91,11 +92,12 @@ void GameWidget::accept(EnemyEntity& entity, const qint64) {
 void GameWidget::accept(MovingEntity& entity, const qint64) {
     m_painter.drawPixmap(
         scale(entity.hitbox(), m_scale),
-        m_player_pixmap
+        m_player_pixmap,
+        m_player_sprite_sheet.sourceRectForDirection(entity.direction())
     );
 }
 
-void GameWidget::accept(BombEntity& entity, const qint64 current_time) {
+void GameWidget::accept(BombEntity& entity, const qint64) {
     m_painter.drawPixmap(
         scale(
             QRectF(entity.pos(), QSizeF(1, 1) ),

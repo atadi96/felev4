@@ -25,7 +25,7 @@ public:
 signals:
 
 public slots:
-    void spawn(Entity& entity) {}
+    void spawn(Entity&) {}
 };
 
 #endif // SPRITESYSTEM_H

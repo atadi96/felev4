@@ -2,11 +2,11 @@
     <qresource prefix="/">
         <file>resources/graphics/map/ground.png</file>
         <file>resources/graphics/map/wall.png</file>
-        <file>resources/graphics/characters/player/player.png</file>
-        <file>resources/graphics/characters/ghost/ghost0.png</file>
         <file>resources/maps/01.map</file>
         <file>resources/maps/02.map</file>
         <file>resources/maps/03.map</file>
         <file>resources/graphics/seal.png</file>
+        <file>resources/graphics/characters/ghost/ghost_sheet.png</file>
+        <file>resources/graphics/characters/player/player_sheet.png</file>
     </qresource>
 </RCC>

@@ -166,7 +166,7 @@ void GameCalc::accept(Entity&, const qint64) {
     qDebug("GameCalc visited by an Entity");
 }
 
-void GameCalc::die(Entity &entity) {
+void GameCalc::die(Entity&) {
 }
 
 GameCalc::~GameCalc() {

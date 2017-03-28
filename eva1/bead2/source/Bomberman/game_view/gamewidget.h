@@ -10,6 +10,7 @@
 #include "../game_calc/gamecalc.h"
 #include "../game_calc/map.h"
 #include "../game_calc/entities/entityhandler.h"
+#include "directionalpixmap.h"
 
 class GameWidget : public QWidget, public EntityHandler
 {
@@ -22,6 +23,9 @@ private:
     QPixmap m_player_pixmap;
     QPixmap m_ghost_pixmap;
     QPixmap m_bomb_pixmap;
+    DirectionalPixmap m_ghost_sprite_sheet;
+    DirectionalPixmap m_player_sprite_sheet;
+
     float m_scale;
     bool m_setup;
     GameCalc* m_game;
