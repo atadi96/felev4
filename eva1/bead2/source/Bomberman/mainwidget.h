@@ -2,6 +2,9 @@
 #define MAINWIDGET_H
 
 #include <QWidget>
+#include <QPushButton>
+#include <QLabel>
+#include <QVBoxLayout>
 #include "game_view/gamewidget.h"
 
 namespace Ui {
@@ -17,8 +20,20 @@ public:
     ~MainWidget();
 
 private:
+    QLabel* label;
+    QPushButton* storageButton;
+    QPushButton* meadowButton;
+    QPushButton* ruinsButton;
+    QVBoxLayout* vBoxLayout;
     Ui::MainWidget *ui;
-    GameWidget *gw;
+
+    void setupButton(QPushButton*& button, const char* text);
+    void clearWidget(QWidget* widget);
+
+private slots:
+    void storageClick(bool);
+    void meadowClick(bool);
+    void ruinsClick(bool);
 };
 
 #endif // MAINWIDGET_H

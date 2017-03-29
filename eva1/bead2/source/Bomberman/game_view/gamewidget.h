@@ -2,6 +2,7 @@
 #define GAMEWIDGET_H
 
 #include <QWidget>
+#include <QDialog>
 #include <QTimer>
 #include <QPainter>
 #include <QPixmap>
@@ -12,7 +13,7 @@
 #include "../game_calc/entities/entityhandler.h"
 #include "directionalpixmap.h"
 
-class GameWidget : public QWidget, public EntityHandler
+class GameDialog : public QDialog, public EntityHandler
 {
     Q_OBJECT
 private:
@@ -30,13 +31,13 @@ private:
     bool m_setup;
     GameCalc* m_game;
 public:
-    explicit GameWidget(QWidget *parent = 0);
+    explicit GameDialog(QString mapName, QWidget *parent = 0);
     virtual void accept(FieldEntity& entity, const qint64 current_time) override;
     virtual void accept(Entity& entity, const qint64 current_time) override;
     virtual void accept(MovingEntity& entity, const qint64 current_time) override;
     virtual void accept(EnemyEntity& entity, const qint64 current_time) override;
     virtual void accept(BombEntity& entity, const qint64 current_time) override;
-    ~GameWidget();
+    ~GameDialog();
 
 private:
     QRect scale(const QRectF& hitbox, float scale) const;

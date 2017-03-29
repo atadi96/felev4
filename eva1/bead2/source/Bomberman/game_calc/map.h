@@ -14,6 +14,7 @@ typedef QVector<FieldEntity*> MapRow;
 class Map
 {
 private:
+    QString m_name;
     QSize m_size;
     QRect m_bounds;
     QVector<MapRow> m_fields;
@@ -22,6 +23,7 @@ private:
 public:
     Map(int width, int height);
     Map(const QString& filename);
+    QString name() const;
     bool contains(const QPoint& point) const;
     bool contains(int x, int y) const;
     const QPoint& player_pos() const;

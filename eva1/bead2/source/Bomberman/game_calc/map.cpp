@@ -18,6 +18,7 @@ Map::Map(const QString& filename) {
     QFile mapFile(filename);
     if(mapFile.open(QIODevice::ReadOnly)) {
         QTextStream in(&mapFile);
+        m_name = in.readLine();
         int width, height;
         in >> width;
         in >> height;
@@ -68,6 +69,10 @@ Map::Map(const QString& filename) {
         throw 42;
     }
     qDebug("Map constructor done");
+}
+
+QString Map::name() const {
+    return m_name;
 }
 
 void Map::setEntityName(FieldEntity *entity, int col, int row) {
