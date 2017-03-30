@@ -1,4 +1,5 @@
 #include "direction.h"
+#include "time.h"
 
 const QPoint Direction::None = QPoint(0, 0);
 const QPoint Direction::Up = QPoint(0, -1);

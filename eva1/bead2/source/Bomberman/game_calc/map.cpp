@@ -30,7 +30,7 @@ Map::Map(const QString& filename) {
             QString line = in.readLine();
             int col = 0;
             for(auto it = line.begin(); col < width && it != line.end(); ++it) {
-                switch(it->toAscii()) {
+                switch(it->unicode()) {
                 case '#': {
                     FieldEntity* entity = new FieldEntity(FieldType::Wall);
                     entity->setPos(QPoint(col, row));
