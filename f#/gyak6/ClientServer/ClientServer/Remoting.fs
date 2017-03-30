@@ -4,9 +4,16 @@ open WebSharper
 
 module Server =
 
+    let username = "poi"
+    let password = "987"
+
     [<Rpc>]
-    let DoSomething input =
-        let R (s: string) = System.String(Array.rev(s.ToCharArray()))
+    let Login (logindata: Model.LoginInfo) =
         async {
-            return R input
+            let ctx = Web.Remoting.GetContext()
+            if logindata.Username = username && logindata.Password = password then
+                do! ctx.UserSession.LoginUser (username, true)
+                return Some ()
+            else
+                return None
         }

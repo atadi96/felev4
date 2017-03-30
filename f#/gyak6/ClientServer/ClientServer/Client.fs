@@ -9,18 +9,32 @@ open WebSharper.UI.Next.Html
 [<JavaScript>]
 module Client =
 
-    let Main () =
-        let rvInput = Var.Create ""
-        let submit = Submitter.CreateOption rvInput.View
-        let vReversed =
-            submit.View.MapAsync(function
-                | None -> async { return "" }
-                | Some input -> Server.DoSomething input
-            )
-        div [
-            Doc.Input [] rvInput
-            Doc.Button "Send" [] submit.Trigger
-            hr []
-            h4Attr [attr.``class`` "text-muted"] [text "The server responded:"]
-            divAttr [attr.``class`` "jumbotron"] [h1 [textView vReversed]]
-        ]
+    type LoginTemplate = Templating.Template<"./login.html">
+
+    let login (uname: IRef<string>) (passwd: IRef<string>) el ev = 
+        async {
+            let uname = View.GetAsync uname.View
+            let pw = View.GetAsync pw.View
+            let li = 
+                {
+                    Username = uname
+                    Password = pw
+                } : Model.LoginInfo
+            let login = Server.Login li
+            match login with
+            | None -> JS.Alert("Invalid login data!")
+            | Some u -> JS.Window.Location.Replace("https://google.com")
+            return ()
+        }
+        |> Async.Start
+
+    let Main (uname: string option) =
+        let rvUName = Var.Create ""
+        let rvPassword = Var.Create ""
+        let loggedin = defaultArg uname ""
+        LoginTemplate.Login()
+            .LoggedIn(loggedin)
+            .UName(rvUname)
+            .Password(rvPassword)
+            .SignIn(login rvUname rvPassword)
+            .Doc()

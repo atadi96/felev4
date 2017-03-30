@@ -37,10 +37,10 @@ module Templating =
 module Site =
     open WebSharper.UI.Next.Html
 
-    let HomePage ctx =
+    let HomePage ctx uname =
         Templating.Main ctx EndPoint.Home "Home" [
             h1 [text "Say Hi to the server!"]
-            div [client <@ Client.Main() @>]
+            div [client <@ Client.Main uname @>]
         ]
 
     let AboutPage ctx =
@@ -51,8 +51,11 @@ module Site =
 
     [<Website>]
     let Main =
-        Application.MultiPage (fun ctx endpoint ->
-            match endpoint with
-            | EndPoint.Home -> HomePage ctx
-            | EndPoint.About -> AboutPage ctx
+        Application.MultiPage (fun (ctx: Context<EndPoint>) endpoint ->
+            async {
+                let! uname = ctx.UserSession.GetLoggedInUser()
+                match endpoint with
+                | EndPoint.Home -> HomePage ctx uname
+                | EndPoint.About -> AboutPage ctx
+            }
         )
