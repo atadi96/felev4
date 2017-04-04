@@ -21,7 +21,7 @@ function delegate(pSel, type, cSel, fn) {
     }, false);
 }
 
-// Adatszerkezetek
+// Adatszerkezetek *******************************************************************************************
 
 UnitType = Object.freeze({
     None: 0,
@@ -112,8 +112,8 @@ function Unit(unitType, rotation, moveable, rotateable) {
         return this;
     }
     this.toHTML = function() {
-        let html = '<div ' + (this.moveable ? 'draggable="true"' : "") + '" class="mirror-class">';
-        html += '<img src="' + UnitType.picture(this.unitType) + '">';
+        let html = '<div ' + (this.moveable ? 'draggable="true"' : "") + ' class="mirror-class">';
+        html += '<img draggable="false" src="' + UnitType.picture(this.unitType) + '">';
         if(!this.rotateable) {
             html += '<span class="locked">🔒</span>';
         }
@@ -121,19 +121,23 @@ function Unit(unitType, rotation, moveable, rotateable) {
         return html;
     }
     this.clockwise = function() {
-        let self = this;
-        self.rotation = Rotation.clockwise(self.rotation);
-        self.updateHTML();
+        if(this.rotateable) {
+            this.rotation = Rotation.clockwise(this.rotation)
+        };
+        this.updateHTML();
     }
     this.counterClockwise = function() {
-        let self = this;
-        self.rotation = Rotation.counterClockwise(self.rotation);
-        self.updateHTML();
+        if(this.rotateable) {
+            this.rotation = Rotation.counterClockwise(this.rotation)
+        };
+        this.updateHTML();
     }
 }
 
 function GameMap(selector) {
     this.element = $(selector);
+    this.laser = undefined;
+    this.unitMap = [];
     this.getField = function(x, y) { 
         if(y === undefined) { //ez confirmed működik 👌
             y = x.y;
@@ -143,25 +147,129 @@ function GameMap(selector) {
     }
     this.addUnit = function(unit, x, y) {
         unit.attachTo(this.getField(x,y));
+        this.unitMap[x][y] = unit;
+        if(unit.unitType == UnitType.Laser) {
+            this.laser = unit;
+        }
         return this;
     }
-    setupGameField(this.element);
 
-    function setupGameField(gamefield) {
+    function setupGameField(gameMap, selector) {
+        let mapSize = 5;
+        let gamefield = $(selector);
         let tableHTML = "";
-        for(i = 0; i < 5; i++) {
+        for(i = 0; i < mapSize; i++) {
+            gameMap.unitMap[i] = new Array(mapSize);
             let row = "<tr>";
-            for(j = 0; j < 5; j++) {
+            for(j = 0; j < mapSize; j++) {
                 row += "<td></td>";
+                gameMap.unitMap[i][j] = null;
             }
             row += "</tr>";
             tableHTML += row;
         }
         gamefield.innerHTML = tableHTML;
+        delegate(selector, "click", "td", createFieldClick(gameMap));
+    }
+
+    function createFieldClick(gameMap) {
+        return function(e) {
+            if(e.delegatedTarget.querySelector(".mirror-class") !== null) {
+                let pos = (function(td) { return {x: td.cellIndex, y: td.parentNode.sectionRowIndex}; })(e.delegatedTarget);
+                gameMap.unitMap[pos.x][pos.y].clockwise();
+            }
+        }
+    }
+
+    setupGameField(this, selector);
+}
+/*
+function createDragHandler(canDropPredicate, dragLeavePredicate) {
+    return Object.freeze({
+        dragData: null,
+        getCoord: function(td) {
+            let x =  td.cellIndex;
+            let tr = td.parentNode;
+            let y =  tr.sectionRowIndex;
+            return {
+                x: x,
+                y: y
+            };
+        },
+        onDragStart: (function () {
+            let self = this;
+            return function(e) {
+                const dragObject = e.target;
+                const td = dragObject.parentNode;
+                const fromCoord = self.getCoord(td);
+                self.dragData = {
+                    dragObject,
+                    fromCoord
+                }
+                e.dataTransfer.dropEffect = "move";
+            }
+        })(),
+        onDragEnd: function(e) {
+            if(canDropPredicate(e, dragData)) {
+                e.dataTransfer.dropEffect = "move";
+                e.target.classList.add('droppable');
+                e.preventDefault();
+            }
+        },
+        onDragLeave: function(e) {
+            if(dragLeavePredicate(e)) {
+                e.preventDefault();
+                e.target.classList.remove('droppable');
+            }
+        }
+    });
+}*/
+
+function getCoord(td) {
+    let col =  td.cellIndex;
+    let tr = td.parentNode;
+    let row =  tr.sectionRowIndex;
+    return {
+        x: col,
+        y: row
+    };
+}
+
+function onDragOver(e) { //target: aki felett húzzuk
+    if(e.target.matches("td")) {
+        e.preventDefault();
+        e.target.style.backgroundColor = "black";
     }
 }
 
-//HTML generators
+function onDragLeave(e) { //target: aki felett húzzuk
+    if(e.target.matches("td")) {
+        e.preventDefault();
+        e.target.style.backgroundColor = "white";
+    }
+}
+
+let dragData = null;
+
+function onDragStart(e) { //target: akit húzunk
+    dragData = {
+        mirror: e.target,
+        pos: getCoord(e.target.parentNode)
+    };
+}
+
+function createOnDrop(gameMap) {
+    return function(e) {
+        event.preventDefault();
+        e.target.appendChild(dragData.mirror);
+        e.target.style.backgroundColor = "white";
+        let newCoord = getCoord(e.target);
+        gameMap.unitMap[newCoord.x][newCoord.y] = gameMap.unitMap[dragData.pos.x][dragData.pos.y];
+        gameMap.unitMap[dragData.pos.x][dragData.pos.y] = null;
+    }
+}
+
+//HTML generators *********************************************************************************
 
 function setRotation(element, rotation) {
     let value = "rotate(" + Rotation.toDegree(rotation) + "deg)";
@@ -172,10 +280,18 @@ function setRotation(element, rotation) {
     element.style.OTransform = value;
 }
 
-//Running code
+//Running code **************************************************************************************
 
 gameMap = new GameMap("#gamefield");
 
-let myFirstUnit = new Unit(UnitType.Laser, Rotation.down, false, false);
 
-gameMap.addUnit(myFirstUnit, 1, 3);
+gameMap.element.addEventListener("dragstart", onDragStart, false);
+gameMap.element.addEventListener("dragover", onDragOver, false);
+gameMap.element.addEventListener("dragleave", onDragLeave, false);
+gameMap.element.addEventListener("drop", createOnDrop(gameMap), false);
+
+let unit1 = new Unit(UnitType.Laser, Rotation.left, false, false);
+let unit2 = new Unit(UnitType.ExplicitTarget, Rotation.up, true, true);
+
+gameMap.addUnit(unit1, 1, 3);
+gameMap.addUnit(unit2, 0, 2);
