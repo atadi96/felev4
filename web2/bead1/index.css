@@ -1,0 +1,26 @@
+table {
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid black;
+    width: 86px;
+    height: 86px;
+}
+
+img {
+    height: 86px;
+    width: 86px;
+}
+
+.mirror-class {
+    position: relative;
+}
+
+.locked {
+    /*border-radius: 50%;
+    background-color: cornflowerblue;*/
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
