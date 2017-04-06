@@ -2,8 +2,6 @@
 
 %{
 #include <iostream>
-#include <cstdlib>
-#include <string>
 #include "Parserbase.h"
 
 using namespace std;

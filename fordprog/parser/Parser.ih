@@ -8,13 +8,15 @@
 
 inline void Parser::error(char const *msg)
 {
-    std::cerr << msg << '\n';
+    std::cerr << "Line " << d_loc__.first_line << ".: Syntax error." << std::endl; 
+    exit(1);
 }
 
 // $insert lex
 inline int Parser::lex()
 {
-    return d_scanner.lex();
+    d_loc__.first_line = lexer.lineno();
+    return lexer.yylex();
 }
 
 inline void Parser::print()         
