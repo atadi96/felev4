@@ -16,7 +16,7 @@ WS  [ \t\n]
 %%
 
 program     return Parser::PROGRAM;
-begin       return Parser::BEGIN;
+begin       return Parser::TBEGIN;
 skip        return Parser::SKIP;
 end         return Parser::END;
 natural     return Parser::NATURAL;

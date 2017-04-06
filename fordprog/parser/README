@@ -1,0 +1,11 @@
+A szintaktikus elemző lefordítása:
+    make
+
+(Vagy makefile használata nélkül:
+    flex parse-while.l
+    bisonc++ parse-while.y
+    g++ -oparse-while parse-while.cc parse.cc lex.yy.cc
+)
+
+A szintaktikus elemző használata:
+    ./parse-while example_source

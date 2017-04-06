@@ -1,7 +1,7 @@
 %baseclass-preinclude <iostream>
 %lsp-needed
 
-%token PROGRAM BEGIN SKIP END
+%token PROGRAM TBEGIN SKIP END
 %token NATURAL BOOLEAN
 %token TRUE FALSE
 %token NOT
@@ -68,9 +68,9 @@ type
         }
     ;
 
-body: BEGIN statements END
+body: TBEGIN statements END
     {
-        std::cout << "body -> BEGIN statements END" << std::endl;
+        std::cout << "body -> TBEGIN statements END" << std::endl;
     }
 ;
     
@@ -122,7 +122,7 @@ skip: SKIP SEMICOLON
     }
 ;
     
-assignment: IDENTIFIER ASSIGN expr
+assignment: IDENTIFIER ASSIGN expr SEMICOLON
     {
         std::cout << "assignment -> IDENTIFIER ASSIGN expr" << std::endl;
     }
@@ -175,6 +175,10 @@ expr
     | NATURAL_LITERAL
         {
             std::cout << "expr -> NATURAL_LITERAL" << std::endl;
+        }
+    | IDENTIFIER
+        {
+            std::cout << "expr -> IDENTIFIER" << std::endl;
         }
     | expr EQUALS expr
         {
