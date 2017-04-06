@@ -1,0 +1,7 @@
+lex.yy.cc
+Parserbase.h
+parse.cc
+parse-while
+calculate*
+*.ex.*
+
