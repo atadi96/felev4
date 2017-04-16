@@ -11,7 +11,7 @@ function GameMap(
     targetNumSelector,
     mapData
 ) {
-    console.log(mapData.units);
+    let self = this;
     this.gameField = $(gameTableSelector);
     this.laser = undefined;
     this.unitMap = [];
@@ -20,19 +20,17 @@ function GameMap(
             y = x.y;
             x = x.x;
         }
-        return this.element.rows[y].cells[x];
+        return this.gameField.rows[y].cells[x];
     }
     this.addUnit = function(unit, x, y) {
         unit.attachTo(this.getField(x,y));
+        console.log(this.unitMap);
         this.unitMap[x][y] = unit;
         if(unit.unitType == UnitType.Laser) {
             this.laser = unit;
         }
         return this;
     }
-    mapData.units.forEach(function(unitpos) {
-        this.addUnit(unitpos.unit, unitpos.pos);
-    }, this);
 
     function setupGameField(gameMap, selector) {
         let mapSize = 5;
@@ -62,4 +60,7 @@ function GameMap(
     }
 
     setupGameField(this, gameTableSelector);
+    mapData.units.forEach(function(unitpos) {
+        this.addUnit(unitpos.unit, unitpos.pos.x, unitpos.pos.y);
+    }, this);
 }

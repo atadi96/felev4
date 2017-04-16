@@ -138,10 +138,10 @@ gameData = new MapData(
 );
 gameMap = new GameMap("#gamefield", undefined, undefined, gameData);
 
-gameMap.element.addEventListener("dragstart", onDragStart, false);
-gameMap.element.addEventListener("dragover", onDragOver, false);
-gameMap.element.addEventListener("dragleave", onDragLeave, false);
-gameMap.element.addEventListener("drop", createOnDrop(gameMap), false);
+gameMap.gameField.addEventListener("dragstart", onDragStart, false);
+gameMap.gameField.addEventListener("dragover", onDragOver, false);
+gameMap.gameField.addEventListener("dragleave", onDragLeave, false);
+gameMap.gameField.addEventListener("drop", createOnDrop(gameMap), false);
 /*
 let unit1 = new Unit(UnitType.Laser, Rotation.left, false, false);
 let unit2 = new Unit(UnitType.ExplicitTarget, Rotation.up, true, true);
