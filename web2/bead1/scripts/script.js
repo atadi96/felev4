@@ -98,6 +98,15 @@ function onDragStart(e) { //target: akit húzunk
     };
 }
 
+function onSpareDragStart(e) {
+    let pos = getCoord(e.target.parentNode);
+    pos.y = 5;
+    dragData = {
+        mirror: e.target,
+        pos: pos
+    }
+}
+
 function createOnDrop(gameMap) {
     return function(e) {
         event.preventDefault();
@@ -129,19 +138,24 @@ gameData = new MapData(
             pos: {x: 1, y: 3}
         },
         {
-            unit: new Unit(UnitType.ExplicitTarget, Rotation.up, true, true),
+            unit: new Unit(UnitType.ExplicitTarget, Rotation.up, false, true),
             pos: {x: 0, y: 2}
         }
     ],
-    [],
-    0
+    [
+        new Unit(UnitType.Checkpoint, Rotation.right, true, true)
+    ],
+    1
 );
-gameMap = new GameMap("#gamefield", undefined, undefined, gameData);
+gameMap = new GameMap("#gamefield", "#sparefield", "#targetnum", gameData);
 
 gameMap.gameField.addEventListener("dragstart", onDragStart, false);
+gameMap.spareField.addEventListener("dragstart", onSpareDragStart, false);
 gameMap.gameField.addEventListener("dragover", onDragOver, false);
 gameMap.gameField.addEventListener("dragleave", onDragLeave, false);
 gameMap.gameField.addEventListener("drop", createOnDrop(gameMap), false);
+
+console.log(gameMap);
 /*
 let unit1 = new Unit(UnitType.Laser, Rotation.left, false, false);
 let unit2 = new Unit(UnitType.ExplicitTarget, Rotation.up, true, true);

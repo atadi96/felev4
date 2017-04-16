@@ -11,10 +11,6 @@ function GameMap(
     targetNumSelector,
     mapData
 ) {
-    let self = this;
-    this.gameField = $(gameTableSelector);
-    this.laser = undefined;
-    this.unitMap = [];
     this.getField = function(x, y) { 
         if(y === undefined) { //ez confirmed működik 👌
             y = x.y;
@@ -24,7 +20,6 @@ function GameMap(
     }
     this.addUnit = function(unit, x, y) {
         unit.attachTo(this.getField(x,y));
-        console.log(this.unitMap);
         this.unitMap[x][y] = unit;
         if(unit.unitType == UnitType.Laser) {
             this.laser = unit;
@@ -32,24 +27,43 @@ function GameMap(
         return this;
     }
 
-    function setupGameField(gameMap, selector) {
-        let mapSize = 5;
-        let gamefield = $(selector);
-        let tableHTML = "";
-        for(i = 0; i < mapSize; i++) {
-            gameMap.unitMap[i] = new Array(mapSize);
-            let row = "<tr>";
-            for(j = 0; j < mapSize; j++) {
-                row += "<td></td>";
-                gameMap.unitMap[i][j] = null;
-            }
-            row += "</tr>";
-            tableHTML += row;
+    this.gameField = $(gameTableSelector);
+    this.spareField = $(spareTableSelector);
+    this.targetNumDisplay = $(targetNumSelector);
+    this.laser = undefined;
+    this.unitMap = initArray(5, 6, function() { return null; } );
+    this.laserMap = initArray(5, 5, function() { return new Laser(); } )
+
+    let mapSize = 5;
+    let tableHTML = "";
+    for(i = 0; i < mapSize; i++) {
+        let row = "<tr>";
+        for(j = 0; j < mapSize; j++) {
+            row += "<td></td>";
         }
-        gamefield.innerHTML = tableHTML;
-        delegate(selector, "click", "td", createFieldClick(gameMap));
+        row += "</tr>";
+        tableHTML += row;
+    }
+    this.gameField.innerHTML = tableHTML;
+    let spareHTML = "";
+    for(i = 0; i < mapSize; i++) {
+        let row = "<tr><td></td></tr>";
+        spareHTML += row;
+    }
+    this.spareField.innerHTML = spareHTML;
+    this.targetNumDisplay.innerHTML = mapData.targetNum;
+    for(i = 0; i < mapData.spares.length; i++) {
+        mapData.spares[i].attachTo(this.spareField.rows[i].cells[0]);
+        this.unitMap[i][5] = mapData.spares[i];
     }
 
+    delegate(gameTableSelector, "click", "td", createFieldClick(this));
+
+    mapData.units.forEach(function(unitpos) {
+        this.addUnit(unitpos.unit, unitpos.pos.x, unitpos.pos.y);
+    }, this);
+
+    
     function createFieldClick(gameMap) {
         return function(e) {
             if(e.delegatedTarget.querySelector(".mirror-class") !== null) {
@@ -58,9 +72,14 @@ function GameMap(
             }
         }
     }
-
-    setupGameField(this, gameTableSelector);
-    mapData.units.forEach(function(unitpos) {
-        this.addUnit(unitpos.unit, unitpos.pos.x, unitpos.pos.y);
-    }, this);
+    function initArray(x, y, construct) {
+        let myArray = new Array(x);
+        for(i = 0; i < x; i++) {
+            myArray[i] = new Array(y);
+            for(j = 0; j < y; j++) {
+                myArray[i][j] = construct();
+            }
+        }
+        return myArray;
+    }
 }

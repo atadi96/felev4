@@ -1,4 +1,5 @@
 table {
+    display: inline;
     border-collapse: collapse;
 }
 
@@ -23,4 +24,46 @@ img {
     position: absolute;
     top: 0px;
     right: 0px;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+#game {
+    width: 810px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+#gametable {
+    width: 450px;
+    height: 450px;
+}
+
+#sparetable {
+    position: absolute;
+    top: 0px;
+    left: 450px;
+    margin-left: 90px;
+    margin-right: 90px;
+}
+
+#targetnumtable {
+    position: absolute;
+    top: 0px;
+    left: 720px;
+}
+
+#targetnum {
+    font-size: 72px;
+    color: red;
+    text-align: center;
 }

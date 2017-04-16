@@ -40,6 +40,39 @@ function Pos(x, y) {
             return Pos(this.x + x, this.y + y);
         }
     }
+    this.inBounds = function(x, y) {
+        if(y === undefined) {
+            y = x.y;
+            x = x.x;
+        }
+        return 0 <= this.x && this.x < x && 0 <= this.y && this.y < y;
+    }
+}
+
+function Laser() {
+    this.myLasers = 0;
+    this.add = function(rot) {
+        this.myLasers |= 1 << rot;
+    }
+    this.has = function(rot) {
+        return (this.myLasers & (1 << rot)) != 0;
+    }
+    this.reset = function() {
+        this.myLasers = 0;
+    }
+}
+
+function fromRot(r) {
+    switch(r) {
+        case Rotation.up :
+            return new Pos(-1, 0);
+        case Rotation.right :
+            return new Pos(0, 1);
+        case Rotation.down :
+            return new Pos(1, 0);
+        case Rotation.left :
+            return new Pos(0, -1);
+    }
 }
 
 Rotation = Object.freeze({
@@ -55,7 +88,10 @@ Rotation = Object.freeze({
     },
     toDegree: function(r) {
         return r * 90;
-    }
+    },
+    opposite: function(r) {
+        return (r + 2) % 4;
+    },
 });
 
 function Unit(unitType, rotation, moveable, rotateable) {

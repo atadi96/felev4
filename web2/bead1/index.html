@@ -8,10 +8,24 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <main class="container">
+    <main class="container noselect">
         <h1>EXXXPLOOOOOOOSSSIOOOON</h1>
-        <table id="gamefield"> </table>
-        <table id="sparefield"> </table>
+        <div id="game">
+            <table> 
+                <caption>Tábla</caption>
+                <tbody id="gamefield"> </tbody>
+            </table>
+            <table id="sparetable"> 
+                <caption>Hozzáadandó</caption>
+                <tbody id="sparefield"> </tbody>
+            </table>
+            <table id="targetnumtable">
+                <caption>Célok száma</caption>
+                <tr>
+                    <td id="targetnum"></td>
+                </tr>
+            </table>
+        </div>
     </main>
     
     <script src="scripts/unit.js"></script>
