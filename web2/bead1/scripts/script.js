@@ -77,8 +77,10 @@ function getCoord(td) {
 
 function onDragOver(e) { //target: aki felett húzzuk
     if(e.target.matches("td")) {
-        e.preventDefault();
-        e.target.style.backgroundColor = "black";
+        if(e.target.querySelector(".mirror-class") === null) {
+            e.preventDefault();
+            e.target.style.backgroundColor = "black";
+        }
     }
 }
 
