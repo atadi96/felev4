@@ -35,9 +35,9 @@ function Pos(x, y) {
     this.y = y;
     this.plus = function(x, y) {
         if(y === undefined) {
-            return Pos(this.x + x.x, this.y + x.y);
+            return new Pos(this.x + x.x, this.y + x.y);
         } else {
-            return Pos(this.x + x, this.y + y);
+            return new Pos(this.x + x, this.y + y);
         }
     }
     this.inBounds = function(x, y) {
@@ -60,17 +60,20 @@ function Laser() {
     this.reset = function() {
         this.myLasers = 0;
     }
+    this.empty = function() {
+        return this.myLasers == 0;
+    }
 }
 
-function fromRot(r) {
+function rotToDir(r) {
     switch(r) {
-        case Rotation.up :
-            return new Pos(-1, 0);
-        case Rotation.right :
-            return new Pos(0, 1);
-        case Rotation.down :
-            return new Pos(1, 0);
         case Rotation.left :
+            return new Pos(-1, 0);
+        case Rotation.down :
+            return new Pos(0, 1);
+        case Rotation.right :
+            return new Pos(1, 0);
+        case Rotation.up :
             return new Pos(0, -1);
     }
 }
@@ -80,18 +83,24 @@ Rotation = Object.freeze({
     right: 1,
     down: 2,
     left: 3,
+    plus: function(r1, r2) {
+        return (r1 + r2) % 4;
+    },
+    minus: function(r1, r2) {
+        return (r1 - r2 + 4) % 4;
+    },
     clockwise: function(r) {
-        return (r + 1 + 4) % 4;
+        return this.plus(r, 1);
     },
     counterClockwise: function(r) {
-        return (r - 1 + 4) % 4;
+        return this.minus(r, 1);
     },
     toDegree: function(r) {
         return r * 90;
     },
     opposite: function(r) {
-        return (r + 2) % 4;
-    },
+        return this.plus(r, 2);
+    }
 });
 
 function Unit(unitType, rotation, moveable, rotateable) {
@@ -136,5 +145,8 @@ function Unit(unitType, rotation, moveable, rotateable) {
             this.rotation = Rotation.counterClockwise(this.rotation)
         };
         this.updateHTML();
+    }
+    this.calculate = function(laserInDir, myPos, lasers) {
+        return [{pos, rotation}]; //TODO
     }
 }

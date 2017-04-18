@@ -101,8 +101,10 @@ function onDragStart(e) { //target: akit húzunk
 }
 
 function onSpareDragStart(e) {
+    console.log(e.target.parentNode);
     let pos = getCoord(e.target.parentNode);
-    pos.y = 5;
+    console.log(pos);
+    pos.x = 5;
     dragData = {
         mirror: e.target,
         pos: pos
@@ -136,16 +138,18 @@ function setRotation(element, rotation) {
 gameData = new MapData(
     [
         {
-            unit: new Unit(UnitType.Laser, Rotation.left, false, false),
-            pos: {x: 1, y: 3}
+            unit: new Unit(UnitType.Laser, Rotation.down, false, false),
+            pos: new Pos(1, 1)
         },
         {
-            unit: new Unit(UnitType.ExplicitTarget, Rotation.up, false, true),
-            pos: {x: 0, y: 2}
+            unit: new Unit(UnitType.ExplicitTarget, Rotation.right, false, true),
+            pos: new Pos(1, 3)
         }
     ],
     [
-        new Unit(UnitType.Checkpoint, Rotation.right, true, true)
+        new Unit(UnitType.Double, Rotation.up, true, true),
+        new Unit(UnitType.Block, Rotation.up, true, true),
+        new Unit(UnitType.Checkpoint, Rotation.up, true, true)
     ],
     1
 );
@@ -157,10 +161,45 @@ gameMap.gameField.addEventListener("dragover", onDragOver, false);
 gameMap.gameField.addEventListener("dragleave", onDragLeave, false);
 gameMap.gameField.addEventListener("drop", createOnDrop(gameMap), false);
 
-console.log(gameMap);
-/*
-let unit1 = new Unit(UnitType.Laser, Rotation.left, false, false);
-let unit2 = new Unit(UnitType.ExplicitTarget, Rotation.up, true, true);
+$("#clearbutton").addEventListener("click",
+    function() {
+        $("#laserpath").setAttribute("d", "");
+    }
+ , this);
 
-gameMap.addUnit(unit1, 1, 3);
-gameMap.addUnit(unit2, 0, 2);*/
+$("#evalbutton").addEventListener("click",
+    function() {
+        gameMap.evaluate();
+        drawLaser("#laserpath", gameMap);
+    }
+ ,this);
+
+gameMap.evaluate();
+drawLaser("#laserpath", gameMap);
+
+function drawLaser(pathSelector, gameMap) {
+    let laserMap = gameMap.laserMap;
+    let path = "";
+    for(i = 0; i < gameMap.mapSize; i++) {
+        for(j = 0; j < gameMap.mapSize; j++) {
+            for(rot = 0; rot < 4; rot++) {
+                if(laserMap[i][j].has(rot)) {
+                    path += `M ${i*90+45} ${j*90+45}`;
+                    if(rot % 2 == 0) {
+                        path += " v ";
+                    } else {
+                        path += " h ";
+                    }
+                    let dir = 0;
+                    if(rot == Rotation.up || rot == Rotation.left) {
+                        dir = -1;
+                    } else {
+                        dir = 1;
+                    }
+                    path += `${45 * dir} `;
+                }
+            }
+        }
+    }
+    $(pathSelector).setAttribute("d", path);
+}
