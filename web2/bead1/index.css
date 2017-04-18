@@ -37,6 +37,7 @@ img {
 }
 
 #game {
+    display: none;
     width: 810px;
     margin-left: auto;
     margin-right: auto;

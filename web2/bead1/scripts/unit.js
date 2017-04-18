@@ -65,7 +65,7 @@ function Laser() {
     }
 }
 
-function rotToDir(r) {
+function rotToPos(r) {
     switch(r) {
         case Rotation.left :
             return new Pos(-1, 0);

@@ -34,15 +34,13 @@ function GameMap(
                     laser.reset();
             }, this);
         }, this);
-        let laserPath = []//this.laser.calculate(undefined, this.laserPos, this.laserMap); // [{pos, rotation}]
+        let laserPath = [];
 
         let addConditional = 
             (function(laserPath) {
                 return function(fromPos, incomingLaserRot) {
-                    let newPos = fromPos.plus(rotToDir(incomingLaserRot));
-                    if(newPos.inBounds(self.mapSize, self.mapSize) &&
-                    !self.laserMap[newPos.x][newPos.y].has(Rotation.opposite(incomingLaserRot))
-                    ) {
+                    let newPos = fromPos.plus(rotToPos(incomingLaserRot));
+                    if(newPos.inBounds(self.mapSize, self.mapSize)) {
                         laserPath.push({
                             pos: newPos,
                             rotation: Rotation.opposite(incomingLaserRot)
@@ -60,7 +58,7 @@ function GameMap(
         addConditional(this.laserPos, this.laser.rotation);
         
         while(laserPath.length > 0) {
-            if(laserPath[0].pos.inBounds(this.mapSize, this.mapSize)/* && (!this.laserMap[laserPath[0].pos.x][laserPath[0].pos.y].has(laserPath[0].rotation))*/) {
+            if(laserPath[0].pos.inBounds(this.mapSize, this.mapSize)) {
                 let field = laserPath[0];
                 if(this.getField(field.pos).querySelector(".mirror-class") === null) {
                     this.laserMap[field.pos.x][field.pos.y].add(field.rotation);
@@ -72,14 +70,10 @@ function GameMap(
                     let unit = this.unitMap[pos.x][pos.y];
                     let self = this;
                     switch(unit.unitType) {
-                        case UnitType.None:
-                            break;
-                        case UnitType.Laser:
-                            break;
-                        case UnitType.Target:
+                        case UnitType.Target:  //******************************************************* Target, ExplicitTarget
                         case UnitType.ExplicitTarget: {
                             let rot = Rotation.minus(inRot, unit.rotation);
-                            if((rot == Rotation.down || rot == Rotation.left) && noLaserAt(pos, inRot)) {
+                            if(rot == Rotation.down || rot == Rotation.left) {
                                 let mirrorRot = 0;
                                 if(rot == Rotation.down) {
                                     mirrorRot = Rotation.left;
@@ -93,24 +87,35 @@ function GameMap(
                                 addConditional(pos, mirrorRot);
                             }}
                             break;
-                        case UnitType.Semi:
-                            break;
-                        case UnitType.Double: {
+                        case UnitType.Semi:{ //********************************************************* Semi
                             let rot = Rotation.minus(inRot, unit.rotation);
-                            if(noLaserAt(pos, inRot)) {
-                                let mirrorRot = 3 - rot;
-                                mirrorRot = Rotation.plus(mirrorRot, unit.rotation);
+                            let mirrorRot = Rotation.plus(3 - rot, unit.rotation);
+                            let thruRot = Rotation.plus(Rotation.opposite(rot), unit.rotation);
+                            if(noLaserAt(pos, inRot) || noLaserAt(pos, mirrorRot) || noLaserAt(pos, thruRot)) {
                                 this.laserMap[pos.x][pos.y].add(inRot);
                                 this.laserMap[pos.x][pos.y].add(mirrorRot);
+                                this.laserMap[pos.x][pos.y].add(thruRot);
                                 addConditional(pos, mirrorRot);
+                                addConditional(pos, thruRot);
                             }}
                             break;
-                        case UnitType.Checkpoint:
+                        case UnitType.Double: { //****************************************************** Double
+                            let rot = Rotation.minus(inRot, unit.rotation);
+                            let mirrorRot = 3 - rot;
+                            mirrorRot = Rotation.plus(mirrorRot, unit.rotation);
+                            this.laserMap[pos.x][pos.y].add(inRot);
+                            this.laserMap[pos.x][pos.y].add(mirrorRot);
+                            addConditional(pos, mirrorRot);
+                            }
+                            break;
+                        case UnitType.Checkpoint: //***************************************************** Checkpoint, Block
                         case UnitType.Block:
                             this.laserMap[pos.x][pos.y].add(inRot);
                             this.laserMap[pos.x][pos.y].add(Rotation.opposite(inRot));
                             addConditional(pos, Rotation.opposite(inRot));
                             break;
+                        case UnitType.None:
+                        case UnitType.Laser:
                         default:
                             break;
                     }
@@ -118,9 +123,41 @@ function GameMap(
             }
             laserPath.shift();
         }
-        /*this.laserMap[0][1].add(0);
-        this.laserMap[0][1].add(1);*/
         this.laserMap[this.laserPos.x][this.laserPos.y].add(this.laser.rotation);
+
+        //check the win condition
+        let allExplicit = true;
+        let hitTargets = 0;
+        let allUsed = true;
+        let noSpares = true;
+        for(y = 0; y < this.mapSize; y++) {
+            for(x = 0; x < this.mapSize; x++) {
+                if(this.unitMap[x][y] !== null) {
+                    let unit = this.unitMap[x][y];
+                    if(unit.unitType == UnitType.Target || unit.unitType == UnitType.ExplicitTarget) { //it's a targetable unit
+                        let prevField = (new Pos(x, y)).plus(rotToPos(unit.rotation));
+                        if(prevField.inBounds(this.mapSize, this.mapSize) &&
+                            this.laserMap[prevField.x][prevField.y].has(Rotation.opposite(unit.rotation))
+                        ) { //the target mark was hit on this unit
+                            hitTargets += 1;
+                            allUsed = allUsed && true;
+                            allExplicit = allExplicit && true;
+                        } else { //the target mark was not hit on this unit
+                            allUsed = allUsed && !this.laserMap[x][y].empty();
+                            allExplicit = allExplicit && (unit.unitType == UnitType.Target);
+                        }
+                    } else { //it's not a targetable unit
+                        allUsed = allUsed && (
+                            unit.unitType == UnitType.Laser ||
+                            unit.unitType == UnitType.Block ||
+                            !this.laserMap[x][y].empty()
+                        );
+                    }
+                }
+            }
+            noSpares = noSpares && (this.unitMap[5][y] === null || this.unitMap[5][y].unitType == UnitType.Block);
+        }
+        return (noSpares && allExplicit && allUsed && (hitTargets == this.targetNum));
     }
     // ******************************************************************* END OF MEMBER FUNCTION DECLARATIONS
     this.gameField = $(gameTableSelector);
@@ -128,6 +165,7 @@ function GameMap(
     this.targetNumDisplay = $(targetNumSelector);
     this.laser = undefined;
     this.laserPos = undefined;
+    this.targetNum = mapData.targetNum;
     this.unitMap = initArray(6, 5, function() { return null; } );
     this.laserMap = initArray(5, 5, function() { return new Laser(); } )
     this.mapSize = 5;

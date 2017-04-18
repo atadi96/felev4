@@ -23,47 +23,10 @@ function delegate(pSel, type, cSel, fn) {
 
 // Adatszerkezetek *******************************************************************************************
 
-/*
-function createDragHandler(canDropPredicate, dragLeavePredicate) {
-    return Object.freeze({
-        dragData: null,
-        getCoord: function(td) {
-            let x =  td.cellIndex;
-            let tr = td.parentNode;
-            let y =  tr.sectionRowIndex;
-            return {
-                x: x,
-                y: y
-            };
-        },
-        onDragStart: (function () {
-            let self = this;
-            return function(e) {
-                const dragObject = e.target;
-                const td = dragObject.parentNode;
-                const fromCoord = self.getCoord(td);
-                self.dragData = {
-                    dragObject,
-                    fromCoord
-                }
-                e.dataTransfer.dropEffect = "move";
-            }
-        })(),
-        onDragEnd: function(e) {
-            if(canDropPredicate(e, dragData)) {
-                e.dataTransfer.dropEffect = "move";
-                e.target.classList.add('droppable');
-                e.preventDefault();
-            }
-        },
-        onDragLeave: function(e) {
-            if(dragLeavePredicate(e)) {
-                e.preventDefault();
-                e.target.classList.remove('droppable');
-            }
-        }
-    });
-}*/
+let dragData = null;
+
+let gameMap = null;
+
 
 function getCoord(td) {
     let col =  td.cellIndex;
@@ -91,8 +54,6 @@ function onDragLeave(e) { //target: aki felett húzzuk
     }
 }
 
-let dragData = null;
-
 function onDragStart(e) { //target: akit húzunk
     dragData = {
         mirror: e.target,
@@ -101,9 +62,7 @@ function onDragStart(e) { //target: akit húzunk
 }
 
 function onSpareDragStart(e) {
-    console.log(e.target.parentNode);
     let pos = getCoord(e.target.parentNode);
-    console.log(pos);
     pos.x = 5;
     dragData = {
         mirror: e.target,
@@ -122,60 +81,37 @@ function createOnDrop(gameMap) {
     }
 }
 
-//HTML generators *********************************************************************************
-
-function setRotation(element, rotation) {
-    let value = "rotate(" + Rotation.toDegree(rotation) + "deg)";
-    element.style.transform = value;
-    element.style.webkitTransform = value;
-    element.style.MozTransform = value;
-    element.style.msTransform = value;
-    element.style.OTransform = value;
-}
-
-//Running code **************************************************************************************
-
-gameData = new MapData(
-    [
-        {
-            unit: new Unit(UnitType.Laser, Rotation.down, false, false),
-            pos: new Pos(1, 1)
-        },
-        {
-            unit: new Unit(UnitType.ExplicitTarget, Rotation.right, false, true),
-            pos: new Pos(1, 3)
+function createGame(mapId) {
+    return function() {
+        let mapGen = null;
+        switch(mapId) {
+            case 0:
+                mapGen = getMap1;
+                break;
+            case 1:
+                mapGen = getMap2;
+                break;
+            case 2:
+                mapGen = getMap3;
+                break;
+            default:
+                mapGen = getMap1;
+                break;
         }
-    ],
-    [
-        new Unit(UnitType.Double, Rotation.up, true, true),
-        new Unit(UnitType.Block, Rotation.up, true, true),
-        new Unit(UnitType.Checkpoint, Rotation.up, true, true)
-    ],
-    1
-);
-gameMap = new GameMap("#gamefield", "#sparefield", "#targetnum", gameData);
+        gameMap =  new GameMap("#gamefield", "#sparefield", "#targetnum", Object.assign({}, mapGen()));
 
-gameMap.gameField.addEventListener("dragstart", onDragStart, false);
-gameMap.spareField.addEventListener("dragstart", onSpareDragStart, false);
-gameMap.gameField.addEventListener("dragover", onDragOver, false);
-gameMap.gameField.addEventListener("dragleave", onDragLeave, false);
-gameMap.gameField.addEventListener("drop", createOnDrop(gameMap), false);
+        gameMap.gameField.addEventListener("dragstart", onDragStart, false);
+        gameMap.spareField.addEventListener("dragstart", onSpareDragStart, false);
+        gameMap.gameField.addEventListener("dragover", onDragOver, false);
+        gameMap.gameField.addEventListener("dragleave", onDragLeave, false);
+        gameMap.gameField.addEventListener("drop", createOnDrop(gameMap), false);
 
-$("#clearbutton").addEventListener("click",
-    function() {
-        $("#laserpath").setAttribute("d", "");
+        $("#game").style.display = "block";
+        $("#menu").style.display = "none";
+
+        evalGame();
     }
- , this);
-
-$("#evalbutton").addEventListener("click",
-    function() {
-        gameMap.evaluate();
-        drawLaser("#laserpath", gameMap);
-    }
- ,this);
-
-gameMap.evaluate();
-drawLaser("#laserpath", gameMap);
+}
 
 function drawLaser(pathSelector, gameMap) {
     let laserMap = gameMap.laserMap;
@@ -203,3 +139,141 @@ function drawLaser(pathSelector, gameMap) {
     }
     $(pathSelector).setAttribute("d", path);
 }
+
+function getMap1() {
+    return new MapData(
+    [
+        {
+            unit: new Unit(UnitType.Laser, Rotation.down, false, false),
+            pos: new Pos(1, 1)
+        },
+        {
+            unit: new Unit(UnitType.ExplicitTarget, Rotation.right, false, true),
+            pos: new Pos(3, 3)
+        }
+    ],
+    [
+        new Unit(UnitType.Double, Rotation.up, true, true),
+    ],
+    1
+    );
+}
+function getMap2() {
+    return new MapData(
+    [
+        {
+            unit: new Unit(UnitType.Laser, Rotation.left, false, true),
+            pos: new Pos(0, 0)
+        },
+        {
+            unit: new Unit(UnitType.ExplicitTarget, Rotation.right, false, true),
+            pos: new Pos(4, 0)
+        },
+        {
+            unit: new Unit(UnitType.Double, Rotation.left, false, false),
+            pos: new Pos(3, 1)
+        },
+        {
+            unit: new Unit(UnitType.Block, Rotation.down, false, true),
+            pos: new Pos(2, 2)
+        },
+    ],
+    [
+        new Unit(UnitType.ExplicitTarget, Rotation.left, true, true),
+        new Unit(UnitType.Semi, Rotation.up, true, true),
+    ],
+    2
+    );
+}
+
+function getMap3() {
+    return new MapData(
+    [
+        {
+            unit: new Unit(UnitType.Laser, Rotation.right, false, true),
+            pos: new Pos(1, 2)
+        },
+        {
+            unit: new Unit(UnitType.Target, Rotation.left, false, true),
+            pos: new Pos(2, 0)
+        },
+        {
+            unit: new Unit(UnitType.Target, Rotation.left, false, true),
+            pos: new Pos(4, 0)
+        },
+        {
+            unit: new Unit(UnitType.Target, Rotation.up, false, false),
+            pos: new Pos(3, 2)
+        },
+        {
+            unit: new Unit(UnitType.Checkpoint, Rotation.down, false, false),
+            pos: new Pos(4, 3)
+        },
+        {
+            unit: new Unit(UnitType.Double, Rotation.right, false, false),
+            pos: new Pos(0, 4)
+        },
+    ],
+    [
+        new Unit(UnitType.Target, Rotation.left, true, true),
+        new Unit(UnitType.Target, Rotation.left, true, true),
+        new Unit(UnitType.Semi, Rotation.up, true, true),
+    ],
+    2
+    );
+}
+
+//let maps = [map1, map2, map3];
+
+//HTML generators *********************************************************************************
+
+function setRotation(element, rotation) {
+    let value = "rotate(" + Rotation.toDegree(rotation) + "deg)";
+    element.style.transform = value;
+    element.style.webkitTransform = value;
+    element.style.MozTransform = value;
+    element.style.msTransform = value;
+    element.style.OTransform = value;
+}
+
+function evalGame() {
+    let won = gameMap.evaluate();
+    drawLaser("#laserpath", gameMap);
+    $("#gamewontext").innerHTML = won ? "You win!" : "Try some more...";
+    if(won) {
+        window.setTimeout(function() {
+            alert("You win!");
+        }, 100);
+    }
+}
+
+//Running code **************************************************************************************
+
+$("#clearbutton").addEventListener("click",
+    function() {
+        $("#laserpath").setAttribute("d", "");
+    }
+ , this);
+
+$("#evalbutton").addEventListener("click", evalGame, this);
+$("#lvl1btn").addEventListener("click", createGame(0), this);
+$("#lvl2btn").addEventListener("click", createGame(1), this);
+$("#lvl3btn").addEventListener("click", createGame(2), this);
+
+$("#backbutton").addEventListener("click", 
+    function() {
+        $("#game").style.display = "none";
+        $("#menu").style.display = "initial";
+        gameMap.gameField.innerHTML = "";
+        gameMap.spareField.innerHTML = "";
+        gameMap.targetNumDisplay.innerHTML = "";
+        let newTable = gameMap.gameField.cloneNode(true);
+        gameMap.gameField.parentNode.replaceChild(newTable, gameMap.gameField);
+        for(i = 0; i < 6; i++) {
+            for(j = 0; j < 5; j++) {
+                gameMap.unitMap[i][j] = null;
+            }
+        }
+        gameMap = null;
+    }
+, this);
