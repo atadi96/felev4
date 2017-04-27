@@ -2,7 +2,7 @@
 #include <math.h>
 #include <QRect>
 
-Game::Game(int mapSize, QObject *parent)
+Game::Game(int mapSize, GamePersistence*, QObject *parent)
     : QObject(parent), m_mapSize(mapSize), m_currentPlayer(Player::Blue)
 {
     m_uncoloredLines = 2 * m_mapSize * (m_mapSize) - 1;
@@ -65,7 +65,6 @@ void Game::click(const QPointF& mapPos) {
         const QLine& line = clicked.value;
         m_lines.insert(line);
         QVector<QPoint> neighbors = nextTo(line);
-        qDebug(QString::number(std::distance(neighbors.begin(), neighbors.end())).toStdString().c_str());
         bool newScore = false;
         for(auto p : neighbors) {
             if(m_squares[p.x()][p.y()] == Player::None && surrounded(p)) {

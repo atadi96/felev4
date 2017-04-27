@@ -8,6 +8,8 @@
 #include <QMap>
 #include <unordered_set>
 
+class GamePersistence;
+
 namespace std
 {
     template <>
@@ -64,7 +66,8 @@ private:
     int m_redPoints;
     bool m_won;
 public:
-    explicit Game(int mapSize, QObject *parent = 0);
+    explicit Game(GamePersistence* pers, QObject *parent = 0);
+    explicit Game(int mapSize, GamePersistence* pers, QObject *parent = 0);
 
     Maybe<QLine> highlightedLine(const QPointF& cursorPos) const;
     line_container lines() const;

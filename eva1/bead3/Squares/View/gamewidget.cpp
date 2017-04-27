@@ -1,7 +1,7 @@
 #include "gamewidget.h"
 
 GameWidget::GameWidget(QWidget *parent)
-    : QWidget(parent), m_game(m_mapSize)
+    : QWidget(parent), m_game(m_mapSize, nullptr)
 {
     setMouseTracking(true);
     QSizePolicy policy(QSizePolicy::Fixed, QSizePolicy::Fixed);
