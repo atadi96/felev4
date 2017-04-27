@@ -49,30 +49,43 @@ enum class Player
 class Game : public QObject
 {
     Q_OBJECT
+private:
+    typedef QVector<Player> square_row;
 public:
-    typedef QVector<QVector<Player>> square_container;
+    typedef QVector<square_row> square_container;
     typedef std::unordered_set<QLine> line_container;
 private:
     int m_mapSize;
     Player m_currentPlayer;
     square_container m_squares;
     line_container m_lines;
+    int m_uncoloredLines;
+    int m_bluePoints;
+    int m_redPoints;
+    bool m_won;
 public:
-    explicit Game(QObject *parent = 0, int mapSize);
+    explicit Game(int mapSize, QObject *parent = 0);
 
     Maybe<QLine> highlightedLine(const QPointF& cursorPos) const;
     line_container lines() const;
     square_container squares() const;
+    Player currentPlayer() const;
 
     void click(const QPointF& cursorPos);
 
 private:
     Player nextPlayer(Player player) const;
-    QVector squareEdges() const;
-    float linePointFDistance(const QLine& line, const QPointF& point);
+    QVector<QLine> squareEdges(const QPoint& ofSquare = QPoint(0, 0)) const;
+    float linePointFDistance(const QLine& line, const QPointF& point) const;
+
+    QVector<QPoint> nextTo(const QLine& line) const;
+    bool surrounded(const QPoint& squareCoord) const;
+
+    void stepPlayerPoint();
 
 signals:
     void redraw(const Game&);
+    void win(const Player);
 };
 
 #endif // GAME_H
