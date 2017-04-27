@@ -64,10 +64,10 @@ void Game::click(const QPointF& mapPos) {
         --m_uncoloredLines;
         const QLine& line = clicked.value;
         m_lines.insert(line);
-        QVector<QPoint> neighbours = nextTo(line);
-        qDebug(QString::number(neighbours.length()).toStdString().c_str());
+        QVector<QPoint> neighbors = nextTo(line);
+        qDebug(QString::number(std::distance(neighbors.begin(), neighbors.end())).toStdString().c_str());
         bool newScore = false;
-        for(auto p : neighbours) {
+        for(auto p : neighbors) {
             if(m_squares[p.x()][p.y()] == Player::None && surrounded(p)) {
                 newScore = true;
                 stepPlayerPoint();
@@ -122,19 +122,19 @@ QVector<QPoint> Game::nextTo(const QLine& line) const { //le van vezetve papíro
         std::min(line.p1().x(), line.p2().x()),
         std::min(line.p1().y(), line.p2().y())
     );
-    QLine dir = line.translated(translation);
+    QLine dir = line.translated( - translation);
     const QPoint one(0,0);
     const QPoint other(
-        1 - std::max(dir.p1().y(), dir.p2().y()),
-        1 - std::max(dir.p1().x(), dir.p2().x())
+        1 - std::max(dir.p1().x(), dir.p2().x()),
+        1 - std::max(dir.p1().y(), dir.p2().y())
     );
     const QRect map(0, 0, m_mapSize, m_mapSize);
     QVector<QPoint> result;
     if(map.contains(translation + one)) {
         result.push_back(translation + one);
     }
-    if(map.contains(translation + other)) {
-        result.push_back(translation + other);
+    if(map.contains(translation - other)) {
+        result.push_back(translation - other);
     }
     return result;
 }
