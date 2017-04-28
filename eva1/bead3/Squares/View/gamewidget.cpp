@@ -1,12 +1,28 @@
 #include "gamewidget.h"
+#include <QMessageBox>
 
-GameWidget::GameWidget(QWidget *parent)
-    : QWidget(parent), m_game(m_mapSize, nullptr)
+GameWidget::GameWidget(int mapSize, QWidget *parent)
+    : QWidget(parent), filePersistence(new FilePersistence()), m_game(mapSize, filePersistence)
 {
+    m_mapSize = m_game.mapSize();
     setMouseTracking(true);
     QSizePolicy policy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     policy.setHeightForWidth(true);
     setSizePolicy(policy);
+    connect(&m_game, SIGNAL(win(Player)), SLOT(win(Player)));
+    connect(&m_game, SIGNAL(redraw(Game)), SLOT(redraw(Game)));
+}
+
+GameWidget::GameWidget(QWidget *parent)
+    : QWidget(parent), filePersistence(new FilePersistence()), m_game(filePersistence)
+{
+    m_mapSize = m_game.mapSize();
+    setMouseTracking(true);
+    QSizePolicy policy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    policy.setHeightForWidth(true);
+    setSizePolicy(policy);
+    connect(&m_game, SIGNAL(win(Player)), SLOT(win(Player)));
+    connect(&m_game, SIGNAL(redraw(Game)), SLOT(redraw(Game)));
 }
 
 QSize GameWidget::sizeHint() const {
@@ -14,6 +30,10 @@ QSize GameWidget::sizeHint() const {
         m_unit * (m_mapSize - 1) + m_brushWidth,
         m_unit * (m_mapSize - 1) + m_brushWidth
     );
+}
+
+void GameWidget::save() {
+    m_game.save();
 }
 
 void GameWidget::paintEvent(QPaintEvent* ) {
@@ -124,4 +144,30 @@ void GameWidget::drawLine(const QLine& line, Player player) {
     ));
     m_painter.drawLine(toWorld(line));
     m_painter.restore();
+}
+
+void GameWidget::win(Player player) {
+    QString text;
+    switch(player) {
+    case Player::Blue:
+        text = QString("The Blue player won!");
+        break;
+    case Player::Red:
+        text = QString("The Red player won!");
+        break;
+    default:
+        text = QString("It's a tie!");
+        break;
+    }
+    QMessageBox mb(
+        QMessageBox::NoIcon,
+        QString::fromUtf8("The game has ended!"),
+        text,
+        QMessageBox::Ok
+    );
+    mb.exec();
+}
+
+void GameWidget::redraw(const Game&) {
+    update();
 }

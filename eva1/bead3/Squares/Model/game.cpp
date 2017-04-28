@@ -1,11 +1,23 @@
-#include "game.h"
 #include <math.h>
 #include <QRect>
+#include "game.h"
+#include "Persistence/savedata.h"
+#include "Persistence/gamepersistence.h"
 
-Game::Game(int mapSize, GamePersistence*, QObject *parent)
+Game::Game(GamePersistence* pers, QObject *parent) : QObject(parent) {
+    try {
+        persistence = pers;
+        load();
+    } catch (...) {
+        throw;
+    }
+}
+
+Game::Game(int mapSize, GamePersistence* pers, QObject *parent)
     : QObject(parent), m_mapSize(mapSize), m_currentPlayer(Player::Blue)
 {
-    m_uncoloredLines = 2 * m_mapSize * (m_mapSize) - 1;
+    persistence = pers;
+    m_uncoloredLines = 2 * m_mapSize * (m_mapSize - 1);
     m_bluePoints = 0;
     m_redPoints = 0;
     m_won = false;
@@ -57,6 +69,10 @@ Player Game::currentPlayer() const {
     return m_currentPlayer;
 }
 
+int Game::mapSize() const {
+    return m_mapSize;
+}
+
 void Game::click(const QPointF& mapPos) {
     if(m_won) { return; }
     Maybe<QLine> clicked = highlightedLine(mapPos);
@@ -79,7 +95,43 @@ void Game::click(const QPointF& mapPos) {
         }
     }
     emit redraw(*this);
+    if(m_won) {
+        if(m_bluePoints > m_redPoints) {
+            emit win(Player::Blue);
+        } else if(m_redPoints > m_bluePoints) {
+            emit win(Player::Red);
+        } else {
+            emit win(Player::None);
+        }
+    }
 }
+
+void Game::save() {
+    SaveData data;
+    data.bluePoints = m_bluePoints;
+    data.currentPlayer = m_currentPlayer;
+    data.lines = m_lines;
+    data.mapSize = m_mapSize;
+    data.redPoints = m_redPoints;
+    data.squares = m_squares;
+    data.uncoloredLines = m_uncoloredLines;
+    data.won = m_won;
+    persistence->save(data);
+}
+
+void Game::load() {
+    SaveData data;
+    persistence->load(data);
+    m_bluePoints = data.bluePoints;
+    m_currentPlayer = data.currentPlayer;
+    m_lines = data.lines;
+    m_mapSize = data.mapSize;
+    m_redPoints = data.redPoints;
+    m_squares = data.squares;
+    m_uncoloredLines = data.uncoloredLines;
+    m_won = data.won;
+}
+
 
 Player Game::nextPlayer(Player player) const {
     if(player == Player::Blue) {

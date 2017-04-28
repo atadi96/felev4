@@ -8,6 +8,7 @@
 #include <QColor>
 
 #include "Model/game.h"
+#include "Persistence/filepersistence.h"
 
 class GameWidget : public QWidget
 {
@@ -15,15 +16,19 @@ class GameWidget : public QWidget
 private:
     QPainter m_painter;
 
-    int m_mapSize = 9;
+    int m_mapSize;
     int m_brushWidth = 4;
     int m_unit = 64;
+
+    FilePersistence* filePersistence;
 
     Game m_game;
 
 public:
+    explicit GameWidget(int mapSize, QWidget *parent = 0);
     explicit GameWidget(QWidget *parent = 0);
     QSize sizeHint() const override;
+    void save();
 
 protected:
     void paintEvent(QPaintEvent* );
@@ -41,7 +46,9 @@ private:
     void drawPoint(const QPoint& coords);
     void drawSquare(const QPoint& coords, Player player);
     void drawLine(const QLine& line, Player player = Player::None);
-public slots:
+private slots:
+    void win(Player player);
+    void redraw(const Game&);
 
 };
 

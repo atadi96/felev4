@@ -28,13 +28,15 @@ SOURCES += main.cpp\
         mainwidget.cpp \
     Model/game.cpp \
     View/gamewidget.cpp \
-    Persistence/filepersistence.cpp
+    Persistence/filepersistence.cpp \
+    Persistence/mockpersistence.cpp
 
 HEADERS  += mainwidget.h \
     Model/game.h \
     View/gamewidget.h \
     Persistence/gamepersistence.h \
     Persistence/filepersistence.h \
-    Persistence/savedata.h
+    Persistence/savedata.h \
+    Persistence/mockpersistence.h
 
 FORMS    += mainwidget.ui

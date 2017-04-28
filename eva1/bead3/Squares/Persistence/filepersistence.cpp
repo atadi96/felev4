@@ -46,6 +46,9 @@ void FilePersistence::load(SaveData& data) {
         ts >> data.redPoints;
         ts >> temp;
         data.won = (bool)temp;
+        Game::square_row row;
+        row.fill(Player::None, data.mapSize);
+        data.squares.fill(row, data.mapSize);
         for(int y = 0; y < data.mapSize; ++y) {
             for(int x = 0; x < data.mapSize; ++x) {
                 ts >> temp;
