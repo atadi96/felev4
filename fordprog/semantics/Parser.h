@@ -13,12 +13,13 @@ class Parser: public ParserBase
 {
         
     public:
+        typedef std::map<std::string,var_data> symbol_table;
         Parser(std::istream& in) : lexer(&in, &std::cerr) {}
         int parse();
 
     private:
         yyFlexLexer lexer;
-        std::map<std::string,var_data> symbols;
+        symbol_table symbols;
         void error(char const *msg);    // called on (syntax) errors
         int lex();                      // returns the next token from the
                                         // lexical scanner. 
@@ -36,6 +37,7 @@ class Parser: public ParserBase
         bool assertType(const std::string& owner, type expected, type actual);
         bool assertType(const std::string& owner, type expected1, type expected2, type actual1, type actual2);
         void insertSymbol(type var_type, std::string name);
+        void undeclared(const std::string& identifier);
 };
 
 

@@ -26,7 +26,7 @@ inline int Parser::lex()
 {
     int ret = lexer.yylex();
     d_loc__.first_line = lexer.lineno();
-    if( ret == IDENT )
+    if( ret == IDENTIFIER )
     {
       d_val__.szoveg = new std::string(lexer.YYText());
     }
@@ -38,7 +38,7 @@ bool Parser::assertType(const std::string& owner, type expected, type actual) {
         return true;
     } else {
         std::stringstream ss;
-        ss << "Type mismatch error.\n" <<
+        ss << "Type mismatch error.\n"
            << "\texpected type: " << typeToString(expected) << "\n"
            << "\tactual type: " << typeToString(actual) << "\n"
            << "\tin " << owner << std::endl;
@@ -54,14 +54,19 @@ bool Parser::assertType(const std::string& owner, type expected1, type expected2
 }
 
 void Parser::insertSymbol(type var_type, std::string name) {
-    if( szimbolumtabla.count(name) > 0 ) {
+    if( symbols.count(name) > 0 ) {
         std::stringstream ss;
         ss << "Redeclaration of symbol: " << name << ".\n"
-        << "\tFirst declared at line " << szimbolumtabla[name].decl_row << std::endl;
+        << "\tFirst declared at line " << symbols[name].decl_row << std::endl;
         error( ss.str().c_str() );
     } else {
-        szimbolumtabla[name] = var_data( d_loc__.first_line, var_type );
+        symbols[name] = var_data( d_loc__.first_line, var_type );
     }
+}
+
+
+void Parser::undeclared(const std::string& identifier) {
+    error(("undefined identifier \"" + identifier + "\"").c_str());
 }
 
 

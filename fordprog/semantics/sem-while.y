@@ -1,4 +1,4 @@
-%baseclass-preinclude <iostream>
+%baseclass-preinclude "semantics.h"
 %lsp-needed
 
 %token PROGRAM TBEGIN SKIP END
@@ -32,30 +32,30 @@
 
 start: program
     {
-        std::cout << "start -> program" << std::endl;
+        //std::cout << "start -> program" << std::endl;
     }
 ;
     
 program: header declarations body
     {
-        std::cout << "program -> header declarations body" << std::endl;
+        //std::cout << "program -> header declarations body" << std::endl;
     }
 ;
     
 header: PROGRAM IDENTIFIER
     {
-        std::cout << "header -> PROGRAM IDENTIFIER" << std::endl;
+        //std::cout << "header -> PROGRAM IDENTIFIER" << std::endl;
     }
 ;
     
 declarations
     :
         {
-            std::cout << "declarations -> \"\"" << std::endl;
+            //std::cout << "declarations -> \"\"" << std::endl;
         }
     | declaration declarations
         {
-            std::cout << "declarations -> declaration declarations" << std::endl;
+            //std::cout << "declarations -> declaration declarations" << std::endl;
         }
     ;
     
@@ -69,167 +69,221 @@ declaration
             insertSymbol(boolean, *$2);
         }
     ;
-;
 
 body: TBEGIN statements END
     {
-        std::cout << "body -> TBEGIN statements END" << std::endl;
+        //std::cout << "body -> TBEGIN statements END" << std::endl;
     }
 ;
     
 statements
     : statement
         {
-            std::cout << "statements -> statement" << std::endl;
+            //std::cout << "statements -> statement" << std::endl;
         }
     | statement statements
         {
-            std::cout << "statements -> statement statements" << std::endl;
+            //std::cout << "statements -> statement statements" << std::endl;
         }
     ;
 
 statement
     : skip
         {
-            std::cout << "statement -> skip" << std::endl;
+            //std::cout << "statement -> skip" << std::endl;
         }
     | assignment
         {
-            std::cout << "statement -> assignment" << std::endl;
+            //std::cout << "statement -> assignment" << std::endl;
         }
     | write
         {
-            std::cout << "statement -> write" << std::endl;
+            //std::cout << "statement -> write" << std::endl;
         }
     | read
         {
-            std::cout << "statement -> read" << std::endl;
+            //std::cout << "statement -> read" << std::endl;
         }
     | while_loop
         {
-            std::cout << "statement -> while_loop" << std::endl;
+            //std::cout << "statement -> while_loop" << std::endl;
         }
     | for_loop
         {
-            std::cout << "statement -> for_loop" << std::endl;
+            //std::cout << "statement -> for_loop" << std::endl;
         }
     | conditional
         {
-            std::cout << "statement -> conditional" << std::endl;
+            //std::cout << "statement -> conditional" << std::endl;
         }
     ;
 
 skip: SKIP SEMICOLON
     {
-        std::cout << "skip -> SKIP SEMICOLON" << std::endl;
+        //std::cout << "skip -> SKIP SEMICOLON" << std::endl;
     }
 ;
     
 assignment: IDENTIFIER ASSIGN expr SEMICOLON
     {
-        std::cout << "assignment -> IDENTIFIER ASSIGN expr" << std::endl;
+        symbol_table::iterator it = symbols.find(*$1);
+        if(it != symbols.end()) {
+            assertType(":=", it->second.var_type, it->second.var_type, it->second.var_type, *$3);
+        } else {
+            undeclared(*$1);
+        }
+        delete $1;
+        delete $3;
     }
 ;
 
 write: WRITE LEFT_BRACKET expr RIGHT_BRACKET SEMICOLON
     {
-        std::cout << "write -> WRITE LEFT_BRACKET expr RIGHT_BRACKET SEMICOLON" << std::endl;
+        //std::cout << "write -> WRITE LEFT_BRACKET expr RIGHT_BRACKET SEMICOLON" << std::endl;
     }
 ;
 
 read: READ LEFT_BRACKET IDENTIFIER RIGHT_BRACKET SEMICOLON
     {
-        std::cout << "read -> READ LEFT_BRACKET IDENTIFIER RIGHT_BRACKET SEMICOLON" << std::endl;
+        //std::cout << "read -> READ LEFT_BRACKET IDENTIFIER RIGHT_BRACKET SEMICOLON" << std::endl;
     }
 ;
 
 while_loop: WHILE expr DO statements DONE
     {
-        std::cout << "while_loop -> WHILE expr DO statements DONE" << std::endl;
+        assertType("condition of while loop", boolean, *$2);
+        delete $2;
     }
 ;
 
 for_loop: FOR IDENTIFIER IN expr RANGE expr DO statements DONE
     {
-        std::cout << "for_loop -> FOR IDENTIFIER IN expr RANGE expr DO statements DONE" << std::endl;
+        symbol_table::iterator it = symbols.find(*$2);
+        if(it != symbols.end()) {
+            assertType("for loop variable", natural, it->second.var_type);
+            assertType("..", natural, natural, *$4, *$6);
+        } else {
+            undeclared(*$2);
+        }
+        delete $2;
+        delete $4;
+        delete $6;
     }
 ;
     
 conditional
     : IF expr THEN statements ENDIF
         {
-            std::cout << "conditional -> IF expr THEN statements ENDIF" << std::endl;
+            assertType("condition of if statement", boolean, *$2);
         }
     | IF expr THEN statements ELSE statements ENDIF
         {
-            std::cout << "conditional -> IF expr THEN statements ELSE statements ENDIF" << std::endl;
+            assertType("condition of if statement", boolean, *$2);
         }
     ;
 
 expr
     : TRUE
         {
-            std::cout << "expr -> TRUE" << std::endl;
+            $$ = new type(boolean);
         }
     | FALSE
         {
-            std::cout << "expr -> FALSE" << std::endl;
+            $$ = new type(boolean);
         }
     | NATURAL_LITERAL
         {
-            std::cout << "expr -> NATURAL_LITERAL" << std::endl;
+            $$ = new type(natural);
         }
     | IDENTIFIER
         {
-            std::cout << "expr -> IDENTIFIER" << std::endl;
+            if(symbols.count(*$1) != 0) {
+                $$ = new type(symbols[*$1].var_type);
+            } else {
+                undeclared(*$1);
+            }
+            delete $1;
         }
     | expr EQUALS expr
         {
-            std::cout << "expr -> expr EQUALS expr" << std::endl;
+            if(assertType("=", *$1, *$1, *$1, *$3)) {
+                $$ = new type(boolean);
+            }
+            delete $1;
+            delete $3;
         }
     | LEFT_BRACKET expr RIGHT_BRACKET
         {
-            std::cout << "expr -> LEFT_BRACKET expr RIGHT_BRACKET" << std::endl;
+            $$ = $2;
         }
     | NOT expr
         {
-            std::cout << "expr -> NOT expr" << std::endl;
+            assertType("not", boolean, *$2);
+            $$ = new type(boolean);
+            delete $2;
         }
     | expr AND expr
         {
-            std::cout << "expr -> expr AND expr" << std::endl;
+            assertType("and", boolean, boolean, *$1, *$3);
+            $$ = new type(boolean);
+            delete $1;
+            delete $3;
         }
     | expr OR expr
         {
-            std::cout << "expr -> expr OR expr" << std::endl;
+            assertType("or", boolean, boolean, *$1, *$3);
+            $$ = new type(boolean);
+            delete $1;
+            delete $3;
         }
     | expr LESS_THAN expr
         {
-            std::cout << "expr -> expr LESS_THAN expr" << std::endl;
+            assertType("<", natural, natural, *$1, *$3);
+            $$ = new type(boolean);
+            delete $1;
+            delete $3;
         }
     | expr GREATER_THAN expr
         {
-            std::cout << "expr -> expr GREATER_THAN expr" << std::endl;
+            assertType(">", natural, natural, *$1, *$3);
+            $$ = new type(boolean);
+            delete $1;
+            delete $3;
         }
     | expr PLUS expr
         {
-            std::cout << "expr -> expr PLUS expr" << std::endl;
+            assertType("+", natural, natural, *$1, *$3);
+            $$ = new type(natural);
+            delete $1;
+            delete $3;
         }
     | expr MINUS expr
         {
-            std::cout << "expr -> expr MINUS expr" << std::endl;
+            assertType("-", natural, natural, *$1, *$3);
+            $$ = new type(natural);
+            delete $1;
+            delete $3;
         }
     | expr ASTERIKS expr
         {
-            std::cout << "expr -> expr ASTERIKS expr" << std::endl;
+            assertType("*", natural, natural, *$1, *$3);
+            $$ = new type(natural);
+            delete $1;
+            delete $3;
         }
     | expr MOD expr
         {
-            std::cout << "expr -> expr MOD expr" << std::endl;
+            assertType("mod", natural, natural, *$1, *$3);
+            $$ = new type(natural);
+            delete $1;
+            delete $3;
         }
     | expr DIV expr
         {
-            std::cout << "expr -> expr DIV expr" << std::endl;
+            assertType("div", natural, natural, *$1, *$3);
+            $$ = new type(natural);
+            delete $1;
+            delete $3;
         }
     ;
 
