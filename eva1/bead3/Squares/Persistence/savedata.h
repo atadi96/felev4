@@ -1,7 +1,7 @@
 #ifndef SAVEDATA_H
 #define SAVEDATA_H
 
-#include "Model/game.h"
+#include "../Model/game.h"
 
 struct SaveData
 {

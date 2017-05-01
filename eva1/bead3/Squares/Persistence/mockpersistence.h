@@ -1,12 +1,15 @@
 #ifndef MOCKPERSISTENCE_H
 #define MOCKPERSISTENCE_H
 
-#include "gamepersistence.h"
+#include "filepersistence.h"
 
-class mockpersistence : public GamePersistence
+class MockPersistence : public FilePersistence
 {
+protected:
+    const QString filename;
 public:
-    mockpersistence();
+    MockPersistence() : filename("mock.sav") {}
+    ~MockPersistence() noexcept {}
 };
 
 #endif // MOCKPERSISTENCE_H

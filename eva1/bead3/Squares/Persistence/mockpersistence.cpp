@@ -1,6 +1,6 @@
 #include "mockpersistence.h"
 
-mockpersistence::mockpersistence()
+/*MockPersistence::MockPersistence()
 {
 
-}
+}*/

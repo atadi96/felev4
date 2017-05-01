@@ -74,6 +74,7 @@ public:
     square_container squares() const;
     Player currentPlayer() const;
     int mapSize() const;
+    bool won() const;
 
     void click(const QPointF& cursorPos);
     void save();

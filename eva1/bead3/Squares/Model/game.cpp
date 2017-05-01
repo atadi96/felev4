@@ -1,8 +1,8 @@
 #include <math.h>
 #include <QRect>
 #include "game.h"
-#include "Persistence/savedata.h"
-#include "Persistence/gamepersistence.h"
+#include "../Persistence/savedata.h"
+#include "../Persistence/gamepersistence.h"
 
 Game::Game(GamePersistence* pers, QObject *parent) : QObject(parent) {
     try {
@@ -71,6 +71,10 @@ Player Game::currentPlayer() const {
 
 int Game::mapSize() const {
     return m_mapSize;
+}
+
+bool Game::won() const {
+    return m_won;
 }
 
 void Game::click(const QPointF& mapPos) {

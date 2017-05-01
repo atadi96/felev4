@@ -6,10 +6,10 @@
 
 class FilePersistence : public GamePersistence
 {
-private:
-    const QString filename = "game.sav";
+protected:
+    const QString filename;
 public:
-    FilePersistence();
+    FilePersistence(const QString& filename = "game.sav");
     virtual void save(const SaveData& data) override;
     virtual void load(SaveData& data) override;
     virtual ~FilePersistence() {}

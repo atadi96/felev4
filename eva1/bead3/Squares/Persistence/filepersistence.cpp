@@ -2,7 +2,8 @@
 #include <QFile>
 #include <QTextStream>
 
-FilePersistence::FilePersistence()
+FilePersistence::FilePersistence(const QString& filename)
+    : filename(filename)
 {
 
 }
