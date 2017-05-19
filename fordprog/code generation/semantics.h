@@ -3,6 +3,9 @@
 #include <map>
 #include <sstream>
 
+#ifndef _semantics_h
+#define _semantics_h
+
 enum type {
     natural,
     boolean
@@ -22,7 +25,7 @@ struct op_desc
 {
     int decl_row;
     std::string code;
-    op_desc(int row, type t, std::string c)
+    op_desc(int row, std::string c)
         : decl_row(row), code(c) {} 
 };
 
@@ -45,3 +48,5 @@ struct var_data {
         throw "Unsupported data type";
     }
 };
+
+#endif

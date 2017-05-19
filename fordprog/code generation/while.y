@@ -11,8 +11,8 @@
 %token LEFT_BRACKET RIGHT_BRACKET
 %token ASSIGN
 %token SEMICOLON
-%token <text> NATURAL_LITERAL
 %token <text> IDENTIFIER
+%token <text> NATURAL_LITERAL
 
 %left AND OR
 %left EQUALS
@@ -21,13 +21,14 @@
 %left ASTERIKS DIV MOD
 
 %type <expr> expr;
-%type <op> program;
+%type <text> body, statements, program;
+%type <op> statement, skip, assignment, write, read, while_loop, for_loop, conditional;
 
 %union
 {
   std::string *text;
-  expr_desc* expr;
-  op_desc* op;
+  expr_desc *expr;
+  op_desc *op;
 }
 
 %%
@@ -47,15 +48,15 @@ start: program
         }
         code += std::string("section .text\n") +
                 "main:\n";
-        code += $1->code;
-        delete $1;
+        code += *$1;
         std::cout << code << std::endl;
+        delete $1;
     }
 ;
     
 program: header declarations body
     {
-        //std::cout << "program -> header declarations body" << std::endl;
+        $$ = $3;
     }
 ;
     
@@ -89,55 +90,58 @@ declaration
 
 body: TBEGIN statements END
     {
-        //std::cout << "body -> TBEGIN statements END" << std::endl;
+        $$ = $2;
     }
 ;
     
 statements
     : statement
         {
-            //std::cout << "statements -> statement" << std::endl;
+            $$ = new std::string($1->code);
+            delete $1;
         }
     | statement statements
         {
-            //std::cout << "statements -> statement statements" << std::endl;
+            $$ = new std::string ($1->code + *$2);
+            delete $1;
+            delete $2;
         }
     ;
 
 statement
     : skip
         {
-            //std::cout << "statement -> skip" << std::endl;
+            $$ = $1;
         }
     | assignment
         {
-            //std::cout << "statement -> assignment" << std::endl;
+            $$ = $1;
         }
     | write
         {
-            //std::cout << "statement -> write" << std::endl;
+            $$ = $1;
         }
     | read
         {
-            //std::cout << "statement -> read" << std::endl;
+            $$ = $1;
         }
     | while_loop
         {
-            //std::cout << "statement -> while_loop" << std::endl;
+            $$ = $1;
         }
     | for_loop
         {
-            //std::cout << "statement -> for_loop" << std::endl;
+            $$ = $1;
         }
     | conditional
         {
-            //std::cout << "statement -> conditional" << std::endl;
+            $$ = $1;
         }
     ;
 
 skip: SKIP SEMICOLON
     {
-        //std::cout << "skip -> SKIP SEMICOLON" << std::endl;
+        $$ = new op_desc(LINE, "    nop\n");
     }
 ;
     
@@ -146,6 +150,7 @@ assignment: IDENTIFIER ASSIGN expr SEMICOLON
         symbol_table::iterator it = symbols.find(*$1);
         if(it != symbols.end()) {
             assertType(":=", it->second.var_type, it->second.var_type, it->second.var_type, $3->expr_type);
+            $$ = new op_desc(LINE, $3->code + "    mov [" + *$1 +"], " + registers::a(size_of($3->expr_type)) + "\n");
         } else {
             error_undeclared(*$1);
         }
@@ -156,20 +161,51 @@ assignment: IDENTIFIER ASSIGN expr SEMICOLON
 
 write: WRITE LEFT_BRACKET expr RIGHT_BRACKET SEMICOLON
     {
-        //std::cout << "write -> WRITE LEFT_BRACKET expr RIGHT_BRACKET SEMICOLON" << std::endl;
+        $$ = new op_desc(
+            LINE,
+            $3->code +
+            "    push eax\n" +
+            "    call " + ($3->expr_type == natural ? "ki_egesz" : "ki_logikai") + "\n" +
+            "    add esp, 4\n"
+        );
+        delete $3;
     }
 ;
 
 read: READ LEFT_BRACKET IDENTIFIER RIGHT_BRACKET SEMICOLON
     {
-        //std::cout << "read -> READ LEFT_BRACKET IDENTIFIER RIGHT_BRACKET SEMICOLON" << std::endl;
+        symbol_table::iterator it = symbols.find(*$3);
+        if(it != symbols.end()) {
+            $$ = new op_desc(
+                LINE,
+                std::string("    call ") + (it->second.var_type == natural ? "be_egesz" : "be_logikai") + "\n" +
+                "    mov [" + *$3 + "], " + registers::a(size_of(it->second.var_type)) + "\n"
+            );
+        } else {
+            error_undeclared(*$3);
+        }
+        delete $3;
     }
 ;
 
 while_loop: WHILE expr DO statements DONE
     {
         assertType("condition of while loop", boolean, $2->expr_type);
+        std::string label_postfix = label::get_new();
+        std::string start_label = std::string("while_start_") + label_postfix;
+        std::string end_label = std::string("while_end_") + label_postfix;
+        $$ = new op_desc(
+            LINE,
+            start_label + ":\n" +
+            $2->code +
+            "    cmp al, 1\n" +
+            "    jne near " + end_label + "\n" +
+            *$4 +
+            "    jmp near " + start_label + "\n" +
+            end_label + ":\n"
+        );
         delete $2;
+        delete $4;
     }
 ;
 
@@ -179,6 +215,30 @@ for_loop: FOR IDENTIFIER IN expr RANGE expr DO statements DONE
         if(it != symbols.end()) {
             assertType("for loop variable", natural, it->second.var_type);
             assertType("..", natural, natural, $4->expr_type, $6->expr_type);
+            
+            std::string label_postfix = label::get_new();
+            std::string start_label = std::string("for_start_") + label_postfix;
+            std::string end_label = std::string("for_end_") + label_postfix;
+            std::string a = registers::a(size_of($4->expr_type));
+            std::string d = registers::d(size_of($4->expr_type));
+            $$ = new op_desc(
+                LINE,
+                std::string(";for loop from here\n") +
+                $4->code + 
+                "    mov [" + *$2 + "], " + a + "\n" +
+                $6->code +
+                "    push eax\n" +
+                start_label + ":\n" +
+                "    pop edx\n" +
+                "    mov " + a + ", [" + *$2 + "]\n" +
+                "    cmp " + a + ", " + d + "\n" +
+                "    ja " + end_label + "\n" +
+                "    push edx\n" +
+                *$8 + 
+                "    inc " + asm_size($4->expr_type) + " [" + *$2 + "]\n" +
+                "    jmp " + start_label + "\n" +
+                end_label + ":\n"
+            );
         } else {
             error_undeclared(*$2);
         }
@@ -192,33 +252,39 @@ conditional
     : IF expr THEN statements ENDIF
         {
             assertType("condition of if statement", boolean, $2->expr_type);
+            $$ = new op_desc(
+                LINE,
+                ""
+            );
         }
     | IF expr THEN statements ELSE statements ENDIF
         {
             assertType("condition of if statement", boolean, $2->expr_type);
+            $$ = new op_desc(
+                LINE,
+                ""
+            );
         }
     ;
 
 expr
     : TRUE
         {
-            $$ = new expr_desc(LINE, boolean, "    mov al, 1\n");
+            $$ = new expr_desc(LINE, boolean, "    mov al, byte 1\n");
         }
     | FALSE
         {
-            $$ = new expr_desc(LINE, boolean, "    mov al, 0\n");
+            $$ = new expr_desc(LINE, boolean, "    mov al, byte 0\n");
         }
     | NATURAL_LITERAL
         {
             $$ = new expr_desc(LINE, natural, std::string("    mov eax, ") + *$1 + "\n");
+            delete $1;
         }
     | IDENTIFIER
         {
             if(symbols.count(*$1) != 0) {
-                if(symbols[*$1].var_type == boolean) {
-                    $$ = new expr_desc(LINE, symbols[*$1].var_type, std::string("    mov al, ") + *$1);
-                }
-                $$ = new expr_desc(LINE, symbols[*$1].var_type, std::string("    mov eax, ") + *$1 + "\n");
+                $$ = new expr_desc(LINE, symbols[*$1].var_type, std::string("    mov ") + registers::a(size_of(symbols[*$1].var_type)) + ", [" + *$1 + "]\n");
             } else {
                 error_undeclared(*$1);
             }
@@ -252,7 +318,7 @@ expr
             $$ = new expr_desc(
                 LINE,
                 boolean,
-                two_param_expr($1, $3, "    and al, bl")
+                two_param_expr($1, $3, "and al, bl")
             );
             delete $1;
             delete $3;
@@ -263,7 +329,7 @@ expr
             $$ = new expr_desc(
                 LINE,
                 boolean,
-                two_param_expr($1, $3, "    or al, bl")
+                two_param_expr($1, $3, "or al, bl")
             );
             delete $1;
             delete $3;
@@ -295,8 +361,8 @@ expr
             assertType("+", natural, natural, $1->expr_type, $3->expr_type);
             $$ = new expr_desc(
                 LINE,
-                boolean,
-                two_param_expr($1, $3, "    add eax, ebx")
+                natural,
+                two_param_expr($1, $3, "add eax, ebx")
             );
             delete $1;
             delete $3;
@@ -306,8 +372,8 @@ expr
             assertType("-", natural, natural, $1->expr_type, $3->expr_type);
             $$ = new expr_desc(
                 LINE,
-                boolean,
-                two_param_expr($1, $3, "    sub eax, ebx")
+                natural,
+                two_param_expr($1, $3, "sub eax, ebx")
             );
             delete $1;
             delete $3;
@@ -317,8 +383,8 @@ expr
             assertType("*", natural, natural, $1->expr_type, $3->expr_type);
             $$ = new expr_desc(
                 LINE,
-                boolean,
-                two_param_expr($1, $3, "    mul eax, ebx")
+                natural,
+                two_param_expr($1, $3, "mul ebx")
             );
             delete $1;
             delete $3;
@@ -328,12 +394,12 @@ expr
             assertType("mod", natural, natural, $1->expr_type, $3->expr_type);
             $$ = new expr_desc(
                 LINE,
-                boolean,
+                natural,
                 two_param_expr(
                     $1,
                     $3,
-                    std::string("    xor edx, edx\n") + 
-                    "    div eax, ebx\n" + 
+                    std::string("xor edx, edx\n") + 
+                    "    div ebx\n" + 
                     "    mov eax, edx"
                 )
             );
@@ -345,12 +411,12 @@ expr
             assertType("div", natural, natural, $1->expr_type, $3->expr_type);
             $$ = new expr_desc(
                 LINE,
-                boolean,
+                natural,
                 two_param_expr(
                     $1,
                     $3,
-                    std::string("    xor edx, edx\n") + 
-                    "    div eax, ebx"
+                    std::string("xor edx, edx\n") + 
+                    "    div ebx"
                 )
             );
             delete $1;

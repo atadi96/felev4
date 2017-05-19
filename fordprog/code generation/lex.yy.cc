@@ -508,8 +508,8 @@ static yyconst flex_int32_t yy_rule_can_match_eol[42] =
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-#line 1 "sem-while.l"
-#line 4 "sem-while.l"
+#line 1 "while.l"
+#line 4 "while.l"
 #include <iostream>
 #include "Parserbase.h"
 
@@ -647,7 +647,7 @@ YY_DECL
 		}
 
 	{
-#line 16 "sem-while.l"
+#line 16 "while.l"
 
 
 #line 654 "lex.yy.cc"
@@ -719,203 +719,203 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 18 "sem-while.l"
+#line 18 "while.l"
 return Parser::PROGRAM;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 19 "sem-while.l"
+#line 19 "while.l"
 return Parser::TBEGIN;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 20 "sem-while.l"
+#line 20 "while.l"
 return Parser::SKIP;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 21 "sem-while.l"
+#line 21 "while.l"
 return Parser::END;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 22 "sem-while.l"
+#line 22 "while.l"
 return Parser::NATURAL;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 23 "sem-while.l"
+#line 23 "while.l"
 return Parser::BOOLEAN;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 24 "sem-while.l"
+#line 24 "while.l"
 return Parser::TRUE;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 25 "sem-while.l"
+#line 25 "while.l"
 return Parser::FALSE;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 26 "sem-while.l"
+#line 26 "while.l"
 return Parser::NOT;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 27 "sem-while.l"
+#line 27 "while.l"
 return Parser::IF;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 28 "sem-while.l"
+#line 28 "while.l"
 return Parser::THEN;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 29 "sem-while.l"
+#line 29 "while.l"
 return Parser::ELSE;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 30 "sem-while.l"
+#line 30 "while.l"
 return Parser::ENDIF;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 31 "sem-while.l"
+#line 31 "while.l"
 return Parser::WHILE;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 32 "sem-while.l"
+#line 32 "while.l"
 return Parser::FOR;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 33 "sem-while.l"
+#line 33 "while.l"
 return Parser::IN;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 34 "sem-while.l"
+#line 34 "while.l"
 return Parser::RANGE;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 35 "sem-while.l"
+#line 35 "while.l"
 return Parser::DO;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 36 "sem-while.l"
+#line 36 "while.l"
 return Parser::DONE;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 37 "sem-while.l"
+#line 37 "while.l"
 return Parser::READ;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 38 "sem-while.l"
+#line 38 "while.l"
 return Parser::WRITE;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 40 "sem-while.l"
+#line 40 "while.l"
 return Parser::AND;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 41 "sem-while.l"
+#line 41 "while.l"
 return Parser::OR;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 42 "sem-while.l"
+#line 42 "while.l"
 return Parser::EQUALS;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 43 "sem-while.l"
+#line 43 "while.l"
 return Parser::LESS_THAN;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 44 "sem-while.l"
+#line 44 "while.l"
 return Parser::GREATER_THAN;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 45 "sem-while.l"
+#line 45 "while.l"
 return Parser::PLUS;
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 46 "sem-while.l"
+#line 46 "while.l"
 return Parser::MINUS;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 47 "sem-while.l"
+#line 47 "while.l"
 return Parser::ASTERIKS;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 48 "sem-while.l"
+#line 48 "while.l"
 return Parser::DIV;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 49 "sem-while.l"
+#line 49 "while.l"
 return Parser::MOD;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 51 "sem-while.l"
+#line 51 "while.l"
 return Parser::LEFT_BRACKET;
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 52 "sem-while.l"
+#line 52 "while.l"
 return Parser::RIGHT_BRACKET;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 53 "sem-while.l"
+#line 53 "while.l"
 return Parser::ASSIGN;
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 54 "sem-while.l"
+#line 54 "while.l"
 return Parser::SEMICOLON;
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 56 "sem-while.l"
+#line 56 "while.l"
 return Parser::NATURAL_LITERAL;
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 57 "sem-while.l"
+#line 57 "while.l"
 return Parser::IDENTIFIER;
 	YY_BREAK
 case 38:
 /* rule 38 can match eol */
 YY_RULE_SETUP
-#line 59 "sem-while.l"
+#line 59 "while.l"
 // feher szokozok - semmi teendo
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 60 "sem-while.l"
+#line 60 "while.l"
 //komment a sor vegeig - nincs teendo
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 62 "sem-while.l"
+#line 62 "while.l"
 {
                 std::cerr << "Line " << lineno() << ": Parse error: Unexpected character '" << YYText() << "'" << std::endl;
                 exit(1);
@@ -923,7 +923,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 67 "sem-while.l"
+#line 67 "while.l"
 ECHO;
 	YY_BREAK
 #line 930 "lex.yy.cc"
@@ -1834,7 +1834,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 66 "sem-while.l"
+#line 66 "while.l"
 
 
 

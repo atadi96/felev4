@@ -6,6 +6,8 @@
 #include "Parser.h"
 #include <string>
 
+int Parser::label::current = 0;
+
 inline void Parser::error(char const *msg)
 {
     std::cerr << "Line " << d_loc__.first_line << ": " << msg << std::endl;
@@ -26,7 +28,7 @@ inline int Parser::lex()
 {
     int ret = lexer.yylex();
     d_loc__.first_line = lexer.lineno();
-    if( ret == IDENTIFIER )
+    if( ret == IDENTIFIER || ret == NATURAL_LITERAL )
     {
       d_val__.text = new std::string(lexer.YYText());
     }
@@ -70,13 +72,13 @@ void Parser::error_undeclared(const std::string& identifier) {
 }
 
 std::string Parser::two_param_compare(const expr_desc* left, const expr_desc* right, const std::string& set_type) {
-    std::string a = register_with_size("a", size_of(left->expr_type));
-    std::string b = register_with_size("b", size_of(left->expr_type));
+    std::string a = registers::a(size_of(left->expr_type));
+    std::string b = registers::b(size_of(left->expr_type));
     std::stringstream ss;
     ss  << right->code
-        << "    push " << a << "\n"
+        << "    push eax\n"
         << left->code
-        << "    pop " << b << "\n"
+        << "    pop ebx\n"
         << "    cmp " << a << ", " << b << "\n"
         << "    " << set_type << " al\n";
     return ss.str();
@@ -96,14 +98,30 @@ std::string Parser::register_with_size(const std::string& reg_name, int size) {
 
 
 std::string Parser::two_param_expr(const expr_desc* left, const expr_desc* right, const std::string& instruction) {
-    std::string a = register_with_size("a", size_of(left->expr_type));
-    std::string b = register_with_size("b", size_of(left->expr_type));
+    std::string a = registers::a(size_of(left->expr_type));
+    std::string b = registers::b(size_of(left->expr_type));
     std::stringstream ss;
     ss  << right->code
-        << "    push " << a << "\n"
+        << "    push eax\n"
         << left->code
-        << "    pop " << b << "\n"
+        << "    pop ebx\n"
         << "    " << instruction << "\n";
+    return ss.str();
+}
+
+std::string Parser::c_function_call(const std::string& function_name, const std::string& param, int size) {
+    std::stringstream ss;
+    ss  << "    push ebx\n"
+        << "    push ecx\n";
+    if(param != "") {
+        ss << "    push " << param << "\n";
+    }
+    ss  << "    call " << function_name << "\n";
+    if(param != "") {
+        ss << "    add esp, " << size << "\n";
+    }
+    ss  << "    pop ecx\n"
+        << "    pop ebx\n";
     return ss.str();
 }
 
@@ -117,6 +135,39 @@ int Parser::size_of(type var_type) {
             break;
         default: throw;
     }
+}
+
+std::string Parser::asm_size(type var_type) {
+    int size = size_of(var_type);
+    if(size == 1) {
+        return "byte";
+    }
+    if(size == 2) {
+        return "word";
+    }
+    return "dword";
+}
+
+std::string Parser::registers::a(int size) {
+    return register_with_size("a", size);
+}
+
+std::string Parser::registers::b(int size) {
+    return register_with_size("b", size);
+}
+
+std::string Parser::registers::c(int size) {
+    return register_with_size("c", size);
+}
+
+std::string Parser::registers::d(int size) {
+    return register_with_size("d", size);
+}
+
+std::string Parser::label::get_new() {
+    std::stringstream ss;
+    ss << "label_" << current++;
+    return ss.str();
 }
 
 

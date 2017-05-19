@@ -41,10 +41,26 @@ class Parser: public ParserBase
         bool assertType(const std::string& owner, type expected1, type expected2, type actual1, type actual2);
         void insertSymbol(type var_type, std::string name);
         void error_undeclared(const std::string& identifier);
-        std::string two_param_compare(const expr_desc* left, const expr_desc* right, const std::string& set_type);
-        std::string two_param_expr(const expr_desc* left, const expr_desc* right, const std::string& instruction);
-        std::string register_with_size(const std::string& reg_name, int size);
-        int size_of(type var_type);
+        static std::string two_param_compare(const expr_desc* left, const expr_desc* right, const std::string& set_type);
+        static std::string two_param_expr(const expr_desc* left, const expr_desc* right, const std::string& instruction);
+        static std::string register_with_size(const std::string& reg_name, int size);
+        static std::string c_function_call(const std::string& function_name, const std::string& param = "", int size = 4);
+        static int size_of(type var_type);
+        static std::string asm_size(type var_type);
+        
+        struct registers {
+            static std::string a(int size);
+            static std::string b(int size);
+            static std::string c(int size);
+            static std::string d(int size);
+        };
+        
+        class label {
+            public:
+                static std::string get_new();
+            private:
+                static int current;
+        };
 };
 
 
