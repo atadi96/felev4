@@ -15,6 +15,7 @@
 %token <text> NATURAL_LITERAL
 
 %left AND OR
+%right PRECNOT
 %left EQUALS
 %left LESS_THAN GREATER_THAN
 %left PLUS MINUS
@@ -252,18 +253,40 @@ conditional
     : IF expr THEN statements ENDIF
         {
             assertType("condition of if statement", boolean, $2->expr_type);
+            std::string iflabel("if_then_");
+            iflabel += label::get_new();
             $$ = new op_desc(
                 LINE,
-                ""
+                $2->code + 
+                "    cmp al, 1\n" +
+                "    jne near " + iflabel + "\n" +
+                *$4 + 
+                iflabel + ":\n"
             );
+            delete $2;
+            delete $4;
         }
     | IF expr THEN statements ELSE statements ENDIF
         {
             assertType("condition of if statement", boolean, $2->expr_type);
+            std::string label_postfix = label::get_new();
+            std::string else_label = std::string("if_else_") + label_postfix;
+            std::string end_label = std::string("if_end_") + label_postfix;
             $$ = new op_desc(
                 LINE,
-                ""
+                std::string("    ;if-then-else\n") + 
+                $2->code + 
+                "    cmp al, 1\n" +
+                "    jne near " + else_label + "\n" +
+                *$4 + 
+                "    jmp " + end_label + "\n" +
+                else_label + ":\n" +
+                *$6 + 
+                end_label + ":\n"
             );
+            delete $2;
+            delete $4;
+            delete $6;
         }
     ;
 
@@ -306,7 +329,7 @@ expr
         {
             $$ = $2;
         }
-    | NOT expr
+    | NOT expr %prec PRECNOT
         {
             assertType("not", boolean, $2->expr_type);
             $$ = new expr_desc(LINE, boolean, $2->code + "    xor al, 1\n");

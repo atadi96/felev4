@@ -1,11 +1,15 @@
-A szintaktikus elemző lefordítása:
+A fordító lefordítása:
     make
 
 (Vagy makefile használata nélkül:
-    flex sem-while.l
-    bisonc++ sem-while.y
-    g++ -osem-while sem-while.cc parse.cc lex.yy.cc
+    flex while.l
+    bisonc++ while.y
+    g++ -owhile while.cc parse.cc lex.yy.cc
 )
 
-A szintaktikus elemző használata:
-    ./sem-while example_source
+A szintaktikus elemző használata: (assembly kimenet)
+    ./while example_source
+
+Futtatható fájl az alábbi paranccsal készíthető:
+
+    ./compile.sh example_source
