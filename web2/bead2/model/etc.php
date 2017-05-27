@@ -1,9 +1,15 @@
 <?php
 
+define('BASE_URL', 'http://localhost/web2/felev4/web2/bead2/');
+
 @session_start();
 
 function save_to_file($file, $data) {
     file_put_contents($file, json_encode($data));
+}
+
+function remember($input, $name) {
+    return ' name="'.$name.'" ' . (isset($input[$name]) ? ' value="'. htmlentities( $input[$name]).'"' : "");
 }
 
 function load_from_file($file) {
@@ -20,8 +26,13 @@ function allow($method) {
     }
 }
 
-function redirect($url) {
+function global_redirect($url) {
     header("Location: " . $url);
+    exit;
+}
+
+function redirect($url) {
+    header("Location: ". BASE_URL . $url);
     exit;
 }
 
@@ -67,7 +78,7 @@ class Result {
     }
 
     public function add_message($message) {
-        $this->m_messages[] = $messages;
+        $this->m_messages[] = $message;
         return $this;
     }
 
@@ -88,6 +99,22 @@ class Result {
         $result->m_errors = array_merge($this->m_errors, $other->m_errors);
         return $result;
     }
+
+    public function html() {
+        foreach($this->m_errors as $error) {
+            echo '<div class="alert alert-danger">'.$error.'</div>';
+        }
+        foreach($this->m_messages as $message) {
+            echo '<div class="alert alert-info">'.$message.'</div>';
+        }
+        foreach($this->m_warnings as $warning) {
+            echo '<div class="alert alert-warning">'.$warning.'</div>';
+        }
+    }
+}
+
+function is_empty($input, $key) {
+    return !isset($input[$key]) || empty($input[$key]);
 }
 
 function validate($input, $rules, &$data, &$result = null) {
@@ -96,7 +123,7 @@ function validate($input, $rules, &$data, &$result = null) {
     }
     
     $filtered_inputs = filter_var_array($input, $rules);
-    
+
     foreach ($filtered_inputs as $key => $value) {
         $data[$key] = null;
         if (is_null($value) || is_empty($input, $key)) {
@@ -115,9 +142,27 @@ function validate($input, $rules, &$data, &$result = null) {
     return $result;
 }
 
+function login($user) {
+    $_SESSION['logged_in'] = $user;
+}
+
 function auth() {
     if(!isset($_SESSION['logged_in'])) {
         return new Result([], [], ["Csak bejelentkezéssel lehet folytatni!"]);
+    } else {
+        return new Result();
     }
+}
 
+function logout() {
+    unset($_SESSION['logged_in']);
+}
+
+class Pages {
+    const Welcome = "welcome";
+    const Home = "home";
+    const Register = "register";
+    const Levels = "levels";
+    const Game = "game";
+    const Demo = "demo";
 }

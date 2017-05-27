@@ -5,14 +5,16 @@
 
         <h2>Bejelentkezés</h2>
 
-        <form action="login.php" method="post">
+        <?php $result = load_from_flash(); if($result !== null) $result->html(); ?>
+
+        <form action="model/login.php" method="post">
             <div class="form-group">
                 <label for="email" class="control-label">E-mail cím</label><br />
-                <input name="email" id="email" type="text" placeholder="example@host.com" class="form-control"><br />
+                <input name="<?= Form::LoginEmail ?>" id="email" type="text" placeholder="example@host.com" class="form-control"><br />
             </div>
             <div class="form-group">
                 <label for="passwd" class="control-label">Jelszó</label><br />
-                <input name="passwd" id="passwd" type="password" class="form-control"><br />
+                <input name="<?= Form::LoginPassword  ?>" id="passwd" type="password" class="form-control"><br />
             </div>
             <input type="submit" value="Bejelentkezés" class="btn btn-primary">
         </form>
