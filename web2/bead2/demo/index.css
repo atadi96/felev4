@@ -1,0 +1,85 @@
+table {
+    display: inline;
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid black;
+    width: 90px;
+    height: 90px;
+}
+
+img {
+    height: 86px;
+    width: 86px;
+}
+
+.mirror-class {
+    position: relative;
+}
+
+.locked {
+    /*border-radius: 50%;
+    background-color: cornflowerblue;*/
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+#game {
+    display: none;
+    width: 810px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+svg {
+    width: 450px;
+    height: 450px;
+    position: absolute;
+    left: 0px;
+    top: 19px;
+    pointer-events: none;
+}
+
+#gametable {
+    width: 450px;
+    height: 450px;
+}
+
+#sparetable {
+    position: absolute;
+    top: 0px;
+    left: 450px;
+    margin-left: 90px;
+    margin-right: 90px;
+}
+
+#targetnumtable {
+    position: absolute;
+    top: 0px;
+    left: 720px;
+}
+
+#targetnum {
+    font-size: 72px;
+    color: red;
+    text-align: center;
+}
+
+#buttons {
+    position: absolute;
+    top: 500px;
+    left: 0px;
+}

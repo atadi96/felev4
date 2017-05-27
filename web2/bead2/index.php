@@ -2,6 +2,7 @@
 
 require_once('model/etc.php');
 include_once('model/form.php');
+include_once('model/user.php');
 
 allow('GET');
 
@@ -14,17 +15,14 @@ if(isset($_GET["page"]) && !empty($_GET['page'])) {
         $page = Pages::Home;
     } else if(!$auth_result->success() && $page == Pages::Home) {
         $page = Pages::Welcome;
-    } else {
-        if(!$auth_result->success()) {
+    } else if(!$auth_result->success() && $page != Pages::Welcome) {
             $auth_result->html();
-        }
     }
 } else if($auth_result->success()) {
     $page = Pages::Home;
 } else {
     $page = Pages::Welcome;
 }
-$result = $result->concat($auth_result);
 
 include("templates/header.template.php");
 header_template("Fejtörő fényvesztő");
@@ -34,6 +32,7 @@ switch($page) {
         include("templates/welcome.template.php");
         break;
     case Pages::Home:
+        include('templates/navbar.template.php');
         break;
     case Pages::Register:
         include("templates/register.template.php");

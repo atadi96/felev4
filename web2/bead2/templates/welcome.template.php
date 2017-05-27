@@ -19,6 +19,6 @@
             <input type="submit" value="Bejelentkezés" class="btn btn-primary">
         </form>
         Nincs fiókod? <a href="index.php?page=<?= Pages::Register ?>">Regisztrálj itt</a>, <br />
-        vagy próbáld ki <a href="demo.html">a demót!</a>
+        vagy próbáld ki <a href="demo/index.html">a demót!</a>
     </div>
 </div>

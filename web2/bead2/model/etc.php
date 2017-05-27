@@ -154,6 +154,10 @@ function auth() {
     }
 }
 
+function current_user() {
+    return $_SESSION['logged_in'];
+}
+
 function logout() {
     unset($_SESSION['logged_in']);
 }

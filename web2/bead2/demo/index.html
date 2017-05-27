@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LASERS LASERS LASERS WHOOOHHOOOOOOO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<link rel="stylesheet" href="http://bootswatch.com/superhero/bootstrap.min.css">-->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <main class="container noselect">
+        <h1>Fénytörő fejtörő</h1>
+        <div id="menu">
+            Pálya választása
+            <ul>
+                <li><button id="lvl1btn">Egyszerű</button></li>
+                <li><button id="lvl2btn">Közepes</button></li>
+                <li><button id="lvl3btn">Nehéz</button></li>
+            </ul>
+        </div>
+        <div id="game">
+            <table> 
+                <caption>Tábla</caption>
+                <tbody id="gamefield"> </tbody>
+            </table>
+            <table id="sparetable"> 
+                <caption>Hozzáadandó</caption>
+                <tbody id="sparefield"> </tbody>
+            </table>
+            <table id="targetnumtable">
+                <caption>Célok száma</caption>
+                <tr>
+                    <td id="targetnum"></td>
+                </tr>
+            </table>
+            <svg width="450px" height="450px">
+                <path id="laserpath" d="" stroke="red" stroke-width="3" fill="none">
+            </svg>
+            <div id="buttons">
+                <button id="clearbutton">Lézerek törlése</button>
+                <button id="evalbutton">Ellenőrzés</button>
+                <span id="gamewontext"></span> <br /> <br />
+                <button id="backbutton">Vissza a menübe</button>
+            </div>
+        </div>
+    </main>
+    
+    <script src="scripts/unit.js"></script>
+    <script src="scripts/gamemap.js"></script>
+    <script src="scripts/script.js"></script>
+</body>
+</html>

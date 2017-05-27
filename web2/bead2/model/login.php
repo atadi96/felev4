@@ -36,7 +36,7 @@ $pw1 = $data[Form::LoginPassword];
 if(isset($users[$email])) {
     $user = User::fromDatabase($users[$email]);
     if($user->verify_password($pw1)) {
-        login($user);
+        login($user->jsonSerialize());
     } else {
         $result->add_error("Hibás email-cím vagy jelszó!");
     }
