@@ -1,4 +1,10 @@
+<?php
+ 
+    @require_once('../model/etc.php');
+    @require_once('../model/gameMap.php');
+    @require_once('../model/form.php');
 
+?>
 function ajax(opts) { 
   var mod    = opts.mod        || 'GET',
       url      = opts.url      || '',
@@ -539,10 +545,7 @@ function drawLaser(pathSelector, gameMap) {
 
 function getMap() {
     return new MapData(
-        <?php 
-        @require_once('../model/etc.php');
-        @require_once('../model/gameMap.php');
-        @require_once('../model/form.php');
+        <?php
         $maps = load_from_file('../data/games.json');
         $map = GameMap::fromDatabase($maps[$_GET[Form::MapName]]);
         echo $map->data();

@@ -1,8 +1,14 @@
 <?php
 
-define('BASE_URL', 'http://localhost/web2/felev4/web2/bead2/');
-
 @session_start();
+
+$config;
+if($config = @parse_ini_file('config.ini') || $config = @parse_ini_file('../config.ini')) {
+    define('BASE_URL', $config['base_url']);
+} else {
+    die(print("<h1>Az oldal nincs megfelelően beállítva! Kérem, olvassa el a README.md fájlt!</h1>"));
+}
+
 
 function save_to_file($file, $data) {
     file_put_contents($file, json_encode($data));
