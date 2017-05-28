@@ -1,6 +1,7 @@
 
 
 <?php
+    include_once('model/gameMap.php');
     include_once('templates/header.template.php');
     $maps = load_from_file('data/games.json');
     if(!isset($maps[$_GET[Form::MapName]]) || empty($maps[$_GET[Form::MapName]])) {
@@ -8,15 +9,15 @@
         (new Result([], [], ["A kiválasztott pálya nincs az adatbázisban!"]))->html();
         die();
     }
-    $map = $maps[$_GET[Form::MapName]];
+    $map = GameMap::fromDatabase($maps[$_GET[Form::MapName]]);
     header($map->name().' - Fénytörő Fejtörő');
     echo '<link rel="stylesheet" href="demo/index.css">';
     include('templates/navbar.template.php');
 ?>
 
 <main class="container noselect">
-    <h1><?= $map->name() ?> - Fénytörő fejtörő</h1>
-    <div id="game">
+    <div><h1><?= $map->name() ?> - Fénytörő fejtörő</h1></div>
+    <div id="game" style="display: block">
         <table> 
             <caption>Tábla</caption>
             <tbody id="gamefield"> </tbody>
@@ -35,10 +36,10 @@
             <path id="laserpath" d="" stroke="red" stroke-width="3" fill="none">
         </svg>
         <div id="buttons">
-            <button id="clearbutton">Lézerek törlése</button>
-            <button id="evalbutton">Ellenőrzés</button>
-            <span id="gamewontext"></span>
+            <button id="clearbutton" class="btn">Lézerek törlése</button>
+            <button id="evalbutton" class="btn">Ellenőrzés</button>
+            <span id="gamewontext" class="alert alert-info"></span>
         </div>
     </div>
 </main>
-<script src="templates/game.js.php" lang="text/javascript"></script>
+<script src="templates/game.js.php?<?= Form::MapName ?>=<?= $map->name() ?>" type="text/javascript"></script>

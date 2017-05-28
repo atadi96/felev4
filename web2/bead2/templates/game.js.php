@@ -10,7 +10,7 @@ UnitType = Object.freeze({
     Checkpoint: 6,
     Block: 7,
     picture: function(type) {
-        let prefix = "mirrors/"
+        let prefix = "demo/mirrors/"
         switch(type) {
             case UnitType.Laser:
                 return prefix + "laser.png";
@@ -476,7 +476,6 @@ function createGame() {
         gameMap.gameField.addEventListener("drop", createOnDrop(gameMap), false);
 
         $("#game").style.display = "block";
-        $("#menu").style.display = "none";
 
         evalGame();
     }
@@ -511,7 +510,14 @@ function drawLaser(pathSelector, gameMap) {
 
 function getMap() {
     return new MapData(
-        <?php /*print map data here*/ ?>
+        <?php 
+        @require_once('../model/etc.php');
+        @require_once('../model/gameMap.php');
+        @require_once('../model/form.php');
+        $maps = load_from_file('../data/games.json');
+        $map = GameMap::fromDatabase($maps[$_GET[Form::MapName]]);
+        echo $map->data();
+        ?>
     );
 }
 
@@ -548,20 +554,6 @@ $("#clearbutton").addEventListener("click",
     }
  , this);
 
-$("#backbutton").addEventListener("click", 
-    function() {
-        gameMap.gameField.innerHTML = "";
-        gameMap.spareField.innerHTML = "";
-        gameMap.targetNumDisplay.innerHTML = "";
-        let newTable = gameMap.gameField.cloneNode(true);
-        gameMap.gameField.parentNode.replaceChild(newTable, gameMap.gameField);
-        for(i = 0; i < 6; i++) {
-            for(j = 0; j < 5; j++) {
-                gameMap.unitMap[i][j] = null;
-            }
-        }
-        gameMap = null;
-    }
-, this);
+$("#evalbutton").addEventListener("click", evalGame, this);
 
 createGame()();
