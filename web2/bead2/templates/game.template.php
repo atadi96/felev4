@@ -6,6 +6,7 @@
     $maps = load_from_file('data/games.json');
     if(!isset($maps[$_GET[Form::MapName]]) || empty($maps[$_GET[Form::MapName]])) {
         header('Hiba!');
+        include('templates/navbar.template.php');
         (new Result([], [], ["A kiválasztott pálya nincs az adatbázisban!"]))->html();
         die();
     }

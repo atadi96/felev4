@@ -14,7 +14,8 @@ $maps = new MapEnumerator();
                 <tr>
                     <th>Név</th>
                     <th>Nehézség</th>
-                    <th>Teljesítve</th>
+                    <th>Teljesítették</th>
+                    <th>Saját eredmény</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,6 +23,7 @@ $maps = new MapEnumerator();
                 <tr>
                     <td><a href="index.php?page=game&<?= Form::MapName ?>=<?= $map->name() ?>"><?= $map->name() ?></td>
                     <td><?= $map->difficulty() ?></td>
+                    <td><?= $map->num_finished() ?></td>
                     <td><?= $map->finished(current_user()['email']) ? "✔" : '✖' ?></td>
                 </tr>
                 <?php endforeach; ?>
