@@ -3,10 +3,10 @@
 @session_start();
 
 $config;
-if($config = @parse_ini_file('config.ini') || $config = @parse_ini_file('../config.ini')) {
+if(($config = @parse_ini_file('config.ini')) || ($config = @parse_ini_file('../config.ini'))) {
     define('BASE_URL', $config['base_url']);
 } else {
-    die(print("<h1>Az oldal nincs megfelelően beállítva! Kérem, olvassa el a README.md fájlt!</h1>"));
+    die(print('<h1>Az oldal nincs megfelelően beállítva! Kérem, olvassa el a <a href="README.md">README.md</a> fájlt!</h1><p>Kattintson ide az <a href="init.php">init.php</a> futtatásához</p>'));
 }
 
 
