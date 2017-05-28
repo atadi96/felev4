@@ -15,8 +15,9 @@ if(isset($_GET["page"]) && !empty($_GET['page'])) {
         $page = Pages::Home;
     } else if(!$auth_result->success() && $page == Pages::Home) {
         $page = Pages::Welcome;
-    } else if(!$auth_result->success() && $page != Pages::Welcome) {
-            $auth_result->html();
+    } else if(!$auth_result->success() && $page != Pages::Welcome && $page != Pages::Register) {
+        $page = Pages::Welcome;
+        $auth_result->html();
     }
 } else if($auth_result->success()) {
     $page = Pages::Home;
@@ -40,5 +41,15 @@ switch($page) {
         break;
     case Pages::Game:
         include('templates/game.template.php');
+        break;
+    default:
+        if($auth_result->success()) {
+            include("templates/navbar.template.php");
+        }
+        ?>
+            <div class="col-sm-6 col-sm-offset-3">
+                <h1 class="alert alert-danger">A kért oldal nem található!</h1>
+            </div>
+        <?php
         break;
 }

@@ -10,4 +10,6 @@ class Form {
     const LoginPassword = "login_pw";
 
     const MapName = "game_map";
+
+    const FinishedMapName = "map_name";
 }

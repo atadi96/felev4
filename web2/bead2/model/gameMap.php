@@ -56,6 +56,6 @@ class GameMap implements JsonSerializable {
     }
 
     public function add_finished($email) {
-        $this->m_finished[] = $email;
+        $this->m_finished[$email] = $email;
     }
 }

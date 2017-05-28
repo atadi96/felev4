@@ -1,4 +1,33 @@
 
+function ajax(opts) { 
+  var mod    = opts.mod        || 'GET',
+      url      = opts.url      || '',
+      getadat  = opts.getadat  || '',
+      postadat = opts.postadat || '',
+      siker    = opts.siker    || function(){},
+      hiba     = opts.hiba     || function(){};
+
+  mod = mod.toUpperCase();
+  url = url+'?'+getadat;
+  var xhr = new XMLHttpRequest(); // ujXHR();
+  xhr.open(mod, url, true);
+  if (mod === 'POST') {
+    xhr.setRequestHeader('Content-Type', 
+      'application/x-www-form-urlencoded');
+  }
+  xhr.addEventListener('readystatechange', function () {
+    if (xhr.readyState == 4) {
+      if (xhr.status == 200) {
+        siker(xhr, xhr.responseText);
+      } else {
+        hiba(xhr);
+      }
+    }
+  }, false);
+  xhr.send(mod == 'POST' ? postadat : null);
+  return xhr;
+}
+
 
 UnitType = Object.freeze({
     None: 0,
@@ -540,9 +569,25 @@ function evalGame() {
     drawLaser("#laserpath", gameMap);
     $("#gamewontext").innerHTML = won ? "You win!" : "Try some more...";
     if(won) {
-        window.setTimeout(function() {
-            alert("You win!");
-        }, 100);
+        ajax({
+            mod: 'POST',
+            url: 'model/finished.php',
+            postadat: "<?= Form::FinishedMapName ?>=<?= $map->name() ?>",
+            hiba: function() {
+                alert("Nem sikerült feltölteni az eredményt!");
+            }
+        });
+        ajax({
+            mod: 'GET',
+            url: 'model/finished_list.php',
+            getadat: "<?= Form::FinishedMapName ?>=<?= $map->name() ?>",
+            siker: function(xhr, text) {
+                alert("Gratulálnuk!\n\nTeljesítők listája:\n" + text);
+            },
+            hiba: function() {
+                alert("Gratulálunk!");
+            }
+        });
     }
 }
 
