@@ -585,7 +585,7 @@ function evalGame() {
             url: 'model/finished_list.php',
             getadat: "<?= Form::FinishedMapName ?>=<?= $map->name() ?>",
             siker: function(xhr, text) {
-                alert("Gratulálnuk!\n\nTeljesítők listája:\n" + text);
+                alert("Gratulálunk!\n\nTeljesítők listája:\n" + text);
             },
             hiba: function() {
                 alert("Gratulálunk!");
