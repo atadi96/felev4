@@ -25,7 +25,7 @@ if(isset($_GET["page"]) && !empty($_GET['page'])) {
 }
 
 include("templates/header.template.php");
-header_template("Fejtörő fényvesztő");
+header_template("Fénytörő Fejtörő");
 
 switch($page) {
     case Pages::Welcome:
@@ -33,14 +33,12 @@ switch($page) {
         break;
     case Pages::Home:
         include('templates/navbar.template.php');
+        include('templates/maplist.template.php');
         break;
     case Pages::Register:
         include("templates/register.template.php");
         break;
-    case Pages::Levels:
-        break;
     case Pages::Game:
-        break;
-    case Pages::Demo:
+        include('templates/game.template.php');
         break;
 }

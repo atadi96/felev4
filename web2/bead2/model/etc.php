@@ -166,7 +166,5 @@ class Pages {
     const Welcome = "welcome";
     const Home = "home";
     const Register = "register";
-    const Levels = "levels";
     const Game = "game";
-    const Demo = "demo";
 }

@@ -1,6 +1,7 @@
 <?php
 
 class GameMap implements JsonSerializable {
+
     private $m_name;
     private $m_finished;
     private $m_data;
@@ -10,14 +11,15 @@ class GameMap implements JsonSerializable {
         $this->m_name = $name;
         $this->m_finished = $finished;
         $this->m_data = $data;
+        $this->m_difficulty = $difficulty;
     }
 
     public static function fromUser($name, $difficulty, $data) {
         return new GameMap($name, $difficulty, $data);
     }
 
-    public static function fromDatabase($name, $difficulty, $data, $finished) {
-        return new GameMap($name, $difficulty, $data, $finished);
+    public static function fromDatabase($data) {
+        return new GameMap($data['name'], $data['difficulty'], $data['data'], $data['finished']);
     }
 
     public function name() {
@@ -42,5 +44,14 @@ class GameMap implements JsonSerializable {
 
     public function num_finished() {
         return count($this->m_finished);
+    }
+
+    public function jsonSerialize() {
+        return [
+            'name' => $this->m_name,
+            'difficulty' => $this->m_difficulty,
+            'data' => $this->m_data,
+            'finished' => $this->m_finished
+        ];
     }
 }

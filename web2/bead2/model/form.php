@@ -8,4 +8,6 @@ class Form {
 
     const LoginEmail = "login_email";
     const LoginPassword = "login_pw";
+
+    const MapName = "game_map";
 }

@@ -1,0 +1,20 @@
+{
+    "Tutorial": {
+        "data": "[{unit: new Unit(UnitType.Laser, Rotation.right, false, true),pos: new Pos(1, 2)},{unit: new Unit(UnitType.Target, Rotation.left, false, true),pos: new Pos(2, 0)},{unit: new Unit(UnitType.Target, Rotation.left, false, true),pos: new Pos(4, 0)},{unit: new Unit(UnitType.Target, Rotation.up, false, false),pos: new Pos(3, 2)},{unit: new Unit(UnitType.Checkpoint, Rotation.down, false, false),pos: new Pos(4, 3)},{unit: new Unit(UnitType.Double, Rotation.right, false, false),pos: new Pos(0, 4)},],[new Unit(UnitType.Target, Rotation.left, true, true),new Unit(UnitType.Target, Rotation.left, true, true),new Unit(UnitType.Semi, Rotation.up, true, true),],2",
+        "name": "Tutorial",
+        "finished": [],
+        "difficulty": "Easy"
+    },
+    "Normal": {
+        "data": "[{unit: new Unit(UnitType.Laser, Rotation.right, false, true),pos: new Pos(1, 2)},{unit: new Unit(UnitType.Target, Rotation.left, false, true),pos: new Pos(2, 0)},{unit: new Unit(UnitType.Target, Rotation.left, false, true),pos: new Pos(4, 0)},{unit: new Unit(UnitType.Target, Rotation.up, false, false),pos: new Pos(3, 2)},{unit: new Unit(UnitType.Checkpoint, Rotation.down, false, false),pos: new Pos(4, 3)},{unit: new Unit(UnitType.Double, Rotation.right, false, false),pos: new Pos(0, 4)},],[new Unit(UnitType.Target, Rotation.left, true, true),new Unit(UnitType.Target, Rotation.left, true, true),new Unit(UnitType.Semi, Rotation.up, true, true),],2",
+        "name": "Normal",
+        "finished": [],
+        "difficulty": "Normal"
+    },
+    "Advanced": {
+        "data": "[{unit: new Unit(UnitType.Laser, Rotation.right, false, true),pos: new Pos(1, 2)},{unit: new Unit(UnitType.Target, Rotation.left, false, true),pos: new Pos(2, 0)},{unit: new Unit(UnitType.Target, Rotation.left, false, true),pos: new Pos(4, 0)},{unit: new Unit(UnitType.Target, Rotation.up, false, false),pos: new Pos(3, 2)},{unit: new Unit(UnitType.Checkpoint, Rotation.down, false, false),pos: new Pos(4, 3)},{unit: new Unit(UnitType.Double, Rotation.right, false, false),pos: new Pos(0, 4)},],[new Unit(UnitType.Target, Rotation.left, true, true),new Unit(UnitType.Target, Rotation.left, true, true),new Unit(UnitType.Semi, Rotation.up, true, true),],2",
+        "name": "Advanced",
+        "finished": [],
+        "difficulty": "Advanced"
+    }
+}
