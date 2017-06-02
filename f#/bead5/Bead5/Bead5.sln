@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Bead5", "Bead5\Bead5.fsproj", "{CED705F3-E5BC-4DF6-BE16-A88AC7D77919}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CED705F3-E5BC-4DF6-BE16-A88AC7D77919}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CED705F3-E5BC-4DF6-BE16-A88AC7D77919}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CED705F3-E5BC-4DF6-BE16-A88AC7D77919}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CED705F3-E5BC-4DF6-BE16-A88AC7D77919}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
