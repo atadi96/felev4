@@ -1,0 +1,12 @@
+program test
+    natural i;
+    natural j;
+    natural max;
+begin
+    read(max);
+    for i in 1..max do
+        for j in 1..max do
+            write(i*j);
+        done
+    done
+end

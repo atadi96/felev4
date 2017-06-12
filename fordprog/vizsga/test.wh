@@ -1,0 +1,11 @@
+program test
+    natural n;
+begin
+    read(n);
+    @begin:
+    write(n);
+    if n > 0 then
+        n := n - 1;
+        goto @begin;
+    endif
+end
