@@ -1,0 +1,15 @@
+A fordító lefordítása:
+    make
+
+(Vagy makefile használata nélkül:
+    flex while.l
+    bisonc++ while.y
+    g++ -owhile while.cc parse.cc lex.yy.cc
+)
+
+A szintaktikus elemző használata: (assembly kimenet)
+    ./while example_source
+
+Futtatható fájl az alábbi paranccsal készíthető:
+
+    ./compile.sh example_source
