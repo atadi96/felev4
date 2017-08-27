@@ -17,7 +17,7 @@ file_put_contents(
 );
 $check = @file_get_contents('config.ini');
 if($check == $base_url) {
-    echo 'config.ini sikeresen létrehozva!';
+    echo 'config.ini created successgully!';
 } else {
-    echo 'Nem sikerült helyesen létrehozni a config.ini fájlt!';
+    echo 'Couldn\t create the config.ini file!';
 }

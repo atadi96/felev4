@@ -6,7 +6,7 @@ $config;
 if(($config = @parse_ini_file('config.ini')) || ($config = @parse_ini_file('../config.ini'))) {
     define('BASE_URL', $config['base_url']);
 } else {
-    die(print('<h1>Az oldal nincs megfelelően beállítva! Kérem, olvassa el a <a href="README.md">README.md</a> fájlt!</h1><p>Kattintson ide az <a href="init.php">init.php</a> futtatásához</p>'));
+    die(print('<h1>The page is not set up property! Please read the <a href="README.md">README.md</a> file!</h1><p>Click here to run <a href="init.php">init.php</a>!</p>'));
 }
 
 
@@ -136,7 +136,7 @@ function validate($input, $rules, &$data, &$result = null) {
             if (isset($rules[$key]['default'])) {
                 $data[$key] = $rules[$key]['default'];
             } else {
-                $result->add_error("{$key} hiányzik");
+                $result->add_error("{$key} was not set!");
             }
         } else if ($value === false) {
             $result->add_error($rules[$key]['errormsg']);
@@ -154,7 +154,7 @@ function login($user) {
 
 function auth() {
     if(!isset($_SESSION['logged_in'])) {
-        return new Result([], [], ["Csak bejelentkezéssel lehet folytatni!"]);
+        return new Result([], [], ["You have to log in to continue!"]);
     } else {
         return new Result();
     }

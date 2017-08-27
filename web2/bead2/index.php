@@ -26,7 +26,7 @@ if(isset($_GET["page"]) && !empty($_GET['page'])) {
 }
 
 include("templates/header.template.php");
-header_template("Fénytörő Fejtörő");
+header_template("Mirror Puzzle");
 
 switch($page) {
     case Pages::Welcome:
@@ -48,7 +48,7 @@ switch($page) {
         }
         ?>
             <div class="col-sm-6 col-sm-offset-3">
-                <h1 class="alert alert-danger">A kért oldal nem található!</h1>
+                <h1 class="alert alert-danger">The pade does not exist!</h1>
             </div>
         <?php
         break;

@@ -8,14 +8,14 @@ $maps = new MapEnumerator();
 
 <div class="container">
     <div class="col-sm-8 col-sm-offset-2">
-        <h2>Játszható pályák</h2>
+        <h2>Available levels</h2>
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>Név</th>
-                    <th>Nehézség</th>
-                    <th>Teljesítették</th>
-                    <th>Saját eredmény</th>
+                    <th>Name</th>
+                    <th>Difficulty</th>
+                    <th>Cleared</th>
+                    <th>My result</th>
                 </tr>
             </thead>
             <tbody>

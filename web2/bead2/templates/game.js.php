@@ -577,7 +577,7 @@ function evalGame() {
             url: 'model/finished.php',
             postadat: "<?= Form::FinishedMapName ?>=<?= $map->name() ?>",
             hiba: function() {
-                alert("Nem sikerült feltölteni az eredményt!");
+                alert("We couldn't upload your result!");
             }
         });
         ajax({
@@ -585,10 +585,10 @@ function evalGame() {
             url: 'model/finished_list.php',
             getadat: "<?= Form::FinishedMapName ?>=<?= $map->name() ?>",
             siker: function(xhr, text) {
-                alert("Gratulálunk!\n\nTeljesítők listája:\n" + text);
+                alert("Congratulations!\n\nAlready completed:\n" + text);
             },
             hiba: function() {
-                alert("Gratulálunk!");
+                alert("Congratulations!");
             }
         });
     }

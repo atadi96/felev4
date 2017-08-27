@@ -14,19 +14,19 @@ $data = [];
 $rules = [
     Form::RegisterName => [
         'filter' => FILTER_DEFAULT,
-        'errormsg' => 'A megadott felhasználónév nem megfelelő (szöveg) formátumú!'
+        'errormsg' => 'Invalid username format!'
     ],
     Form::RegisterEmail => [
         'filter' => FILTER_VALIDATE_EMAIL,
-        'errormsg' => 'A megadott email-cím nem megfelelő formátumú!'
+        'errormsg' => 'Invalid email format!'
     ],
     Form::RegisterPassword => [
         'filter' => FILTER_DEFAULT,
-        'errormsg' => 'A megadott jelszó nem megfelelő (szöveg) formátumú!'
+        'errormsg' => 'Invalid password format!'
     ],
     Form::RegisterPassword2 => [
         'filter' => FILTER_DEFAULT,
-        'errormsg' => 'Az ismételt jelszó nem megfelelő (szöveg) formátumú!'
+        'errormsg' => 'Invalid repeat password format!'
     ]
 ];
 
@@ -47,12 +47,12 @@ if(!isset($users[$email])) {
     if($pw1 == $pw2) {
         $user = User::fromInput($name, $email, $pw1);
         $users[$email] = $user;
-        $result->add_message('A regisztráció sikeres volt!');
+        $result->add_message('Your account has been dreated successfully!');
     } else {
-        $result->add_error("A két jelszó nem egyezik!");
+        $result->add_error("The two passwords don't match!");
     }
 } else {
-    $result->add_error("Ez az email-cím már foglalt!");
+    $result->add_error("This email address is already taken!");
 }
 
 save_to_flash($result);

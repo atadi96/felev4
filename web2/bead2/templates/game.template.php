@@ -7,28 +7,28 @@
     if(!isset($maps[$_GET[Form::MapName]]) || empty($maps[$_GET[Form::MapName]])) {
         header('Hiba!');
         include('templates/navbar.template.php');
-        (new Result([], [], ["A kiválasztott pálya nincs az adatbázisban!"]))->html();
+        (new Result([], [], ["The selected map does not exist in the database!"]))->html();
         die();
     }
     $map = GameMap::fromDatabase($maps[$_GET[Form::MapName]]);
-    header($map->name().' - Fénytörő Fejtörő');
+    header($map->name().' - Mirror Puzzles');
     echo '<link rel="stylesheet" href="demo/index.css">';
     include('templates/navbar.template.php');
 ?>
 
 <main class="container noselect">
-    <div><h1><?= $map->name() ?> - Fénytörő fejtörő</h1></div>
+    <div><h1><?= $map->name() ?> - Mirror Puzzles</h1></div>
     <div id="game" style="display: block">
         <table> 
-            <caption>Tábla</caption>
+            <caption>Board</caption>
             <tbody id="gamefield"> </tbody>
         </table>
         <table id="sparetable"> 
-            <caption>Hozzáadandó</caption>
+            <caption>Spares</caption>
             <tbody id="sparefield"> </tbody>
         </table>
         <table id="targetnumtable">
-            <caption>Célok száma</caption>
+            <caption>Number of targets</caption>
             <tr>
                 <td id="targetnum"></td>
             </tr>
@@ -37,8 +37,8 @@
             <path id="laserpath" d="" stroke="red" stroke-width="3" fill="none">
         </svg>
         <div id="buttons">
-            <button id="clearbutton" class="btn">Lézerek törlése</button>
-            <button id="evalbutton" class="btn">Ellenőrzés</button>
+            <button id="clearbutton" class="btn">Clear lasers</button>
+            <button id="evalbutton" class="btn">Check solution</button>
             <span id="gamewontext" class="alert alert-info"></span>
         </div>
     </div>

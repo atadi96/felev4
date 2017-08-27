@@ -20,7 +20,7 @@ $email = current_user()['email'];
 $rules = [
     Form::FinishedMapName => [
         'filter' => FILTER_DEFAULT,
-        'errormsg' => 'Nem adta meg a teljesített pálya nevét'
+        'errormsg' => 'You didn\'t specify the name of the passed level!'
     ]
 ];
 

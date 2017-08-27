@@ -14,11 +14,11 @@ $data = [];
 $rules = [
     Form::LoginEmail => [
         'filter' => FILTER_VALIDATE_EMAIL,
-        'errormsg' => 'A megadott email-cím nem megfelelő formátumú!'
+        'errormsg' => 'Incorrect e-mail format!'
     ],
     Form::LoginPassword => [
         'filter' => FILTER_DEFAULT,
-        'errormsg' => 'A megadott jelszó nem megfelelő (szöveg) formátumú!'
+        'errormsg' => 'Incorrect password format!'
     ]
 ];
 
@@ -38,10 +38,10 @@ if(isset($users[$email])) {
     if($user->verify_password($pw1)) {
         login($user->jsonSerialize());
     } else {
-        $result->add_error("Hibás email-cím vagy jelszó!");
+        $result->add_error("Wrong email address or password!");
     }
 } else {
-    $result->add_error("Hibás email-cím vagy jelszó!");
+    $result->add_error("Wrong email address or password!");
 }
 
 save_to_flash($result);

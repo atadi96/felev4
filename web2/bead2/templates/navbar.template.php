@@ -9,16 +9,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.php?page=<?= Pages::Home ?>">Kezdőlap</a>
+      <a class="navbar-brand" href="index.php?page=<?= Pages::Home ?>">Home</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       
       <div class="navbar-right">
-        <p class="navbar-text">Üdvözöljük, <?= current_user()['name'] ?></p>
+        <p class="navbar-text">Hello, <?= current_user()['name'] ?></p>
         <form  class="navbar-form navbar-right" action="model/logout.php" method="post">
-            <button type="submit" class="btn btn-default">Kijelentkezés</button>
+            <button type="submit" class="btn btn-default">Log out</button>
         </form>
       </div>
     </div><!-- /.navbar-collapse -->

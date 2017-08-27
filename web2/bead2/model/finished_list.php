@@ -12,13 +12,13 @@ function error($code, $description = "") {
 
 $auth_result = auth();
 if(!$auth_result->success()) {
-    error(401, "Nincs bejelentkezve!");
+    error(401, "You're not logged in!");
 }
 
 $rules = [
     Form::FinishedMapName => [
         'filter' => FILTER_DEFAULT,
-        'errormsg' => 'Nem adta meg a teljesített pálya nevét'
+        'errormsg' => 'You didn\'t specify the name of the passed level!'
     ]
 ];
 
