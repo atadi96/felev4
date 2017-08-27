@@ -2,39 +2,44 @@
 
 require_once('etc.php');
 require_once('form.php');
+require_once('song.php');
 
 $rules = [
    Form::SongTitle => [
        'filter' => FILTER_DEFAULT,
-       'errormsg' => 'A megadott dalcím nem megfelelő formátumú!'
+       'errormsg' => 'Invalid title format!'
    ], 
    Form::ArtistName => [
        'filter' => FILTER_DEFAULT,
-       'errormsg' => 'A megadott előadó név nem megfelelő formátumú!'
+       'errormsg' => 'Invalid artist format!'
    ], 
    Form::SongDuration => [
        'filter' => FILTER_VALIDATE_INT,
-       'errormsg' => 'A megadott dalhossz nem megfelelő formátumú!'
+       'errormsg' => 'Invalid length format!',
+       'default' => 0
    ], 
    Form::AlbumTitle => [
        'filter' => FILTER_DEFAULT,
-       'errormsg' => 'A megadott albumcím nem megfelelő formátumú!'
+       'errormsg' => 'Invalid album title format!',
+       'default' => ''
    ], 
    Form::AlbumYear => [
        'filter' => FILTER_VALIDATE_INT,
-       'errormsg' => 'A megadott megjelenési év nem megfelelő formátumú!'
+       'errormsg' => 'Invalid album year format!'
    ], 
    Form::SongCategory => [
        'filter' => FILTER_DEFAULT,
-       'errormsg' => 'A megadott kategória nem megfelelő formátumú!'
+       'errormsg' => 'Invalid category format!'
    ], 
    Form::SongLinks => [
        'filter' => FILTER_DEFAULT,
-       'errormsg' => 'A megadott link lista nem megfelelő formátumú!'
+       'errormsg' => 'Invalid link list format!',
+       'default' => ''
    ], 
    Form::AlbumImageURL => [
        'filter' => FILTER_VALIDATE_URL,
-       'errormsg' => 'A megadott albumborító URL nem megfelelő formátumú!'
+       'default' => '',
+       'errormsg' => 'Invalid cover URL format!'
    ], 
 ];
 
@@ -56,8 +61,8 @@ if($result->success()) {
         );
         $songs = load_from_file('../data/songs.json');
         $songs[time()] = $new_song;
-        save_to_file('../data/songs.json');
-        $result->add_message('A dal sikeresen felvéve az adatbázisba!');
+        save_to_file('../data/songs.json', $songs);
+        $result->add_message('Song successfully added to the database!');
     }
 }
 

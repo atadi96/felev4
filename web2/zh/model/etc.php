@@ -136,7 +136,7 @@ function validate($input, $rules, &$data, &$result = null) {
             if (isset($rules[$key]['default'])) {
                 $data[$key] = $rules[$key]['default'];
             } else {
-                $result->add_error("{$key} hiányzik");
+                $result->add_error("{$key} is missing!");
             }
         } else if ($value === false) {
             $result->add_error($rules[$key]['errormsg']);
@@ -154,7 +154,7 @@ function login($user) {
 
 function auth() {
     if(!isset($_SESSION['logged_in'])) {
-        return new Result([], [], ["Csak bejelentkezéssel lehet folytatni!"]);
+        return new Result([], [], ["You have to log in to continue!"]);
     } else {
         return new Result();
     }
@@ -171,4 +171,5 @@ function logout() {
 class Pages {
     const AddSong = "add_song";
     const List = "list";
+    const SongDetails = "song";
 }

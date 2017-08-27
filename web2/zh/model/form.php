@@ -9,4 +9,6 @@ class Form {
     const SongCategory = "song_category";
     const SongLinks = "song_links";
     const AlbumImageURL = "album_img_url";
+
+    const SongID = "song_id";
 }
