@@ -47,7 +47,7 @@ if(!isset($users[$email])) {
     if($pw1 == $pw2) {
         $user = User::fromInput($name, $email, $pw1);
         $users[$email] = $user;
-        $result->add_message('Your account has been dreated successfully!');
+        $result->add_message('Your account has been created successfully!');
     } else {
         $result->add_error("The two passwords don't match!");
     }

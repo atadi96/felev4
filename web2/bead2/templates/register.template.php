@@ -24,7 +24,7 @@
                 <label for="passwd2" class="control-label">Repeat password</label><br />
                 <input name="<?= Form::RegisterPassword2  ?>" id="passwd2" type="password" class="form-control"><br />
             </div>
-            <input type="submit" value="Bejelentkezés" class="btn btn-primary">
+            <input type="submit" value="Register" class="btn btn-primary">
         </form>
         Don't have an account yet? <a href="index.php?page=<?= Pages::Register ?>">Register here</a>, <br />
         or try out the <a href="demo/index.html">demo!</a>
