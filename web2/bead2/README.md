@@ -1,15 +1,15 @@
-# Web2 2. beadandó
+# Web2 2. assignment
 
-## A honlap konfigurálása
+## Configuring the website
 
 A redirect-ek megfelelő működéséhez a honlapnak ismernie kell az `index.php` könyvtárának url-jét.
 A honlap beállításához nyissa meg a `setup.php` fájlt a böngészőből. Ha ez nem működne,
 akkor hozzon létre egy `config.ini` fájlt az `index.php` fájl mellett, és írja bele, 
 hogy `base_url = http://beadandó/elérési/útja/`.
 
-## Megoldott feladatok
+## Implemented Features
 
-* Lehet regisztrálni, és a regisztrált adatokkal bejelentkezni. (1 pont)
-* A pályalista feltünteti a nehézséget, a teljesítők számát és azt, hogy a bejelentkezett       felhasználó megoldotta-e már. (2 pont)
-* Bejelentkezett felhasználó sikeres megoldás után a sikerességet elmenti a szerveren, a        mentéshez és a teljesítők listája lekérdezéséhez AJAX technológiát használ. (2 pont)
-* Nincs nagyobb programhiba, nem csalhatók elő furcsa jelenségek (2 pont)
+* Registration, login with registered accounts
+* The level list shows the difficulty level, the number of players who already solved the level, and that the logged in player has solved the level or not
+* When a logged in user solves a puzzle, this gets saved on the server and the other winner players get displayed with AJAX technology
+* No big bugs, the website can not crash
